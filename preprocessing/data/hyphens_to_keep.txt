@@ -1,0 +1,2 @@
+# Words or word sequences with hyphens where the hyphen should be kept
+y(?!-alma)

@@ -1,0 +1,3 @@
+#syllable sequence	replacement	flags
+(co)-(a)([- ])	\1\2\3	unstressed
+(co)-(a)$	\1\2	unstressed

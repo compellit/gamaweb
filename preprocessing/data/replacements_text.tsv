@@ -1,0 +1,45 @@
+#context	replacement	case_sensitivity
+# we're preceding comments with a space and hash sign
+\b([dmn])['‘’]\s*([oaóá]s?)\b	\1\2
+\b([d])['‘’]\s*([uú]n?s?)\b	\1\2
+\b([d])['‘’]\s*((?:[ei]st|aqu[ei]l)[ea]s?)\b	\1\2
+\b([d])['‘’]\s*(el[ea]?s?)\b	\1\2
+\b([d])['‘’](\s+)(a[^\W]+a\b)	\1a\2\3 # Saindo d' aldea
+\b([d])['‘’](\s+)(a\b)	\1a\2\3 # Saindo da alma (invented, usually they write 'da yalma')
+\b(d)['‘’](\W)	\1e\2 # un pouco d' amor (not good with the "d' aldea" rule)
+\b(d)['‘’]([h])	\1e h
+\bnunc['‘’](\W)	nunca\1
+\b(c)['‘’]\s*([aá])\b	\1oa
+\b(c)['‘’]\s*	\1
+\b(qu)['‘’](\W)	\1e\2
+\b(qu)['‘’]	\1e  # needs one trailing space (plus the one to separate the comment from that trailing space) 
+\b(q)['‘’](\W)	\1ue\2
+\b(q)['‘’]	\1ue  # needs one trailing space (plus the one to separate the comment from that trailing space) 
+\b(n)['‘’]\s*(u)	\1\2
+\b(n)['‘’]\s*	\1
+\b([ae]ntr)['‘’](\W)	\1e\2
+\b(anqu)['‘’]	\1e
+\b(com)['‘’](\w)	\1o \2
+\b(com)['‘’](\s+)	\1o\2
+\b([s])['‘’]([\w\s])	\1e \2
+\bY-(?!alma)	E 	cs # needs one trailing space on second column 
+\by-(?!alma)	e 	cs # needs one trailing space on second column
+\b[YI](\s+)	E\1	cs
+\by(\s+)	e\1	cs
+\b([Ss])\.?\b	\1an
+# apos words
+ch['‘’]os	chos
+ch['‘’]o	chos
+d['‘’]unha	dunha
+d['‘’]es([eao]s?)	des\1
+pr['‘’](el(?:es)?)	pr\1
+pr['‘’](os?)	pr\1
+d['‘’]abondo	dabondo
+(^|\s|-)([dncl]?[oóôé]) ([mts])eu	\1\2 \3éu
+(^|\s|-|‘)([dncl]?[oóô]s) ([mts])eus	\1\2 \3éus
+(^|\s|-)((?:[dnl]|co)?[aá]) ([mts])iña	\1\2 \3íña
+(^|\s|-)((?:[dnl]|co)?[aá]s) ([mts])iñas	\1\2 \3íñas
+(^|\s|-)((?:[dnl]|co)?[oa]) ([nv])os([oa])	\1\2 \3ós\4
+(^|\s|-)((?:[dnl]|co)?[oa]s) ([nv])os([oa])s	\1\2 \3ós\4s
+(^|\s|-)([cl][oa]) ([nv])os([oa])	\1\2 \3ós\4
+(^|\s|-)([cl][oa]s) ([nv])os([oa])s	\1\2 \3ós\4s

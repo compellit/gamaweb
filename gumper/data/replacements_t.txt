@@ -1,0 +1,17 @@
+\bd' os\b	dos
+\bd' as\b	das
+\bs' ([aeiou])\b	s\1
+\bdesd'([aeiou])\b	desd\1
+uns\b	úns
+\bqu'\b	que
+\bq'\b	que
+\bq' as\b	que as
+\bd'o\b	do
+\bd'ó\b	dó
+\bt'\b	te
+\bpó-la\b	pola
+(\w)ou\b	\1óu
+d['‘] (\w)	d\1
+([sq])' ([aeiou])	\1\2
+qu' ([aeiou])	q\1
+có	co
