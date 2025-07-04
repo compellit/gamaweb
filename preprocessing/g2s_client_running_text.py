@@ -281,6 +281,7 @@ if __name__ == "__main__":
     #breakpoint()
     out_batch_id = f"_{str.zfill(args.batch_id, 3)}" if args.batch_id else ""
     out_dir_id = f"out{out_batch_id}"
+    print("out_dir_id", out_dir_id)
     if not Path(input_file.parent / out_dir_id).exists():
         Path(input_file.parent / out_dir_id).mkdir(parents=True)
 
