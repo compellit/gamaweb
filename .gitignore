@@ -11,6 +11,15 @@ djangotut/
 
 texts/*old.txt
 
+preprocessing/data/apertium-glg-expanded-uniq.txt
+preprocessing/data/apertium-glg-expanded-uniq.txt.zst
+preprocessing/data/aspell-es-expanded.txt
+preprocessing/data/aspell-es-expanded.txt.zst
+preprocessing/data/aspell-gl-expanded.txt
+preprocessing/data/aspell-gl-expanded.txt.pkl
+preprocessing/logs/log_001.txt
+
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/

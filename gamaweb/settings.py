@@ -126,3 +126,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 IO_DIR = BASE_DIR / 'io'
 PREPRO_DIR = BASE_DIR / 'preprocessing'
+GUMPER_DIR = BASE_DIR / 'gumper'

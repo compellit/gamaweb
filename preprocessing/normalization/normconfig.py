@@ -5,11 +5,9 @@ from pathlib import Path
 # resources -------------------------------------
 
 config_dir = Path(__file__).parent
-#IVDICO = Path("../data/apertium-glg-expanded-uniq.txt.gz").resolve()
-IVDICO = (config_dir.parent / "data" / "apertium-glg-expanded-uniq.txt.gz").resolve()
-IVDICO_ES = (config_dir.parent / "data" / "aspell-es-expanded.txt.gz").resolve()
-#LMPATH= (config_dir.parent.parent / "data" / "nos-127.klm.bin").resolve()
-LMPATH= "/home/ruizfabo/o/ja/23/msca/cpl_ex/02_auto_annot/nlm/nos-127.klm.bin"
+IVDICO = (config_dir.parent / "data" / "apertium-glg-expanded-uniq.txt.pkl").resolve()
+IVDICO_ES = (config_dir.parent / "data" / "aspell-es-expanded.txt.pkl").resolve()
+LMPATH= config_dir.parent.parent.parent / "nlm/nos-127.klm.bin"
 LANGUAGES = ("gl", "es")
 
 # candidate generation --------------------------

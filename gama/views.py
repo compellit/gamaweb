@@ -10,6 +10,8 @@ from pathlib import Path
 import subprocess
 import uuid
 
+from gumper import config as gcf
+from gumper.gumper_client_web import main as gumper_main
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
     return render(request, "gama/index.html")
@@ -23,7 +25,7 @@ def analysis(request):
     Path(out_dir).mkdir(parents=True, exist_ok=True)
     with open(out_dir / "input.txt", encoding="utf8", mode="w") as f:
         f.write(text)
-    # Run the analysis script
+    # Run preprocessing
     try:
         subprocess.run(
             ["python3", "../preprocessing/g2s_client_running_text.py",
@@ -34,4 +36,10 @@ def analysis(request):
     except subprocess.CalledProcessError as e:
         context["error"] = f"Analysis failed: {e}"
         return render(request, "gama/analysis.html", context)
+    # Run scansion
+    orig_poem_path = out_dir / "input.txt"
+    prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+    scansion = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+    print("Scansion", scansion)
+    context = {"result": "".join(scansion)}
     return render(request, "gama/analysis.html", context)

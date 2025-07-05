@@ -1,7 +1,7 @@
 from collections import OrderedDict
 import copy
-import gzip
 import logging
+import pickle
 import types
 
 from normalization import editor
@@ -35,8 +35,10 @@ class Normalizer:
             return Normalizer._vocab_cache
         else:
             norm_logger.info("Loading vocabulary from: [%s]", self.IVDICO)
-            with gzip.open(self.IVDICO, "rt", encoding="utf8") as f:
-                ivs = set(line.strip() for line in f if line.strip())
+            #with gzip.open(self.IVDICO, "rt", encoding="utf8") as f:
+            #    ivs = set(line.strip() for line in f if line.strip())
+            with open(self.IVDICO, "rb") as f:
+                ivs = pickle.load(f)
         return ivs
     
     def _load_editor(self):

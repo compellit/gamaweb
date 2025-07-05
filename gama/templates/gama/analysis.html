@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Gama</title>
-    <style>{font-family: sans-serif}</style>
+    <style>* {font-family: sans-serif}</style>
 </head>
 <body>
-<div>
 <h2>Results</h2>
-</div>
 <div>
-  {{ text }}
+    <table>
+  {{ result|safe }}
+    </table>
 </div>
 </body>
 </html>
