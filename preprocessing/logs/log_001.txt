@@ -1,0 +1,29 @@
+2025-07-05 20:34:51,212 - main.normalizer - INFO - Loading vocabulary from: [/home/ruizfabo/o/ja/23/msca/cpl_ex/02_auto_annot/gamaweb/preprocessing/data/apertium-glg-expanded-uniq.txt.pkl]
+2025-07-05 20:34:56,444 - main.normalizer - INFO - Loading edit costs from: [/home/ruizfabo/o/ja/23/msca/cpl_ex/02_auto_annot/gamaweb/preprocessing/normalization/edcosts.py]
+2025-07-05 20:34:56,445 - main.normalizer - INFO - Loading vocabulary from: [/home/ruizfabo/o/ja/23/msca/cpl_ex/02_auto_annot/gamaweb/preprocessing/data/aspell-es-expanded.txt.pkl]
+2025-07-05 20:34:56,703 - main.normalizer - INFO - Loading edit costs from: [/home/ruizfabo/o/ja/23/msca/cpl_ex/02_auto_annot/gamaweb/preprocessing/normalization/edcosts.py]
+2025-07-05 20:34:56,803 - main - DEBUG - No Norm: [Muitos]
+2025-07-05 20:34:57,611 - main.normalizer - DEBUG - Norm Candidate with score -0.5: [Candidate(form=túas, levdist=-0.5, rgxscore=None, origin=CandType.LEV)] with score -29.117923736572266 > original score -34.932064056396484
+2025-07-05 20:34:57,611 - main - DEBUG - LM Ed Norm: [tuas] to [túas]
+2025-07-05 20:34:57,718 - main - DEBUG - No Norm: [pelearon]
+2025-07-05 20:34:57,754 - main.normalizer - DEBUG - Norm Candidate with score -0.5: [Candidate(form=súas, levdist=-0.5, rgxscore=None, origin=CandType.LEV)] with score -29.005197525024414 > original score -30.28642463684082
+2025-07-05 20:34:57,754 - main - DEBUG - LM Ed Norm: [suas] to [súas]
+2025-07-05 20:34:57,817 - main - DEBUG - No Norm: [cuanto]
+2025-07-05 20:34:57,974 - main - DEBUG - No Norm: [atingueron]
+2025-07-05 20:34:58,076 - main - DEBUG - No Norm: [pátridos]
+2025-07-05 20:34:58,138 - main.normalizer - DEBUG - Norm Candidate with score -0.5: [Candidate(form=algúns, levdist=-0.5, rgxscore=None, origin=CandType.LEV)] with score -26.973621368408203 > original score -28.807397842407227
+2025-07-05 20:34:58,138 - main - DEBUG - LM Ed Norm: [Alguns] to [algúns]
+2025-07-05 20:34:58,264 - main - DEBUG - No Norm: [acucíaron]
+2025-07-05 20:34:58,281 - main - DEBUG - No Norm: [séu]
+2025-07-05 20:34:58,468 - main - DEBUG - No Norm: [esmoreceron]
+2025-07-05 20:34:58,474 - main - DEBUG - No Norm: [â]
+2025-07-05 20:34:58,484 - main - DEBUG - No Norm: [sô]
+2025-07-05 20:34:58,494 - main - DEBUG - No Norm: [tí]
+2025-07-05 20:34:58,553 - main - DEBUG - No Norm: [Weyler]
+2025-07-05 20:34:58,599 - main - DEBUG - No Norm: [luita]
+2025-07-05 20:34:58,620 - main.normalizer - DEBUG - Norm Candidate with score -0.5: [Candidate(form=túa, levdist=-0.5, rgxscore=None, origin=CandType.LEV)] with score -23.702808380126953 > original score -24.502304077148438
+2025-07-05 20:34:58,620 - main - DEBUG - LM Ed Norm: [tua] to [túa]
+2025-07-05 20:34:58,639 - main - DEBUG - No Norm: [sin]
+2025-07-05 20:34:58,701 - main - DEBUG - No Norm: [podrán]
+2025-07-05 20:34:58,779 - main - DEBUG - No Norm: [envidia]
+2025-07-05 20:34:58,781 - main - INFO - - Duration:  0.0m 7.57s
