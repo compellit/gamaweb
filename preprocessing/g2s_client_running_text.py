@@ -102,6 +102,7 @@ def apply_syllabification(line_list: list[str]) -> tuple[list[tuple], list[str]]
             - A list of strings with the syllabified words without stress marks.
     """
     # load data for preprocessing (word or regex lists)
+    logger.info("  - Start preprocessing: %s", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     hyphens_to_keep = ut.load_words_with_hyphen_to_keep(cf) # unused so far
     out_lines = [] # syllabification after orthographic preprocessing
     out_lines_running_text = [] # orthographic preprocessing
@@ -221,11 +222,11 @@ if __name__ == "__main__":
         logging.root.removeHandler(h)
     logger = logging.getLogger("main")
     logger.handlers.clear()
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     lfh = logging.FileHandler(Path(cf.log_dir) / cf.log_fn_template.format(batch_id=str.zfill(args.batch_id, 3), mode="w"))
     lch  = logging.StreamHandler(sys.stdout)
-    lfh.setLevel(logging.DEBUG)
-    lch.setLevel(logging.DEBUG)
+    lfh.setLevel(logging.INFO)
+    lch.setLevel(logging.INFO)
     log_format_file = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     log_format_console = logging.Formatter('%(message)s')
     lfh.setFormatter(log_format_file)
@@ -234,7 +235,7 @@ if __name__ == "__main__":
     logger.addHandler(lch)
 
     start_time = time.time()
-    print("- Start: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    logger.info("- Start: %s", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     with open(input_file, "r", encoding="utf8") as f:
         lines_to_syllabify = f.readlines()
@@ -253,6 +254,7 @@ if __name__ == "__main__":
     # Syllabification
     out_lines, out_lines_running_text = apply_syllabification(lines_to_syllabify)
     
+    # Destressing
     if args.destress:
         destress_function = ut.destress_word_simple
         # destress in running text
@@ -281,7 +283,7 @@ if __name__ == "__main__":
     #breakpoint()
     out_batch_id = f"_{str.zfill(args.batch_id, 3)}" if args.batch_id else ""
     out_dir_id = f"out{out_batch_id}"
-    print("out_dir_id", out_dir_id)
+    #print("out_dir_id", out_dir_id)
     if not Path(input_file.parent / out_dir_id).exists():
         Path(input_file.parent / out_dir_id).mkdir(parents=True)
 
@@ -356,10 +358,10 @@ if __name__ == "__main__":
             for line in out_lines_running_text_destressed:
                 #outf.write(" ".join(line) + "\n")
                 outf.write(ut.detokenize(line) + "\n")
-    print("- End: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    print("  - End: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     total_min, total_secs = divmod(time.time() - start_time, 60)
     #print(f"- Duration:  {total_min} m {total_secs:.2f} s")
-    logger.info(f"- Duration:  {total_min}m {total_secs:.2f}s")
+    logger.info(f"  - Duration:  {total_min}m {total_secs:.2f}s")
     
     if args.batch_comment:
         batch_info_path = Path(input_file.parent) / cf.batch_cumulog 

@@ -10,6 +10,9 @@ from gumper import config as cf
 from gumper import utils as ut
 
 
+DBG = False
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Gumper client for analyzing poems.")
     parser.add_argument(
@@ -43,11 +46,13 @@ def main(cf, origfile, infile):
             #postpro_txt = "" if args.hide_post else f"{result[1]:<50}"
             # Write output table lines
             postpro_txt = f"{result[1]:<50}"
-            out_format = (f"<tr><td>{orig_lines[idx]:<50}</td><td>{postpro_txt}" +\
-                  f"</td><td style='padding-left:3em;text-align:right'>{result[2]:>3}") +\
-                  f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[3]]):>16}" +\
-                  f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[4]]):>16}</td></tr>\n" 
-            print(out_format)
+            out_format = (f"<tr><td style='text-align:right'>{idx+1}.</td>"
+                  f"<td style='padding-left:1em'>{orig_lines[idx]:<50}</td>" 
+                  f"<td>{postpro_txt}"
+                  f"</td><td style='padding-left:3em;text-align:right'>{result[2]:>3}"
+                  f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[3]]):>16}"
+                  f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[4]]):>16}</td></tr>\n") 
+            DBG and print(out_format)
             all_scansion_out.append(out_format)
     #ut.write_output_file(all_poem_lines_out, all_scansion_out, f"001")
     return all_scansion_out
