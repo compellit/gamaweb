@@ -7,7 +7,8 @@ from pathlib import Path
 config_dir = Path(__file__).parent
 IVDICO = (config_dir.parent / "data" / "apertium-glg-expanded-uniq.txt.pkl").resolve()
 IVDICO_ES = (config_dir.parent / "data" / "aspell-es-expanded.txt.pkl").resolve()
-LMPATH= config_dir.parent.parent.parent / "nlm/nos-127.klm.bin"
+#LMPATH= config_dir.parent.parent.parent / "nlm/nos-127.klm.bin"
+LMPATH= (config_dir.parent / "data" / "nos-127.klm.bin").resolve()
 LANGUAGES = ("gl", "es")
 
 # candidate generation --------------------------
