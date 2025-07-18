@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from pathlib import Path
 import subprocess
@@ -23,7 +23,20 @@ def index(request):
 
 def analysis(request):
     text = request.POST.get("text", "")
-    context = {"text": text}
+    if not text:
+        return redirect("gama:error", errtype="empty")
+    if len(text) > 2000:
+        return redirect("gama:error", errtype="too_long")
+    corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
+    doc_name = request.POST.get("doc_name") or "Untitled"
+    doc_subtitle = request.POST.get("doc_subtitle") or "—"
+    author = request.POST.get("author") or "Unknown"
+    context = {"text": text,
+               "corpus_name": corpus_name,
+               "doc_name": doc_name,
+               "doc_subtitle": doc_subtitle,
+               "author": author,
+               }
     request.session["curid"] = str(uuid.uuid4())[0:6]
     curid = request.session["curid"]
     out_dir = settings.IO_DIR / curid
@@ -33,7 +46,7 @@ def analysis(request):
     # Run preprocessing
     try:
         subprocess.run(
-            ["python3", "../preprocessing/g2s_client_running_text.py",
+            ["python", "../preprocessing/g2s_client_running_text.py",
              str(out_dir / "input.txt"), "-p", "-d", "-n", "-s", "-b", "001"],
             check=True,
             cwd=settings.PREPRO_DIR,
@@ -44,8 +57,25 @@ def analysis(request):
     # Run scansion
     orig_poem_path = out_dir / "input.txt"
     prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
-    print(f"  - Start scansion: {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}")
+    print(f"  - Start scansion: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
     scansion = gumper_main(gcf, orig_poem_path, prepro_poem_path)
     DBG and print("Scansion", scansion)
-    context = {"result": "".join(scansion)}
+    print(scansion)
+    context["result"] = "".join(scansion)
     return render(request, "gama/analysis.html", context)
+
+
+def error(request, errtype):
+    if errtype == "empty":
+        err_message = "The input text cannot be empty."
+    elif errtype == "too_long":
+        err_message = "The input text is too long to be processed."
+    else:
+        return render(request, "gama/error.html", {
+            "message": "An unexpected error occurred."
+        })
+    context = {
+        "error_message": err_message,
+    }
+    return render(request, "gama/index.html", context)
+

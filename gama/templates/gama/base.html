@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Gamaweb{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+</head>
+<body>
+    <header class="navbar-custom">
+        <div class="container d-flex flex-column align-items-center py-3">
+            <h1 class="mb-1 text-white">GAMA</h1>
+            <p class="text-white-50 mb-2">Galician Metrical Analyzer</p>
+            <nav>
+                <a href="{% url 'gama:index' %}" class="nav-link text-white">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-fluid mt-4">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

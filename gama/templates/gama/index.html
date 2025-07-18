@@ -1,42 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gama</title>
-    <style>* {font-family: sans-serif}</style>
-</head>
-<body>
-<div>
-<h2>GAMA: Galician Metrical Analyzer</h2>
+{% extends "gama/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-md-10 col-lg-8">
+        <h2 class="mb-3">Text Analysis Tool</h2>
+    </div>
 </div>
-<div>
-    <form action="{% url 'gama:analysis' %}" method="post">
+<form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="text">Input text</label>
-            <textarea class="form-control" rows="10" cols="50" name="text" id="text"></textarea>
-        </div>
-        <div><b>Metadata</b> (Default values will be used if empty)</div><p/>
-        <div class="form-group">
-            <label for="corpus_name">Corpus name</label>
-            <input class="form-control" type="text" name="corpus_name" id="corpus_name"/>
+
+    <!-- Bloc texte à analyser -->
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-10 col-lg-8">
+                <h3>Input text for analysis</h3>
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
+                {% endif %}
+                <textarea class="form-control" rows="10" name="text" id="text" placeholder="Enter your text here..."></textarea>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="doc_name">Text title</label>
-            <input class="form-control" type="text" name="doc_name" id="doc_name"/>
+    <!-- Bloc métadonnées -->
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-10 col-lg-8">
+                <h3>Metadata <small class="text-muted">(Default values will be used if empty)</small></h3>
+
+                <div class="form-group mb-3">
+                    <label for="corpus_name">Corpus name</label>
+                    <input class="form-control" type="text" name="corpus_name" id="corpus_name"/>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="doc_name">Text title</label>
+                    <input class="form-control" type="text" name="doc_name" id="doc_name"/>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="doc_subtitle">Subtitle</label>
+                    <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle"/>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="author">Author</label>
+                    <input class="form-control" type="text" name="author" id="author"/>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="doc_subtitle">Subtitle</label>
-            <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle"/>
-        </div>
+    <!-- Bouton envoi -->
+    <section class="text-center">
+        <button type="submit" class="btn btn-beige">Submit</button>
+    </section>
+</form>
 
-        <div class="form-group">
-            <label for="author">Author</label>
-            <input class="form-control" type="text" name="author" id="author"/>
-        </div>        <input type="submit"/>
-    </form>
-</div>
-</body>
-</html>
+{% endblock %}

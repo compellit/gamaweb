@@ -31,7 +31,7 @@ def main(cf, origfile, infile):
 
     with open(origfile, encoding="utf8") as f:
         # lines are obtained instead of just reading the text for compatibility with old code below
-        orig_lines = [line.strip() for line in f]
+        orig_lines = [line.strip() for line in f if line.strip() != ""]
 
     with open(infile, encoding="utf8") as f:
         # lines are obtained instead of just reading the text for compatibility with old code below

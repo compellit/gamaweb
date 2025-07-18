@@ -6,4 +6,5 @@ app_name = "gama"
 urlpatterns = [
     path("", views.index, name="index"),
     path("analysis", views.analysis, name="analysis"),
+    path("error/<str:errtype>/", views.error, name="error"),
 ]

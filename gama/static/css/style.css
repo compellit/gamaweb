@@ -1,0 +1,119 @@
+* {
+    font-family: 'Segoe UI', sans-serif;
+    }
+body {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    }
+
+table th, table td {
+  vertical-align: middle;
+}
+
+td:nth-child(5),
+td:nth-child(6) {
+    white-space: nowrap;
+}
+
+th:nth-child(2) {
+    padding-left: 1em;
+}
+
+.table thead th {
+    background-color: #cbb8b3;
+    border-bottom: 2px solid #a88a85;
+    color: #2c2c2c;
+}
+
+.table tbody td {
+    color: #2f2f2f;
+}
+
+.table {
+    --bs-table-bg: #f7f3f2;
+    --bs-table-striped-bg: #f7f3f2;
+    --bs-table-hover-bg: #e6d9d7;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-bottom: 2px solid #cbb8b3;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    text-align: left;
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+    color: #222;
+    position: relative;
+    padding-bottom: 0.3rem;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0rem;
+    width: 3rem;
+    height: 2.5px;
+    background-color: #cbb8b3;
+    border-radius: 1px;
+}
+
+.container-fluid {
+    padding: 1rem 0rem;
+    margin-bottom: 1rem;
+}
+
+.text-info-block {
+    background-color: #f7f3f2;
+    border-left: 5px solid #cbb8b3;
+    border-radius: 0.3rem;
+    padding: 1rem 0;
+}
+
+.text-info-block ul li {
+    margin-bottom: 0.5rem;
+    color: #333;
+    margin-left: 2rem;
+}
+
+.inner-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.navbar-custom {
+    background-color: #a88a85;
+    border-bottom: 4px solid #cbb8b3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar-custom h1 {
+    font-size: 2.2rem;
+}
+.navbar-custom p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+.navbar-custom .nav-link {
+    font-weight: bold;
+}
+.navbar-custom .nav-link:hover {
+    text-decoration: underline;
+}
+
+.btn-beige {
+    background-color: #cbb8b3;
+    color: #2c2c2c;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(203, 184, 179, 0.4);
+}

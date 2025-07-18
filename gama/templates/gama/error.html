@@ -1,0 +1,13 @@
+{% extends "gama/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="inner-content">
+      <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Error!</h4>
+              <p>{{ message }}</p>
+      </div>
+      <a href="{% url 'gama:index' %}" class="btn btn-beige mt-3">Back</a>
+  </div>
+</div>
+{% endblock %}

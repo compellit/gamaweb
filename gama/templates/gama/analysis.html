@@ -1,16 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gama</title>
-    <style>* {font-family: sans-serif}</style>
-</head>
-<body>
-<h2>Results</h2>
-<div>
-    <table>
-  {{ result|safe }}
-    </table>
+{% extends "gama/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-md-10 col-lg-8">
+        <h2 class="mb-3">Results</h2>
+    </div>
 </div>
-</body>
-</html>
+
+<!-- Bloc métadonnées -->
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-10 col-lg-8">
+
+            <section class="text-info-block">
+                <div class="inner-content">
+                    <h3>Text information</h3>
+                    <ul class="list-unstyled">
+                        <li><strong>Corpus name:</strong> {{ corpus_name }}</li>
+                        <li><strong>Title:</strong> {{ doc_name }}</li>
+                        <li><strong>Subtitle:</strong> {{ doc_subtitle }}</li>
+                        <li><strong>Author:</strong> {{ author }}</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+<!-- Bloc tableau résultats -->
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="inner-content">
+                <h3>Scansion analysis results</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-end">#</th>
+                            <th scope="col" class="text-start">Original text</th>
+                            <th scope="col" class="text-start">Normalized text (ES)</th>
+                            <th scope="col" class="text-end">Syllables</th>
+                            <th scope="col" class="text-end">Metrical pattern</th>
+                            <th scope="col" class="text-end">Reduced pattern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ result|safe }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- Bouton retour -->
+<section class="text-center">
+    <a href="{% url 'gama:index' %}" class="btn btn-beige">New analysis</a>
+</section>
+
+{% endblock %}
