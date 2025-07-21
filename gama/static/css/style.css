@@ -1,6 +1,13 @@
 * {
     font-family: 'Segoe UI', sans-serif;
     }
+
+:root {
+  --color-green-dark: #178c19;
+  --color-green: #88cfa1;
+  --color-green-light: #edf8f2;
+}
+
 body {
     padding: 2rem;
     background-color: #f9f9f9;
@@ -20,8 +27,8 @@ th:nth-child(2) {
 }
 
 .table thead th {
-    background-color: #cbb8b3;
-    border-bottom: 2px solid #a88a85;
+    background-color: var(--color-green);
+    border-bottom: 2px solid var(--color-green-dark);
     color: #2c2c2c;
 }
 
@@ -30,15 +37,14 @@ th:nth-child(2) {
 }
 
 .table {
-    --bs-table-bg: #f7f3f2;
-    --bs-table-striped-bg: #f7f3f2;
-    --bs-table-hover-bg: #e6d9d7;
+    --bs-table-bg: var(--color-green-light);
+    --bs-table-hover-bg: #c9e9d4;
 }
 
 h2 {
     font-size: 1.8rem;
     font-weight: bold;
-    border-bottom: 2px solid #cbb8b3;
+    border-bottom: 2px solid var(--color-green);
     padding-bottom: 0.5rem;
 }
 
@@ -58,7 +64,7 @@ h3::after {
     left: 0rem;
     width: 3rem;
     height: 2.5px;
-    background-color: #cbb8b3;
+    background-color: var(--color-green);
     border-radius: 1px;
 }
 
@@ -68,8 +74,8 @@ h3::after {
 }
 
 .text-info-block {
-    background-color: #f7f3f2;
-    border-left: 5px solid #cbb8b3;
+    background-color: var(--color-green-light);
+    border-left: 5px solid var(--color-green);
     border-radius: 0.3rem;
     padding: 1rem 0;
 }
@@ -86,26 +92,55 @@ h3::after {
 }
 
 .navbar-custom {
-    background-color: #a88a85;
-    border-bottom: 4px solid #cbb8b3;
+    background-color: var(--color-green-dark);
+    border-bottom: 4px solid var(--color-green);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .navbar-custom h1 {
     font-size: 2.2rem;
 }
+
 .navbar-custom p {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
 }
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .navbar-custom .nav-link {
     font-weight: bold;
 }
+
 .navbar-custom .nav-link:hover {
     text-decoration: underline;
 }
 
+.nav-separator {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: #fff;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .nav-separator {
+    display: none;
+  }
+}
+
 .btn-beige {
-    background-color: #cbb8b3;
+    background-color: var(--color-green);
     color: #2c2c2c;
     border: none;
     padding: 0.5rem 1rem;
@@ -115,5 +150,5 @@ h3::after {
 }
 
 .form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(203, 184, 179, 0.4);
+    box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
 }

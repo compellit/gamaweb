@@ -25,7 +25,7 @@ def analysis(request):
     text = request.POST.get("text", "")
     if not text:
         return redirect("gama:error", errtype="empty")
-    if len(text) > 2000:
+    if len(text) > 4500:
         return redirect("gama:error", errtype="too_long")
     corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
     doc_name = request.POST.get("doc_name") or "Untitled"
