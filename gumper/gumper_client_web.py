@@ -48,7 +48,7 @@ def main(cf, origfile, infile):
             postpro_txt = f"{result[1]:<50}"
             out_format = (f"<tr><td style='text-align:right'>{idx+1}.</td>"
                   f"<td style='padding-left:1em'>{orig_lines[idx]:<50}</td>" 
-                  f"<td>{postpro_txt}"
+                  f"<td class='col-preprocessing'>{postpro_txt}"
                   f"</td><td style='padding-left:3em;text-align:right'>{result[2]:>3}"
                   f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[3]]):>16}"
                   f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[4]]):>16}</td></tr>\n") 
