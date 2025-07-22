@@ -1,13 +1,15 @@
 {% extends "gama/base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
 <div class="container-fluid">
   <div class="inner-content">
       <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading">Error!</h4>
+          <h4 class="alert-heading">{%trans "Error!" %}</h4>
               <p>{{ message }}</p>
       </div>
-      <a href="{% url 'gama:index' %}" class="btn btn-beige mt-3">Back</a>
+      <a href="{% url 'gama:index' %}" class="btn btn-beige mt-3">{%trans "Back" %}</a>
   </div>
 </div>
 {% endblock %}

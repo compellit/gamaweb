@@ -1,0 +1,159 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-22 11:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\gama\templates\gama\analysis.html:8
+msgid "Results"
+msgstr "Resultados"
+
+#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\index.html:21
+msgid "Metadata"
+msgstr "Metadatos"
+
+#: .\gama\templates\gama\analysis.html:16
+msgid "Corpus name:"
+msgstr "Nome do corpus:"
+
+#: .\gama\templates\gama\analysis.html:17
+msgid "Title:"
+msgstr "Título:"
+
+#: .\gama\templates\gama\analysis.html:18
+msgid "Subtitle:"
+msgstr "Subtítulo:"
+
+#: .\gama\templates\gama\analysis.html:19
+msgid "Author:"
+msgstr "Autor:"
+
+#: .\gama\templates\gama\analysis.html:27
+msgid "Scansion"
+msgstr "Escansión"
+
+#: .\gama\templates\gama\analysis.html:32
+msgid "Show Preprocessing"
+msgstr "Amosar o preprocesamento"
+
+#: .\gama\templates\gama\analysis.html:40
+msgid "Original text"
+msgstr "Texto orixinal"
+
+#: .\gama\templates\gama\analysis.html:41
+msgid "Preprocessing"
+msgstr "Preprocesamento"
+
+#: .\gama\templates\gama\analysis.html:42
+msgid "Metrical syllables"
+msgstr "Silabas métricas"
+
+#: .\gama\templates\gama\analysis.html:44
+msgid "Stressed syllables"
+msgstr "Silabas acentuadas"
+
+#: .\gama\templates\gama\analysis.html:46
+msgid "Extra rhythmic stresses removed"
+msgstr "Eliminación de acentos rítmicos extra"
+
+#: .\gama\templates\gama\analysis.html:46
+msgid "No extra-rhythmic"
+msgstr "Sen extra-ritmicas"
+
+#: .\gama\templates\gama\analysis.html:59
+msgid "New analysis"
+msgstr "Nova análise"
+
+#: .\gama\templates\gama\base.html:45
+msgid "GAMA: Galician Metrical Analyzer"
+msgstr "GAMA: Galician Metrical Analyzer"
+
+#: .\gama\templates\gama\base.html:46
+msgid "Metrical Analysis Tool"
+msgstr "Ferramenta de análise métrica para o galego"
+
+#: .\gama\templates\gama\base.html:56
+msgid "Home"
+msgstr "Inicio"
+
+#: .\gama\templates\gama\base.html:60
+msgid "About"
+msgstr "Sobre"
+
+#: .\gama\templates\gama\error.html:9
+msgid "Error!"
+msgstr "Erro!"
+
+#: .\gama\templates\gama\error.html:12
+msgid "Back"
+msgstr "Volver"
+
+#: .\gama\templates\gama\index.html:12
+msgid "Input text for analysis"
+msgstr "Texto para análise"
+
+#: .\gama\templates\gama\index.html:18
+msgid "Enter your text here..."
+msgstr "Introduza o seu texto aquí..."
+
+#: .\gama\templates\gama\index.html:21
+msgid "(Default values will be used if empty)"
+msgstr "(Usaranse valores predeterminados se está baleiro)"
+
+#: .\gama\templates\gama\index.html:23
+msgid "Corpus name"
+msgstr "Nome do corpus:"
+
+#: .\gama\templates\gama\index.html:28
+msgid "Text title"
+msgstr "Título:"
+
+#: .\gama\templates\gama\index.html:33
+msgid "Subtitle"
+msgstr "Subtítulo:"
+
+#: .\gama\templates\gama\index.html:38
+msgid "Author"
+msgstr "Autor:"
+
+#: .\gama\templates\gama\index.html:44
+msgid "Submit"
+msgstr "Enviar"
+
+#: .\gama\views.py:71
+msgid "The input text cannot be empty."
+msgstr "O texto de entrada non pode estar baleiro."
+
+#: .\gama\views.py:73
+msgid "The input text is too long to be processed."
+msgstr "O texto de entrada é demasiado longo para ser procesado."
+
+#: .\gama\views.py:76
+msgid "An unexpected error occurred."
+msgstr "Produciuse un erro inesperado."
+
+#: .\gamaweb\settings.py:111
+msgid "English"
+msgstr "Inglés"
+
+#: .\gamaweb\settings.py:112
+msgid "French"
+msgstr "Francés"
+
+#: .\gamaweb\settings.py:113
+msgid "Galician"
+msgstr "Galego"

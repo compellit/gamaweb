@@ -1,20 +1,22 @@
 {% extends "gama/base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<div class="row justify-content-center mb-4">
-    <div class="col-12 col-md-10 col-lg-8">
-        <h2 class="mb-3">Results</h2>
+<div class="container-fluid">
+        <h2 class="mb-3">{% trans "Results" %}</h2>
 
 <!-- Bloc métadonnées -->
 
         <section class="text-info-block">
             <div class="inner-content">
-                <h3 class="mb-3">Metadata</h3>
+                <h3 class="mb-3">{%trans "Metadata" %}</h3>
                     <ul class="list-unstyled">
-                        <li><strong>Corpus name:</strong> {{ corpus_name }}</li>
-                        <li><strong>Title:</strong> {{ doc_name }}</li>
-                        <li><strong>Subtitle:</strong> {{ doc_subtitle }}</li>
-                        <li><strong>Author:</strong> {{ author }}</li>
+                        <li><strong>{%trans "Corpus name:" %}</strong> {{ corpus_name }}</li>
+                        <li><strong>{%trans "Title:" %}</strong> {{ doc_name }}</li>
+                        <li><strong>{%trans "Subtitle:" %}</strong> {{ doc_subtitle }}</li>
+                        <li><strong>{%trans "Author:" %}</strong> {{ author }}</li>
                     </ul>
             </div>
         </section>
@@ -22,24 +24,42 @@
 <!-- Bloc tableau résultats -->
 
         <div class="inner-content">
-            <h3 class="mb-3 mt-4">Scansion</h3>
+            <h3 class="mb-3 mt-4">{%trans "Scansion" %}</h3>
         </div>
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="togglePreprocessing" checked>
             <label class="form-check-label" for="togglePreprocessing">
-                Show Preprocessing
+                {%trans "Show Preprocessing" %}
             </label>
         </div>
         <div class="table-responsive">
             <table id="resultTable" class="table table-sm table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" class="text-end sortable">#</th>
-                        <th scope="col" class="text-start">Original text</th>
-                        <th scope="col" class="text-start col-preprocessing">Preprocessing</th>
-                        <th scope="col" class="text-end sortable">Metrical syllables</th>
-                        <th scope="col" class="text-end sortable" data-bs-toggle="tooltip" data-bs-placement="top" title="">Stressed syllables</th>
-                        <th scope="col" class="text-end sortable" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra rhythmic stresses removed">No extra-rhythmic</th>
+                        <th scope="col" class="text-end sortable" data-sort-method="number">
+                            #
+                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
+                        </th>
+                        <th scope="col" class="text-start">
+                            {%trans "Original text" %}
+                        </th>
+                        <th scope="col" class="text-start col-preprocessing">
+                            {%trans "Preprocessing" %}
+                        </th>
+                        <th scope="col" class="text-end sortable" data-sort-method="number">
+                            {%trans "Metrical syllables" %}
+                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
+                        </th>
+                        <th scope="col" class="text-end sortable" data-sort-method="number-list" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="">
+                            {%trans "Stressed syllables" %}
+                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
+                        </th>
+                        <th scope="col" class="text-end sortable" data-sort-method="number-list" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="{%trans 'Extra rhythmic stresses removed' %}">
+                            {%trans "No extra-rhythmic" %}
+                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,11 +68,10 @@
             </table>
         </div>
     </div>
-</div>
 
 <!-- Bouton retour -->
 <section class="text-center">
-    <a href="{% url 'gama:index' %}" class="btn btn-beige">New analysis</a>
+    <a href="{% url 'gama:index' %}" class="btn btn-beige">{%trans "New analysis" %}</a>
 </section>
 
 <script>

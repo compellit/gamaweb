@@ -41,6 +41,10 @@ th:nth-child(2) {
     --bs-table-hover-bg: #c9e9d4;
 }
 
+th {
+  white-space: nowrap;
+}
+
 h2 {
     font-size: 1.8rem;
     font-weight: bold;
@@ -134,9 +138,9 @@ h3::after {
 }
 
 @media (max-width: 767.98px) {
-  .nav-separator {
-    display: none;
-  }
+    .nav-separator {
+        display: none;
+    }
 }
 
 .btn-beige {
@@ -161,10 +165,21 @@ h3::after {
 
 th.sortable {
     cursor: pointer;
-    transition: color 0.2s ease;
 }
 
 th.sortable:hover {
-    color: #2a7a53;
     text-decoration: underline;
+}
+
+.lang-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+}
+
+.lang-link:hover {
+    text-decoration: underline;
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
 }

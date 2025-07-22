@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    path('gama/', include("gama.urls")),
-    path('admin/', admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n')),  # Nécessaire pour set_language
 ]
+
+urlpatterns += i18n_patterns(
+    path('gama/', include('gama.urls')),
+    path('admin/', admin.site.urls),
+)

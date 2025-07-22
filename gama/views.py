@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext as _
 
 from pathlib import Path
 import subprocess
@@ -67,12 +68,12 @@ def analysis(request):
 
 def error(request, errtype):
     if errtype == "empty":
-        err_message = "The input text cannot be empty."
+        err_message = _("The input text cannot be empty.")
     elif errtype == "too_long":
-        err_message = "The input text is too long to be processed."
+        err_message = _("The input text is too long to be processed.")
     else:
         return render(request, "gama/error.html", {
-            "message": "An unexpected error occurred."
+            "message": _("An unexpected error occurred.")
         })
     context = {
         "error_message": err_message,

@@ -161,7 +161,7 @@
         } else if (sortOrder === 'descending') {
           sortOrder = 'ascending';
         } else {
-          sortOrder = that.options.descending ? 'descending' : 'ascending';
+          sortOrder = that.options.descending ? 'ascending' : 'descending';
         }
 
         header.setAttribute('aria-sort', sortOrder);
@@ -282,4 +282,26 @@
   } else {
     window.Tablesort = Tablesort;
   }
+
+  Tablesort.extend('number', function(item) {
+    return /^-?\d+(\.\d+)?$/.test(item.trim());
+}, function(a, b) {
+    return parseFloat(a) - parseFloat(b);
+});
+
+  Tablesort.extend('number-list', function(item) {
+    return /^(\d+\s?)+$/.test(item.trim());
+}, function(a, b) {
+    const aList = a.trim().split(/\s+/).map(Number);
+    const bList = b.trim().split(/\s+/).map(Number);
+
+    const len = Math.max(aList.length, bList.length);
+    for (let i = 0; i < len; i++) {
+      const aVal = aList[i] || 0;
+      const bVal = bList[i] || 0;
+      if (aVal !== bVal) return aVal - bVal;
+    }
+    return 0;
+});
+
 })();

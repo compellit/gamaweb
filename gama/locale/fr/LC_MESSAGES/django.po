@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-22 11:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\gama\templates\gama\analysis.html:8
+msgid "Results"
+msgstr "Résultats"
+
+#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\index.html:21
+msgid "Metadata"
+msgstr "Métadonnées"
+
+#: .\gama\templates\gama\analysis.html:16
+msgid "Corpus name:"
+msgstr "Nom du corpus :"
+
+#: .\gama\templates\gama\analysis.html:17
+msgid "Title:"
+msgstr "Titre :"
+
+#: .\gama\templates\gama\analysis.html:18
+msgid "Subtitle:"
+msgstr "Sous-titre :"
+
+#: .\gama\templates\gama\analysis.html:19
+msgid "Author:"
+msgstr "Auteur :"
+
+#: .\gama\templates\gama\analysis.html:27
+msgid "Scansion"
+msgstr "Scansion"
+
+#: .\gama\templates\gama\analysis.html:32
+msgid "Show Preprocessing"
+msgstr "Afficher la colonne Prétraitement"
+
+#: .\gama\templates\gama\analysis.html:40
+msgid "Original text"
+msgstr "Texte original"
+
+#: .\gama\templates\gama\analysis.html:41
+msgid "Preprocessing"
+msgstr "Prétraitement"
+
+#: .\gama\templates\gama\analysis.html:42
+msgid "Metrical syllables"
+msgstr "Syllabes métriques"
+
+#: .\gama\templates\gama\analysis.html:44
+msgid "Stressed syllables"
+msgstr "Syllabes accentuées"
+
+#: .\gama\templates\gama\analysis.html:46
+msgid "Extra rhythmic stresses removed"
+msgstr "Accent(s) rythmiques en trop supprimé(s)"
+
+#: .\gama\templates\gama\analysis.html:46
+msgid "No extra-rhythmic"
+msgstr "Sans extra-rythmiques"
+
+#: .\gama\templates\gama\analysis.html:59
+msgid "New analysis"
+msgstr "Nouvelle analyse"
+
+#: .\gama\templates\gama\base.html:45
+msgid "GAMA: Galician Metrical Analyzer"
+msgstr "GAMA : Galician Metrical Analyzer"
+
+#: .\gama\templates\gama\base.html:46
+msgid "Metrical Analysis Tool"
+msgstr "Outil d'analyse métrique pour le galicien"
+
+#: .\gama\templates\gama\base.html:56
+msgid "Home"
+msgstr "Accueil"
+
+#: .\gama\templates\gama\base.html:60
+msgid "About"
+msgstr "À propos"
+
+#: .\gama\templates\gama\error.html:9
+msgid "Error!"
+msgstr "Erreur !"
+
+#: .\gama\templates\gama\error.html:12
+msgid "Back"
+msgstr "Retour"
+
+#: .\gama\templates\gama\index.html:12
+msgid "Input text for analysis"
+msgstr "Texte à analyser"
+
+#: .\gama\templates\gama\index.html:18
+msgid "Enter your text here..."
+msgstr "Entrez votre texte ici..."
+
+#: .\gama\templates\gama\index.html:21
+msgid "(Default values will be used if empty)"
+msgstr "(Des valeurs par défaut seront utilisées si les champs sont vides)"
+
+#: .\gama\templates\gama\index.html:23
+#, fuzzy
+#| msgid "Corpus name:"
+msgid "Corpus name"
+msgstr "Nom du corpus :"
+
+#: .\gama\templates\gama\index.html:28
+#, fuzzy
+#| msgid "Title:"
+msgid "Text title"
+msgstr "Titre :"
+
+#: .\gama\templates\gama\index.html:33
+#, fuzzy
+#| msgid "Subtitle:"
+msgid "Subtitle"
+msgstr "Sous-titre :"
+
+#: .\gama\templates\gama\index.html:38
+#, fuzzy
+#| msgid "Author:"
+msgid "Author"
+msgstr "Auteur :"
+
+#: .\gama\templates\gama\index.html:44
+msgid "Submit"
+msgstr "Envoyer"
+
+#: .\gama\views.py:71
+msgid "The input text cannot be empty."
+msgstr "Le texte à analyser ne peut pas être vide."
+
+#: .\gama\views.py:73
+msgid "The input text is too long to be processed."
+msgstr "Le texte à analyser est trop long."
+
+#: .\gama\views.py:76
+msgid "An unexpected error occurred."
+msgstr "Une erreur inattendue est survenue."
+
+#: .\gamaweb\settings.py:111
+msgid "English"
+msgstr "Anglais"
+
+#: .\gamaweb\settings.py:112
+msgid "French"
+msgstr "Français"
+
+#: .\gamaweb\settings.py:113
+msgid "Galician"
+msgstr "Galicien"
