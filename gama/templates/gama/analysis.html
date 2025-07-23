@@ -4,7 +4,8 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-md-10 col-lg-8">
         <h2 class="mb-3">{% trans "Results" %}</h2>
 
 <!-- Bloc métadonnées -->
@@ -33,12 +34,11 @@
             </label>
         </div>
         <div class="table-responsive">
-            <table id="resultTable" class="table table-sm table-hover">
+            <table id="myTable" class="table table-sm table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" class="text-end sortable" data-sort-method="number">
+                        <th scope="col" class="text-end">
                             #
-                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
                         </th>
                         <th scope="col" class="text-start">
                             {%trans "Original text" %}
@@ -46,19 +46,16 @@
                         <th scope="col" class="text-start col-preprocessing">
                             {%trans "Preprocessing" %}
                         </th>
-                        <th scope="col" class="text-end sortable" data-sort-method="number">
+                        <th scope="col" class="text-end">
                             {%trans "Metrical syllables" %}
-                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
                         </th>
-                        <th scope="col" class="text-end sortable" data-sort-method="number-list" data-bs-toggle="tooltip" data-bs-placement="top"
+                        <th scope="col" class="text-end" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="">
                             {%trans "Stressed syllables" %}
-                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
                         </th>
-                        <th scope="col" class="text-end sortable" data-sort-method="number-list" data-bs-toggle="tooltip" data-bs-placement="top"
+                        <th scope="col" class="text-end" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="{%trans 'Extra rhythmic stresses removed' %}">
                             {%trans "No extra-rhythmic" %}
-                            <img src="{% static 'img/sort_icon.svg' %}" class="sort-icon" alt="sort icon"/>
                         </th>
                     </tr>
                 </thead>
@@ -68,6 +65,7 @@
             </table>
         </div>
     </div>
+</div>
 
 <!-- Bouton retour -->
 <section class="text-center">
@@ -75,16 +73,32 @@
 </section>
 
 <script>
-    document.getElementById("togglePreprocessing").addEventListener("change", function () {
-        const show = this.checked;
-        document.querySelectorAll(".col-preprocessing").forEach(cell => {
-            cell.style.display = show ? "" : "none";
-        });
+$(document).ready(function () {
+    window.lang = "{{ LANGUAGE_CODE }}";
+    const langUrls = {
+        'fr': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json',
+        'en': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/en-GB.json',
+        'gl': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+    };
+
+    const table = $('#myTable').DataTable({
+        responsive: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        language: {
+            url: langUrls[window.lang] || langUrls['en']
+        }
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        new Tablesort(document.getElementById('resultTable'));
+    document.getElementById("togglePreprocessing").addEventListener("change", function () {
+        const show = this.checked;
+        const column = table.column('.col-preprocessing'); // sélectionne la colonne via sa classe
+        column.visible(show);  // montre ou cache la colonne via DataTables
+        table.columns.adjust().draw();  // ajuste la largeur et redessine le tableau
     });
+});
+
 </script>
 
 

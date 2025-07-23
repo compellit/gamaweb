@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 11:46+0200\n"
+"POT-Creation-Date: 2025-07-23 11:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,47 +50,47 @@ msgstr "Scansion"
 msgid "Show Preprocessing"
 msgstr "Afficher la colonne Prétraitement"
 
-#: .\gama\templates\gama\analysis.html:40
+#: .\gama\templates\gama\analysis.html:44
 msgid "Original text"
 msgstr "Texte original"
 
-#: .\gama\templates\gama\analysis.html:41
+#: .\gama\templates\gama\analysis.html:47
 msgid "Preprocessing"
 msgstr "Prétraitement"
 
-#: .\gama\templates\gama\analysis.html:42
+#: .\gama\templates\gama\analysis.html:50
 msgid "Metrical syllables"
 msgstr "Syllabes métriques"
 
-#: .\gama\templates\gama\analysis.html:44
+#: .\gama\templates\gama\analysis.html:55
 msgid "Stressed syllables"
 msgstr "Syllabes accentuées"
 
-#: .\gama\templates\gama\analysis.html:46
+#: .\gama\templates\gama\analysis.html:59
 msgid "Extra rhythmic stresses removed"
 msgstr "Accent(s) rythmiques en trop supprimé(s)"
 
-#: .\gama\templates\gama\analysis.html:46
+#: .\gama\templates\gama\analysis.html:60
 msgid "No extra-rhythmic"
 msgstr "Sans extra-rythmiques"
 
-#: .\gama\templates\gama\analysis.html:59
+#: .\gama\templates\gama\analysis.html:74
 msgid "New analysis"
 msgstr "Nouvelle analyse"
 
-#: .\gama\templates\gama\base.html:45
+#: .\gama\templates\gama\base.html:48
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA : Galician Metrical Analyzer"
 
-#: .\gama\templates\gama\base.html:46
+#: .\gama\templates\gama\base.html:49
 msgid "Metrical Analysis Tool"
 msgstr "Outil d'analyse métrique pour le galicien"
 
-#: .\gama\templates\gama\base.html:56
+#: .\gama\templates\gama\base.html:61
 msgid "Home"
 msgstr "Accueil"
 
-#: .\gama\templates\gama\base.html:60
+#: .\gama\templates\gama\base.html:65
 msgid "About"
 msgstr "À propos"
 
@@ -115,32 +115,36 @@ msgid "(Default values will be used if empty)"
 msgstr "(Des valeurs par défaut seront utilisées si les champs sont vides)"
 
 #: .\gama\templates\gama\index.html:23
-#, fuzzy
-#| msgid "Corpus name:"
 msgid "Corpus name"
 msgstr "Nom du corpus :"
 
 #: .\gama\templates\gama\index.html:28
-#, fuzzy
-#| msgid "Title:"
 msgid "Text title"
 msgstr "Titre :"
 
 #: .\gama\templates\gama\index.html:33
-#, fuzzy
-#| msgid "Subtitle:"
 msgid "Subtitle"
 msgstr "Sous-titre :"
 
 #: .\gama\templates\gama\index.html:38
-#, fuzzy
-#| msgid "Author:"
 msgid "Author"
 msgstr "Auteur :"
 
 #: .\gama\templates\gama\index.html:44
 msgid "Submit"
 msgstr "Envoyer"
+
+#: .\gama\views.py:31
+msgid "Unnamed corpus"
+msgstr "Corpus sans nom"
+
+#: .\gama\views.py:32
+msgid "Untitled"
+msgstr "Sans titre"
+
+#: .\gama\views.py:34
+msgid "Unknown"
+msgstr "Inconnu"
 
 #: .\gama\views.py:71
 msgid "The input text cannot be empty."

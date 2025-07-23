@@ -167,7 +167,7 @@ th.sortable {
     cursor: pointer;
 }
 
-th.sortable:hover {
+th:hover {
     text-decoration: underline;
 }
 
@@ -182,4 +182,8 @@ th.sortable:hover {
     text-decoration: underline;
     color: rgba(255, 255, 255, 1);
     cursor: pointer;
+}
+
+.dataTables_filter {
+    margin-bottom: 0.5rem;
 }

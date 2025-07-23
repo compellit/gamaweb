@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 11:46+0200\n"
+"POT-Creation-Date: 2025-07-23 11:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,49 +48,49 @@ msgstr "Escansión"
 
 #: .\gama\templates\gama\analysis.html:32
 msgid "Show Preprocessing"
-msgstr "Amosar o preprocesamento"
+msgstr "Amosar o Preprocesamento"
 
-#: .\gama\templates\gama\analysis.html:40
+#: .\gama\templates\gama\analysis.html:44
 msgid "Original text"
 msgstr "Texto orixinal"
 
-#: .\gama\templates\gama\analysis.html:41
+#: .\gama\templates\gama\analysis.html:47
 msgid "Preprocessing"
 msgstr "Preprocesamento"
 
-#: .\gama\templates\gama\analysis.html:42
+#: .\gama\templates\gama\analysis.html:50
 msgid "Metrical syllables"
 msgstr "Silabas métricas"
 
-#: .\gama\templates\gama\analysis.html:44
+#: .\gama\templates\gama\analysis.html:55
 msgid "Stressed syllables"
 msgstr "Silabas acentuadas"
 
-#: .\gama\templates\gama\analysis.html:46
+#: .\gama\templates\gama\analysis.html:59
 msgid "Extra rhythmic stresses removed"
 msgstr "Eliminación de acentos rítmicos extra"
 
-#: .\gama\templates\gama\analysis.html:46
+#: .\gama\templates\gama\analysis.html:60
 msgid "No extra-rhythmic"
 msgstr "Sen extra-ritmicas"
 
-#: .\gama\templates\gama\analysis.html:59
+#: .\gama\templates\gama\analysis.html:74
 msgid "New analysis"
 msgstr "Nova análise"
 
-#: .\gama\templates\gama\base.html:45
+#: .\gama\templates\gama\base.html:48
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: .\gama\templates\gama\base.html:46
+#: .\gama\templates\gama\base.html:49
 msgid "Metrical Analysis Tool"
 msgstr "Ferramenta de análise métrica para o galego"
 
-#: .\gama\templates\gama\base.html:56
+#: .\gama\templates\gama\base.html:61
 msgid "Home"
 msgstr "Inicio"
 
-#: .\gama\templates\gama\base.html:60
+#: .\gama\templates\gama\base.html:65
 msgid "About"
 msgstr "Sobre"
 
@@ -133,6 +133,18 @@ msgstr "Autor:"
 #: .\gama\templates\gama\index.html:44
 msgid "Submit"
 msgstr "Enviar"
+
+#: .\gama\views.py:31
+msgid "Unnamed corpus"
+msgstr "Corpus sen nome"
+
+#: .\gama\views.py:32
+msgid "Untitled"
+msgstr "Sen título"
+
+#: .\gama\views.py:34
+msgid "Unknown"
+msgstr "Descoñecido"
 
 #: .\gama\views.py:71
 msgid "The input text cannot be empty."

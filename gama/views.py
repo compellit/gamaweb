@@ -28,10 +28,10 @@ def analysis(request):
         return redirect("gama:error", errtype="empty")
     if len(text) > 4500:
         return redirect("gama:error", errtype="too_long")
-    corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
-    doc_name = request.POST.get("doc_name") or "Untitled"
+    corpus_name = request.POST.get("corpus_name") or _("Unnamed corpus")
+    doc_name = request.POST.get("doc_name") or _("Untitled")
     doc_subtitle = request.POST.get("doc_subtitle") or "—"
-    author = request.POST.get("author") or "Unknown"
+    author = request.POST.get("author") or _("Unknown")
     context = {"text": text,
                "corpus_name": corpus_name,
                "doc_name": doc_name,
@@ -79,4 +79,3 @@ def error(request, errtype):
         "error_message": err_message,
     }
     return render(request, "gama/index.html", context)
-

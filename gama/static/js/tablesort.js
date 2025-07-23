@@ -161,7 +161,7 @@
         } else if (sortOrder === 'descending') {
           sortOrder = 'ascending';
         } else {
-          sortOrder = that.options.descending ? 'ascending' : 'descending';
+          sortOrder = that.options.descending ? 'descending' : 'ascending';
         }
 
         header.setAttribute('aria-sort', sortOrder);
