@@ -14,10 +14,10 @@
             <div class="inner-content">
                 <h3 class="mb-3">{%trans "Metadata" %}</h3>
                     <ul class="list-unstyled">
-                        <li><strong>{%trans "Corpus name:" %}</strong> {{ corpus_name }}</li>
-                        <li><strong>{%trans "Title:" %}</strong> {{ doc_name }}</li>
-                        <li><strong>{%trans "Subtitle:" %}</strong> {{ doc_subtitle }}</li>
-                        <li><strong>{%trans "Author:" %}</strong> {{ author }}</li>
+                        <li><strong>{% trans "Corpus name:" %}</strong> {% if corpus_name == "Unnamed corpus" %}{% trans "Unnamed corpus" %}{% else %}{{ corpus_name }}{% endif %}</li>
+                        <li><strong>{% trans "Title:" %}</strong> {% if doc_name == "Untitled" %}{% trans "Untitled" %}{% else %}{{ doc_name }}{% endif %}</li>
+                        <li><strong>{% trans "Subtitle:" %}</strong> {{ doc_subtitle }}</li>
+                        <li><strong>{% trans "Author:" %}</strong> {% if author == "Unknown" %}{% trans "Unknown" %}{% else %}{{ author }}{% endif %}</li>
                     </ul>
             </div>
         </section>

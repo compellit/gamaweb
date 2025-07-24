@@ -7,7 +7,7 @@
     <div class="col-12 col-md-10 col-lg-8">
 <form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
-
+        <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
     <!-- Bloc texte à analyser -->
         <h3 class="mb-3 mt-4">{%trans "Input text for analysis" %}</h3>
             {% if error_message %}

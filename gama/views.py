@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
+from django.utils import translation
 
 from pathlib import Path
 import subprocess
@@ -23,21 +24,49 @@ def index(request):
     return render(request, "gama/index.html")
 
 def analysis(request):
-    text = request.POST.get("text", "")
+    lang = request.POST.get('language')
+    if lang:
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+
+    if request.method == "POST" and request.POST.get("text"):
+        text = request.POST.get("text", "")
+        corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
+        doc_name = request.POST.get("doc_name") or "Untitled"
+        doc_subtitle = request.POST.get("doc_subtitle") or "—"
+        author = request.POST.get("author") or "Unknown"
+
+        # Sauvegarder en session
+        request.session['analysis_data'] = {
+            "text": text,
+            "corpus_name": corpus_name,
+            "doc_name": doc_name,
+            "doc_subtitle": doc_subtitle,
+            "author": author,
+        }
+    else:
+        analysis_data = request.session.get('analysis_data')
+        if analysis_data:
+            text = analysis_data.get("text", "")
+            corpus_name = analysis_data.get("corpus_name", _("Unnamed corpus"))
+            doc_name = analysis_data.get("doc_name", _("Untitled"))
+            doc_subtitle = analysis_data.get("doc_subtitle", "—")
+            author = analysis_data.get("author", _("Unknown"))
+        else:
+            # Pas de données, on redirige erreur
+            return redirect("gama:error", errtype="empty")
+
     if not text:
         return redirect("gama:error", errtype="empty")
     if len(text) > 4500:
         return redirect("gama:error", errtype="too_long")
-    corpus_name = request.POST.get("corpus_name") or _("Unnamed corpus")
-    doc_name = request.POST.get("doc_name") or _("Untitled")
-    doc_subtitle = request.POST.get("doc_subtitle") or "—"
-    author = request.POST.get("author") or _("Unknown")
-    context = {"text": text,
-               "corpus_name": corpus_name,
-               "doc_name": doc_name,
-               "doc_subtitle": doc_subtitle,
-               "author": author,
-               }
+
+    context = {
+        "text": text,
+        "corpus_name": corpus_name,
+        "doc_name": doc_name,
+        "doc_subtitle": doc_subtitle,
+        "author": author,
+    }
     request.session["curid"] = str(uuid.uuid4())[0:6]
     curid = request.session["curid"]
     out_dir = settings.IO_DIR / curid
