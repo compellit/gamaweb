@@ -38,64 +38,71 @@ def analysis(request):
             return redirect("gama:error", errtype="too_long")
         if any(len(line.strip()) > 100 for line in text.splitlines() if line.strip()):
             return redirect("gama:error", errtype="not_verse")
-        corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
-        doc_name = request.POST.get("doc_name") or "Untitled"
-        doc_subtitle = request.POST.get("doc_subtitle") or "—"
-        author = request.POST.get("author") or "Unknown"
 
-        # Sauvegarder en session
+        corpus_name_key = request.POST.get("corpus_name") or "Unnamed corpus"
+        doc_name_key = request.POST.get("doc_name") or "Untitled"
+        doc_subtitle_key = request.POST.get("doc_subtitle") or "—"
+        author_key = request.POST.get("author") or "Unknown"
+
         request.session['analysis_data'] = {
             "text": text,
-            "corpus_name": corpus_name,
-            "doc_name": doc_name,
-            "doc_subtitle": doc_subtitle,
-            "author": author,
+            "corpus_name": corpus_name_key,
+            "doc_name": doc_name_key,
+            "doc_subtitle": doc_subtitle_key,
+            "author": author_key,
         }
+
+        request.session["curid"] = str(uuid.uuid4())[0:6]
+        curid = request.session["curid"]
+        out_dir = settings.IO_DIR / curid
+        Path(out_dir).mkdir(parents=True, exist_ok=True)
+        with open(out_dir / "input.txt", encoding="utf8", mode="w") as f:
+            f.write(text)
+
+        try:
+            subprocess.run(
+                ["python", "../preprocessing/g2s_client_running_text.py",
+                 str(out_dir / "input.txt"), "-p", "-d", "-n", "-s", "-b", "001"],
+                check=True,
+                cwd=settings.PREPRO_DIR,
+            )
+        except subprocess.CalledProcessError as e:
+            context = {
+                "error": f"Analysis failed: {e}",
+                "text": text,
+            }
+            return render(request, "gama/analysis.html", context)
+
+        orig_poem_path = out_dir / "input.txt"
+        prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+        scansion = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+
+        request.session['analysis_result'] = "".join(scansion)
+
     else:
         analysis_data = request.session.get('analysis_data')
-        if analysis_data:
-            text = analysis_data.get("text", "")
-            corpus_name = analysis_data.get("corpus_name", _("Unnamed corpus"))
-            doc_name = analysis_data.get("doc_name", _("Untitled"))
-            doc_subtitle = analysis_data.get("doc_subtitle", "—")
-            author = analysis_data.get("author", _("Unknown"))
-        else:
-            # Pas de données, on redirige erreur
+        analysis_result = request.session.get('analysis_result')
+
+        if not analysis_data or not analysis_result:
             return redirect("gama:error", errtype="empty")
+
+        text = analysis_data.get("text", "")
+        corpus_name_key = analysis_data.get("corpus_name", "Unnamed corpus")
+        doc_name_key = analysis_data.get("doc_name", "Untitled")
+        doc_subtitle_key = analysis_data.get("doc_subtitle", "—")
+        author_key = analysis_data.get("author", "Unknown")
 
     context = {
         "text": text,
-        "corpus_name": corpus_name,
-        "doc_name": doc_name,
-        "doc_subtitle": doc_subtitle,
-        "author": author,
+        "corpus_name": _(corpus_name_key),
+        "doc_name": _(doc_name_key),
+        "doc_subtitle": _(doc_subtitle_key),
+        "author": _(author_key),
+        "result": request.session.get('analysis_result', ""),
     }
-    request.session["curid"] = str(uuid.uuid4())[0:6]
-    curid = request.session["curid"]
-    out_dir = settings.IO_DIR / curid
-    Path(out_dir).mkdir(parents=True, exist_ok=True)
-    with open(out_dir / "input.txt", encoding="utf8", mode="w") as f:
-        f.write(text)
-    # Run preprocessing
-    try:
-        subprocess.run(
-            ["python", "../preprocessing/g2s_client_running_text.py",
-             str(out_dir / "input.txt"), "-p", "-d", "-n", "-s", "-b", "001"],
-            check=True,
-            cwd=settings.PREPRO_DIR,
-        )
-    except subprocess.CalledProcessError as e:
-        context["error"] = f"Analysis failed: {e}"
-        return render(request, "gama/analysis.html", context)
-    # Run scansion
-    orig_poem_path = out_dir / "input.txt"
-    prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
-    print(f"  - Start scansion: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-    scansion = gumper_main(gcf, orig_poem_path, prepro_poem_path)
-    DBG and print("Scansion", scansion)
-    print(scansion)
-    context["result"] = "".join(scansion)
+
     return render(request, "gama/analysis.html", context)
+
 
 
 def error(request, errtype):

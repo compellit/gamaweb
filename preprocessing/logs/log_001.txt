@@ -3599,3 +3599,24 @@
 2025-07-24 11:55:28,758 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
 2025-07-24 11:55:30,040 - main - INFO -   - Start preprocessing: 2025-07-24 11:55:30
 2025-07-24 11:55:30,545 - main - INFO -   - Duration:  0.0m 8.50s
+2025-07-24 13:58:32,716 - main - INFO - - Start: 2025-07-24 13:58:32
+2025-07-24 13:58:32,717 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\apertium-glg-expanded-uniq.txt.pkl]
+2025-07-24 13:58:40,883 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 13:58:40,894 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\aspell-es-expanded.txt.pkl]
+2025-07-24 13:58:41,339 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 13:58:44,027 - main - INFO -   - Start preprocessing: 2025-07-24 13:58:44
+2025-07-24 13:58:53,106 - main - INFO -   - Duration:  0.0m 20.39s
+2025-07-24 13:59:45,156 - main - INFO - - Start: 2025-07-24 13:59:45
+2025-07-24 13:59:45,157 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\apertium-glg-expanded-uniq.txt.pkl]
+2025-07-24 13:59:50,317 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 13:59:50,319 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\aspell-es-expanded.txt.pkl]
+2025-07-24 13:59:50,611 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 13:59:51,947 - main - INFO -   - Start preprocessing: 2025-07-24 13:59:51
+2025-07-24 13:59:53,625 - main - INFO -   - Duration:  0.0m 8.47s
+2025-07-24 14:00:33,113 - main - INFO - - Start: 2025-07-24 14:00:33
+2025-07-24 14:00:33,114 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\apertium-glg-expanded-uniq.txt.pkl]
+2025-07-24 14:00:38,618 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 14:00:38,621 - main.normalizer - INFO - Loading vocabulary from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\data\aspell-es-expanded.txt.pkl]
+2025-07-24 14:00:38,931 - main.normalizer - INFO - Loading edit costs from: [C:\Users\pauli\OneDrive\Documents\TDL\M2\Stage\Lilpa\projet_gama\gamaweb\preprocessing\normalization\edcosts.py]
+2025-07-24 14:00:40,168 - main - INFO -   - Start preprocessing: 2025-07-24 14:00:40
+2025-07-24 14:00:41,994 - main - INFO -   - Duration:  0.0m 8.88s
