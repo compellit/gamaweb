@@ -21,6 +21,8 @@ DBG = False
 
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
+    request.session.pop('analysis_data', None)
+    request.session.pop('curid', None)
     return render(request, "gama/index.html")
 
 def analysis(request):
@@ -30,6 +32,10 @@ def analysis(request):
 
     if request.method == "POST" and request.POST.get("text"):
         text = request.POST.get("text", "")
+        if not text:
+            return redirect("gama:error", errtype="empty")
+        if len(text) > 4500:
+            return redirect("gama:error", errtype="too_long")
         corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
         doc_name = request.POST.get("doc_name") or "Untitled"
         doc_subtitle = request.POST.get("doc_subtitle") or "—"
@@ -54,11 +60,6 @@ def analysis(request):
         else:
             # Pas de données, on redirige erreur
             return redirect("gama:error", errtype="empty")
-
-    if not text:
-        return redirect("gama:error", errtype="empty")
-    if len(text) > 4500:
-        return redirect("gama:error", errtype="too_long")
 
     context = {
         "text": text,
