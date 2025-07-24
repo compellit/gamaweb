@@ -36,6 +36,8 @@ def analysis(request):
             return redirect("gama:error", errtype="empty")
         if len(text) > 4500:
             return redirect("gama:error", errtype="too_long")
+        if any(len(line.strip()) > 100 for line in text.splitlines() if line.strip()):
+            return redirect("gama:error", errtype="not_verse")
         corpus_name = request.POST.get("corpus_name") or "Unnamed corpus"
         doc_name = request.POST.get("doc_name") or "Untitled"
         doc_subtitle = request.POST.get("doc_subtitle") or "—"
@@ -100,7 +102,9 @@ def error(request, errtype):
     if errtype == "empty":
         err_message = _("The input text cannot be empty.")
     elif errtype == "too_long":
-        err_message = _("The input text is too long to be processed.")
+        err_message = _("The input text is too long. Maximum length allowed: 4500 characters.")
+    elif errtype == "not_verse":
+        err_message = _("The input text does not look like poetry in verse (lines tool long?).")
     else:
         return render(request, "gama/error.html", {
             "message": _("An unexpected error occurred.")
