@@ -14,10 +14,10 @@
             <div class="inner-content">
                 <h3 class="mb-3">{%trans "Metadata" %}</h3>
                     <ul class="list-unstyled">
-                        <li><strong>{% trans "Corpus name:" %}</strong> {{ corpus_name }}</li><!-- {% if corpus_name == "Unnamed corpus" %}{% trans "Unnamed corpus" %}{% else %}{{ corpus_name }}{% endif %}</li> !-->
-                        <li><strong>{% trans "Title:" %}</strong> {{ doc_name }}</li> <!-- {% if doc_name == "Untitled" %}{% trans "Untitled" %}{% else %}{{ doc_name }}{% endif %}</li> !-->
-                        <li><strong>{% trans "Subtitle:" %}</strong>{{ doc_subtitle }}</li>
-                        <li><strong>{% trans "Author:" %}</strong> {{ author }}</li> <!-- {% if author == "Unknown" %}{% trans "Unknown" %}{% else %}{{ author }}{% endif %}</li> !-->
+                        <li><strong>{% trans "Corpus name:" %}</strong> {{ corpus_name }}</li>
+                        <li><strong>{% trans "Title:" %}</strong> {{ doc_name }}</li>
+                        <li><strong>{% trans "Subtitle:" %}</strong> {{ doc_subtitle }}</li>
+                        <li><strong>{% trans "Author:" %}</strong> {{ author }}</li>
                     </ul>
             </div>
         </section>
@@ -64,13 +64,16 @@
                     </tbody>
             </table>
         </div>
+        <!-- boutons retour/téléchargement !-->
+        <section class="d-flex justify-content-between my-3 mt-5">
+            <a href="{% url 'gama:index' %}" class="btn btn-beige">{% trans "New analysis" %}</a>
+            <a href="{% url 'gama:export_results' %}" class="btn btn-beige">
+                {% trans "Download results (ZIP)" %}
+            </a>
+        </section>
     </div>
 </div>
 
-<!-- Bouton retour -->
-<section class="text-center">
-    <a href="{% url 'gama:index' %}" class="btn btn-beige">{%trans "New analysis" %}</a>
-</section>
 
 <script>
 $(document).ready(function () {

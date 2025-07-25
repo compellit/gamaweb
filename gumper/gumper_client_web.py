@@ -28,6 +28,7 @@ def main(cf, origfile, infile):
     reps_t = ut.load_t_replacements(cf)
 
     all_scansion_out = []
+    results_data = []
 
     with open(origfile, encoding="utf8") as f:
         # lines are obtained instead of just reading the text for compatibility with old code below
@@ -55,7 +56,15 @@ def main(cf, origfile, infile):
             DBG and print(out_format)
             all_scansion_out.append(out_format)
     #ut.write_output_file(all_poem_lines_out, all_scansion_out, f"001")
-    return all_scansion_out
+            results_data.append({
+                "line": idx + 1,
+                "original_text": orig_lines[idx],
+                "preprocessing": result[1],
+                "metrical_syllables": result[2],
+                "stressed_syllables": " ".join(map(str, result[3])),
+                "no_extra_rhythmic": " ".join(map(str, result[4]))
+            })
+    return all_scansion_out, results_data
 
 if __name__ == "__main__":
     for mod in [gumper, ut, cf]:

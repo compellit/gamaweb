@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-24 11:05+0200\n"
+"POT-Creation-Date: 2025-07-24 16:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Métadonnées"
 msgid "Corpus name:"
 msgstr "Nom du corpus :"
 
-#: .\gama\templates\gama\analysis.html:17 .\gama\views.py:58
+#: .\gama\templates\gama\analysis.html:17
 msgid "Unnamed corpus"
 msgstr "Corpus sans nom"
 
@@ -38,7 +38,7 @@ msgstr "Corpus sans nom"
 msgid "Title:"
 msgstr "Titre :"
 
-#: .\gama\templates\gama\analysis.html:18 .\gama\views.py:59
+#: .\gama\templates\gama\analysis.html:18
 msgid "Untitled"
 msgstr "Sans titre"
 
@@ -50,7 +50,7 @@ msgstr "Sous-titre :"
 msgid "Author:"
 msgstr "Auteur :"
 
-#: .\gama\templates\gama\analysis.html:20 .\gama\views.py:61
+#: .\gama\templates\gama\analysis.html:20
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -86,7 +86,11 @@ msgstr "Accent(s) rythmiques en trop supprimé(s)"
 msgid "No extra-rhythmic"
 msgstr "Sans extra-rythmiques"
 
-#: .\gama\templates\gama\analysis.html:72
+#: .\gama\templates\gama\analysis.html:68
+msgid "Download results (ZIP)"
+msgstr "Télécharger les résultats (ZIP)"
+
+#: .\gama\templates\gama\analysis.html:78
 msgid "New analysis"
 msgstr "Nouvelle analyse"
 
@@ -146,21 +150,57 @@ msgstr "Auteur :"
 msgid "Submit"
 msgstr "Envoyer"
 
-#: .\gama\views.py:103
+#: .\gama\views.py:117
 msgid "The input text cannot be empty."
 msgstr "Le texte à analyser ne peut pas être vide."
 
-#: .\gama\views.py:105
+#: .\gama\views.py:119
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
 msgstr "Le texte à analyser est trop long. Longueur maximale : 4500 caractères."
 
-#: .\gama\views.py:107
+#: .\gama\views.py:121
 msgid "The input text does not look like poetry in verse (lines tool long?)."
 msgstr "Le texte à analyser ne semble pas être en vers (lignes trop longues ?)."
 
-#: .\gama\views.py:110
+#: .\gama\views.py:124
 msgid "An unexpected error occurred."
 msgstr "Une erreur inattendue est survenue."
+
+#: .\gama\views.py:151
+msgid "corpus_name"
+msgstr "nom_du_corpus"
+
+#: .\gama\views.py:152
+msgid "title"
+msgstr "titre"
+
+#: .\gama\views.py:153
+msgid "subtitle"
+msgstr "sous_titre"
+
+#: .\gama\views.py:154
+msgid "author"
+msgstr "auteur"
+
+#: .\gama\views.py:159 .\gama\views.py:166
+msgid "original_text"
+msgstr "texte_original"
+
+#: .\gama\views.py:159 .\gama\views.py:167
+msgid "preprocessing"
+msgstr "pretraitement"
+
+#: .\gama\views.py:160 .\gama\views.py:168
+msgid "metrical_syllables"
+msgstr "syllabes_metriques"
+
+#: .\gama\views.py:160 .\gama\views.py:169
+msgid "stressed_syllables"
+msgstr "syllabes_accentuees"
+
+#: .\gama\views.py:160 .\gama\views.py:170
+msgid "no_extra_rhythmic"
+msgstr "sans_extra_rythmiques"
 
 #: .\gamaweb\settings.py:111
 msgid "English"
