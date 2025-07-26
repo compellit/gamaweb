@@ -97,6 +97,7 @@ def analysis(request):
         request.session['analysis_result'] = "".join(scansion)
         request.session['results_data'] = results_data
 
+    # when not arriving via posted form
     else:
         analysis_data = request.session.get('analysis_data')
         analysis_result = request.session.get('analysis_result')
