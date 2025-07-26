@@ -31,10 +31,10 @@ def index(request):
     return render(request, "gama/index.html")
 
 DEFAULTS_TO_TRANSLATE = {
-    "corpus_name": ["Unnamed corpus"],
-    "doc_name": ["Untitled"],
+    "corpus_name": ["—"],
+    "doc_name": ["—"],
     "doc_subtitle": ["—"],
-    "author": ["Unknown"],
+    "author": ["—"],
 }
 
 def translate_if_default(value, key):
@@ -56,10 +56,10 @@ def analysis(request):
         if any(len(line.strip()) > 100 for line in text.splitlines() if line.strip()):
             return redirect("gama:error", errtype="not_verse")
 
-        corpus_name_key = request.POST.get("corpus_name") or "Unnamed corpus"
-        doc_name_key = request.POST.get("doc_name") or "Untitled"
+        corpus_name_key = request.POST.get("corpus_name") or "—"
+        doc_name_key = request.POST.get("doc_name") or "—"
         doc_subtitle_key = request.POST.get("doc_subtitle") or "—"
-        author_key = request.POST.get("author") or "Unknown"
+        author_key = request.POST.get("author") or "—"
 
         request.session['analysis_data'] = {
             "text": text,
