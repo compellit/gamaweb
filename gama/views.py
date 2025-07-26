@@ -44,8 +44,8 @@ def translate_if_default(value, key):
 
 def analysis(request):
     lang = request.POST.get('language')
-    if lang:
-        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    #if lang:        
+    #    request.session[translation.LANGUAGE_SESSION_KEY] = lang
 
     if request.method == "POST" and request.POST.get("text"):
         text = request.POST.get("text", "")

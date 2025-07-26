@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k!c6yrqhj9nm1y%t_$apzh*p9y1$fge#ut4u)%$#hsvx29712$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'prf2.org']
 
 
 # Application definition
@@ -70,6 +71,25 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gamaweb.wsgi.application'
+LOGGING = {
+'version': 1,
+'disable_existing_loggers': False,
+'handlers': {
+    'file': {
+        'level': 'DEBUG',
+        'class': 'logging.FileHandler',
+        'filename': BASE_DIR / 'gamaweb_django.log',
+    },
+},
+'loggers': {
+    'django': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+        'propagate': True,
+    },
+},
+}
+CSRF_TRUSTED_ORIGINS = ["https://prf2.org"]
 
 
 # Database
@@ -127,7 +147,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static_gm/'
+STATIC_ROOT = '/var/www/static_gm/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

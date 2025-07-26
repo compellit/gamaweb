@@ -187,3 +187,11 @@ th:hover {
 .dataTables_filter {
     margin-bottom: 0.5rem;
 }
+
+table.dataTable thead th {
+    text-align: center; !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    table-layout: auto !important;
+    
+}
