@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Gamaweb{% endblock %}</title>
+    <title>{% block title %}gamaweb{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
@@ -37,20 +37,20 @@
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
             </form>
             <a href="#" onclick="document.getElementById('lang-en').submit();" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}">
-                English <img src="{% static 'img/flags/gb.svg' %}" alt="en" width="17">
+                English <!-- <img src="{% static 'img/flags/gb.svg' %}" alt="en" width="17"> -->
             </a>
             <a href="#" onclick="document.getElementById('lang-fr').submit();" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}">
-                Français <img src="{% static 'img/flags/fr.svg' %}" alt="fr" width="17">
+                Français <!-- <img src="{% static 'img/flags/fr.svg' %}" alt="fr" width="17"> -->
             </a>
             <a href="#" onclick="document.getElementById('lang-gl').submit();" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}">
-                Galego <img src="{% static 'img/flags/gl.png' %}" alt="gl" width="17">
+                Galego <!-- <img src="{% static 'img/flags/gl.png' %}" alt="gl" width="17"> -->
             </a>
         </div>
 
         <div class="container d-flex flex-column align-items-center py-3">
             <!-- titres !-->
             <h1 class="mb-1 text-white text-center">{%trans "GAMA: Galician Metrical Analyzer" %}</h1>
-            <p class="text-white-50 mb-2">{%trans "Metrical Analysis Tool" %}</p>
+{#            <p class="text-white-50 mb-2">{%trans "Metrical Analysis Tool" %}</p>#}
 
             <!-- barre navigation !-->
             <nav class="navbar navbar-expand-md w-100">
