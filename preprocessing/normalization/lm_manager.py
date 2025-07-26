@@ -15,7 +15,7 @@ class KenLMManager:
         
     
     def find_context_for_token(self, tok, idx, toklist, window=nc.lm_window):
-        """Find left-context for the given OOV term in the token list."""
+        """Find context for the given OOV term in the token list."""
         #idx = toklist.index(oov)
         # if idx < window < 0:
         #     leftcon = toklist[0:idx]

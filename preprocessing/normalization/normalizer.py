@@ -2,6 +2,7 @@ from collections import OrderedDict
 import copy
 import logging
 import pickle
+import re
 import types
 
 from normalization import editor
@@ -16,6 +17,7 @@ class Normalizer:
     
     # to cache the vocabulary, so it is not loaded again per instance
     _vocab_cache = None
+    last_syll_stress_re = re.compile(r"[áéíóú][^aeiouyáéíóú]*\b", re.I | re.U)
     
     def __init__(self, norm_config: types.ModuleType, edit_costs_o: types.ModuleType=None,
                  lang: str = "gl"):
@@ -110,6 +112,10 @@ class Normalizer:
                 if matching_case_cand is not None:
                     norm_logger.debug(f"Norm Matching Case: [{matching_case_cand}] against [{[cnd.form for cnd in scores_groups[-0.5]]}])")
                     return matching_case_cand
+                for cand in scores_groups[-0.5]: 
+                   if re.search(self.last_syll_stress_re, cand.form):
+                       norm_logger.debug(f"Norm Candidate with diacritic: [{cand}]")
+                       return cand
         # All other cases to be implemented
         return None
     
