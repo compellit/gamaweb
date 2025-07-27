@@ -1,0 +1,242 @@
+{
+    "processing": "Procesando...",
+    "lengthMenu": "Amosar _MENU_ rexistros",
+    "zeroRecords": "Non se atoparon resultados",
+    "emptyTable": "Ningún dato dispoñíbel nesta táboa",
+    "infoEmpty": "Amosando rexistros do 0 ao 0 dun total de 0 rexistros",
+    "infoFiltered": "(filtrado dun total de _MAX_ rexistros)",
+    "search": "Buscar:",
+    "infoThousands": ",",
+    "loadingRecords": "Cargando...",
+    "paginate": {
+        "first": "Primeiro",
+        "last": "Último",
+        "next": "Seguinte",
+        "previous": "Anterior"
+    },
+    "aria": {
+        "sortAscending": ": Activar para ordenar a columna de manera ascendente",
+        "sortDescending": ": Activar para ordenar a columna de manera descendente"
+    },
+    "buttons": {
+        "copy": "Copiar",
+        "colvis": "Visibilidade",
+        "collection": "Colección",
+        "colvisRestore": "Restaurar visibilidade",
+        "copyKeys": "Prema ctrl ou u2318 + C para copiar os datos da táboa ao portapapeis do sistema. <br \/> <br \/> Para cancelar, faga clic nesta mensaxe ou prema escape.",
+        "copySuccess": {
+            "1": "Copiada 1 fila ao portapapeis",
+            "_": "Copiadas %d filas ao portapapeis"
+        },
+        "copyTitle": "Copiar ao portapapeis",
+        "csv": "CSV",
+        "excel": "Excel",
+        "pageLength": {
+            "-1": "Amosar todas as filas",
+            "_": "Amosar %d filas"
+        },
+        "pdf": "PDF",
+        "print": "Imprimir",
+        "renameState": "Cambiar nome",
+        "updateState": "Actualizar",
+        "createState": "Crear Estado",
+        "removeAllStates": "Eliminar Estados",
+        "removeState": "Eliminar",
+        "savedStates": "Estados Gardados",
+        "stateRestore": "Estado %d"
+    },
+    "autoFill": {
+        "cancel": "Cancelar",
+        "fill": "Encher todas as celdas con <i>%d<\/i>",
+        "fillHorizontal": "Encher celdas horizontalmente",
+        "fillVertical": "Encher celdas verticalmente"
+    },
+    "decimal": ",",
+    "searchBuilder": {
+        "add": "Engadir condición",
+        "button": {
+            "0": "Constructor de busca",
+            "_": "Constructor de busca (%d)"
+        },
+        "clearAll": "Borrar todo",
+        "condition": "Condición",
+        "conditions": {
+            "date": {
+                "after": "Despois",
+                "before": "Antes",
+                "between": "Entre",
+                "empty": "Baleiro",
+                "equals": "Igual a",
+                "notBetween": "Non entre",
+                "notEmpty": "Non baleiro",
+                "not": "Diferente de"
+            },
+            "number": {
+                "between": "Entre",
+                "empty": "Baleiro",
+                "equals": "Igual a",
+                "gt": "Maior que",
+                "gte": "Maior ou igual que",
+                "lt": "Menor que",
+                "lte": "Menor ou igual que",
+                "notBetween": "Non entre",
+                "notEmpty": "Non baleiro",
+                "not": "Diferente de"
+            },
+            "string": {
+                "contains": "Contén",
+                "empty": "Baleiro",
+                "endsWith": "Remata en",
+                "equals": "Igual a",
+                "notEmpty": "Non baleiro",
+                "startsWith": "Comeza con",
+                "not": "Diferente de",
+                "notContains": "Non contén",
+                "notStartsWith": "Non comeza con",
+                "notEndsWith": "Non remata con"
+            },
+            "array": {
+                "not": "Diferente de",
+                "equals": "Igual",
+                "empty": "Baleiro",
+                "contains": "Contén",
+                "notEmpty": "Non baleiro",
+                "without": "Sen"
+            }
+        },
+        "data": "Datos",
+        "deleteTitle": "Eliminar regra de filtrado",
+        "leftTitle": "Criterios anulados",
+        "logicAnd": "E",
+        "logicOr": "Ou",
+        "rightTitle": "Criterios de indentación",
+        "title": {
+            "0": "Constructor de busca",
+            "_": "Constructor de busca (%d)"
+        },
+        "value": "Valor"
+    },
+    "searchPanes": {
+        "clearMessage": "Borrar todo",
+        "collapse": {
+            "0": "Paneis de busca",
+            "_": "Paneis de busca (%d)"
+        },
+        "count": "{total}",
+        "countFiltered": "{shown} ({total})",
+        "emptyPanes": "Sen paneis de busca",
+        "loadMessage": "Cargando paneis de busca",
+        "title": "Filtros Activos - %d",
+        "showMessage": "Amosar Todo",
+        "collapseMessage": "Contraer Todo"
+    },
+    "select": {
+        "cells": {
+            "1": "1 cela seleccionada",
+            "_": "%d celas seleccionadas"
+        },
+        "columns": {
+            "1": "1 columna seleccionada",
+            "_": "%d columnas seleccionadas"
+        },
+        "rows": {
+            "1": "1 fila seleccionada",
+            "_": "%d filas seleccionadas"
+        }
+    },
+    "thousands": ".",
+    "datetime": {
+        "previous": "Anterior",
+        "next": "Seguinte",
+        "hours": "Horas",
+        "minutes": "Minutos",
+        "seconds": "Segundos",
+        "unknown": "-",
+        "amPm": [
+            "AM",
+            "PM"
+        ],
+        "months": {
+            "0": "Xaneiro",
+            "1": "Febreiro",
+            "10": "Novembro",
+            "11": "Decembro",
+            "2": "Marzo",
+            "3": "Abril",
+            "4": "Maio",
+            "5": "Xuño",
+            "6": "Xullo",
+            "7": "Agosto",
+            "8": "Setembro",
+            "9": "Outubro"
+        },
+        "weekdays": [
+            "Dom",
+            "Lun",
+            "Mar",
+            "Mér",
+            "Xov",
+            "Ven",
+            "Sáb"
+        ]
+    },
+    "editor": {
+        "close": "Pechar",
+        "create": {
+            "button": "Novo",
+            "title": "Crear Novo Rexistro",
+            "submit": "Crear"
+        },
+        "edit": {
+            "button": "Editar",
+            "title": "Editar Rexistro",
+            "submit": "Actualizar"
+        },
+        "remove": {
+            "button": "Eliminar",
+            "title": "Eliminar Rexistro",
+            "submit": "Eliminar",
+            "confirm": {
+                "_": "¿Está seguro·a de que desexa eliminar %d filas?",
+                "1": "¿Está seguro·a de que desexa eliminar 1 fila?"
+            }
+        },
+        "error": {
+            "system": "Ocorreu un erro no sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Máis información&lt;\\\/a&gt;).<\/a>"
+        },
+        "multi": {
+            "title": "Múltiples Valores",
+            "info": "Os elementos seleccionados conteñen diferentes valores para este rexistro. Para editar e establecer todos os elementos deste rexistro co mesmo valor, faga clic ou toque aquí, se non conservarán os seus valores individuais.",
+            "restore": "Desfacer Cambios",
+            "noMulti": "Este rexistro pode ser editado individualmente, pero non como parte dun grupo."
+        }
+    },
+    "info": "Amosando _START_ a _END_ de _TOTAL_ rexistros",
+    "stateRestore": {
+        "creationModal": {
+            "button": "Crear",
+            "name": "Nome:",
+            "order": "Clasificación",
+            "paging": "Paxinación",
+            "search": "Busca",
+            "select": "Seleccionar",
+            "columns": {
+                "search": "Busca de Columna",
+                "visible": "Visibilidade de Columna"
+            },
+            "title": "Crear Novo Estado",
+            "toggleLabel": "Incluír:"
+        },
+        "emptyError": "O nome non pode estar baleiro",
+        "removeConfirm": "¿Seguro que quere eliminar este %s?",
+        "removeError": "Erro ao eliminar o rexistro",
+        "removeJoiner": "e",
+        "removeSubmit": "Eliminar",
+        "renameButton": "Cambiar Nome",
+        "renameLabel": "Novo nome para %s",
+        "duplicateError": "Xa existe un Estado con este nome.",
+        "emptyStates": "Non hai Estados gardados",
+        "removeTitle": "Eliminar Estado",
+        "renameTitle": "Cambiar Nome Estado"
+    }
+}
