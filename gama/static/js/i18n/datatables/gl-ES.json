@@ -3,7 +3,7 @@
     "lengthMenu": "Amosar _MENU_ rexistros",
     "zeroRecords": "Non se atoparon resultados",
     "emptyTable": "Ningún dato dispoñíbel nesta táboa",
-    "infoEmpty": "Amosando rexistros do 0 ao 0 dun total de 0 rexistros",
+    "infoEmpty": "Amosando os rexistros 0 ao 0 dun total de 0",
     "infoFiltered": "(filtrado dun total de _MAX_ rexistros)",
     "search": "Buscar:",
     "infoThousands": ",",
@@ -211,7 +211,7 @@
             "noMulti": "Este rexistro pode ser editado individualmente, pero non como parte dun grupo."
         }
     },
-    "info": "Amosando _START_ a _END_ de _TOTAL_ rexistros",
+    "info": "Amosando os rexistros _START_ a _END_ de _TOTAL_",
     "stateRestore": {
         "creationModal": {
             "button": "Crear",
