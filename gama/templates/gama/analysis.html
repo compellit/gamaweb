@@ -79,9 +79,9 @@
 $(document).ready(function () {
     window.lang = "{{ LANGUAGE_CODE }}";
     const langUrls = {
-        'fr': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json',
-        'en': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/en-GB.json',
-        'gl': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        'fr': '{% static "js/i18n/datatables/fr-FR.json" %}',
+        'en': '{% static "js/i18n/datatables/en-GB.json" %}',
+        'gl': '{% static "js/i18n/datatables/gl-ES.json" %}',
     };
 
     const table = $('#myTable').DataTable({
