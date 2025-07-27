@@ -47,9 +47,9 @@
     },
     "autoFill": {
         "cancel": "Cancelar",
-        "fill": "Encher todas as celdas con <i>%d<\/i>",
-        "fillHorizontal": "Encher celdas horizontalmente",
-        "fillVertical": "Encher celdas verticalmente"
+        "fill": "Encher todas as celas con <i>%d<\/i>",
+        "fillHorizontal": "Encher celas horizontalmente",
+        "fillVertical": "Encher celas verticalmente"
     },
     "decimal": ",",
     "searchBuilder": {
