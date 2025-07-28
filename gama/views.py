@@ -174,10 +174,8 @@ def export_results(request):
         # metadata.tsv
         with open(f"{tmpdir}/metadata.tsv", "w", encoding="utf-8", newline="") as f:
             writer = csv.writer(f, delimiter="\t")
-            writer.writerow([_("corpus_name"), corpus_name])
-            writer.writerow([_("title"), doc_name])
-            writer.writerow([_("subtitle"), doc_subtitle])
-            writer.writerow([_("author"), author])
+            writer.writerow([_("corpus_name"), _("title"), _("subtitle"), _("author")])
+            writer.writerow([corpus_name, doc_name, doc_subtitle, author])
 
         # results.tsv
         with open(f"{tmpdir}/results.tsv", "w", encoding="utf-8", newline="") as f:
