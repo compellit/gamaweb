@@ -91,7 +91,7 @@ h3::after {
 
 .metad {
   margin-left: 2rem;
-  color: #333; /* comme avant */
+  color: #333;
 }
 
 .inner-content {
@@ -223,5 +223,5 @@ th:hover {
 .no-wrap-title {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* optionnel si le contenu déborde */
+  text-overflow: ellipsis;
 }
