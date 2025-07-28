@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="row justify-content-center mb-4">
-    <div class="col-12 col-md-10 col-lg-8">
+<div class="col-12 col-md-10 col-lg-8">
 <form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
     <!-- Bloc texte à analyser -->
-        <h3 class="mb-3 mt-4">{%trans "Input text for analysis" %}</h3>
+        <h3 class="mb-3 mt-3">{%trans "Input text for analysis" %}</h3>
             {% if error_message %}
                 <div class="alert alert-danger" role="alert">
                     {{ error_message }}
@@ -18,33 +18,41 @@
             <textarea class="form-control" rows="10" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}"></textarea>
 
     <!-- Bloc métadonnées -->
-        <h3 class="mb-3 mt-4">{%trans "Metadata" %} <small class="text-muted">{%trans "(Default values will be used if empty)" %}</small></h3>
-            <div class="form-group mb-3">
-                <label for="corpus_name">{%trans "Corpus name" %}</label>
-                <input class="form-control" type="text" name="corpus_name" id="corpus_name"/>
-            </div>
+        <h3 class="mb-1 mt-4">
+            {%trans "Metadata" %}
+            <small class="text-muted">{%trans "(Default values will be used if empty)" %}</small>
+        </h3>
 
-            <div class="form-group mb-3">
-                <label for="doc_name">{%trans "Text title" %}</label>
-                <input class="form-control" type="text" name="doc_name" id="doc_name"/>
-            </div>
+        <div class="container-fluid px-0">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="corpus_name">{%trans "Corpus name" %}</label>
+                    <input class="form-control" type="text" name="corpus_name" id="corpus_name"/>
+                </div>
 
-            <div class="form-group mb-3">
-                <label for="doc_subtitle">{%trans "Subtitle" %}</label>
-                <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle"/>
-            </div>
+                <div class="col-md-6 mb-3">
+                    <label for="doc_name">{%trans "Text title" %}</label>
+                    <input class="form-control" type="text" name="doc_name" id="doc_name"/>
+                </div>
 
-            <div class="form-group mb-3">
-                <label for="author">{%trans "Author" %}</label>
-                <input class="form-control" type="text" name="author" id="author"/>
+                <div class="col-md-6 mb-3">
+                    <label for="author">{%trans "Author" %}</label>
+                    <input class="form-control" type="text" name="author" id="author"/>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="doc_subtitle">{%trans "Subtitle" %}</label>
+                    <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle"/>
+                </div>
             </div>
+        </div>
 
     <!-- Bouton envoi -->
         <section class="text-center">
             <button type="submit" class="btn btn-beige">{%trans "Submit" %}</button>
         </section>
 </form>
-    </div>
+</div>
 </div>
 
 {% endblock %}

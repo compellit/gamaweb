@@ -10,7 +10,7 @@
 
 body {
     padding: 2rem;
-    background-color: #f9f9f9;
+    background-color: #fcfcfc;
     }
 
 table th, table td {
@@ -46,15 +46,14 @@ th {
 }
 
 h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    border-bottom: 2px solid var(--color-green);
     padding-bottom: 0.5rem;
 }
 
 h3 {
     text-align: left;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 1.2rem;
     color: #222;
     position: relative;
@@ -90,41 +89,42 @@ h3::after {
     margin-left: 2rem;
 }
 
+.metad {
+  margin-left: 2rem;
+  color: #333; /* comme avant */
+}
+
 .inner-content {
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
 .navbar-custom {
-    background-color: var(--color-green-dark);
-    border-bottom: 4px solid var(--color-green);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #fcfcfc;
+    border-bottom: 2px solid var(--color-green-dark);
 }
 
 .navbar-custom h1 {
-    font-size: 2.2rem;
-}
-
-.navbar-custom p {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: var(--color-green-dark);
 }
 
 .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: var(--color-green-dark) !important;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(23,140,25,1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
     width: 1.2em;
     height: 1.2em;
 }
 
-.navbar-custom .nav-link {
-    font-weight: bold;
-}
-
-.navbar-custom .nav-link:hover {
+.nav-link:hover {
     text-decoration: underline;
 }
 
@@ -132,7 +132,7 @@ h3::after {
     display: flex;
     align-items: center;
     padding: 0 0.5rem;
-    color: #fff;
+    color: #585964;
     pointer-events: none;
     font-size: 1rem;
 }
@@ -172,18 +172,56 @@ th:hover {
 }
 
 .lang-link {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(23, 140, 25, 1);
     font-size: 0.8rem;
     text-decoration: none;
     transition: text-decoration 0.3s ease;
+    font-size: 1rem;
 }
 
 .lang-link:hover {
+    color: rgba(23, 140, 25, 0.7);
     text-decoration: underline;
-    color: rgba(255, 255, 255, 1);
     cursor: pointer;
 }
 
 .dataTables_filter {
     margin-bottom: 0.5rem;
+}
+
+.custom-offcanvas {
+    width: 240px !important;
+    background-color: var(--color-green-dark);
+}
+
+.offcanvas-title {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.nav-link {
+    font-weight: bold;
+    color: #585964;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #f8f9fa;
+    font-size: 0.875rem;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+.footer a:hover {
+    color: #178C19;
+}
+
+.no-wrap-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* optionnel si le contenu déborde */
 }

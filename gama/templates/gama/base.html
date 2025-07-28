@@ -17,67 +17,90 @@
     <!-- <script src="{% static 'js/tablesort.js' %}"></script> !-->
 </head>
 <body>
-    <header class="navbar-custom position-relative">
-
-        <!-- menu langues !-->
-        <div class="position-absolute top-0 end-0 mt-2 me-2 d-flex flex-column align-items-end gap-1 gap-1 bg-dark bg-opacity-50 rounded p-2" style="z-index: 1050;">
-            <form action="{% url 'set_language' %}" method="post" id="lang-fr" style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="fr">
-                <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            </form>
-            <form action="{% url 'set_language' %}" method="post" id="lang-en" style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="en">
-                <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            </form>
-            <form action="{% url 'set_language' %}" method="post" id="lang-gl" style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="gl">
-                <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            </form>
-            <a href="#" onclick="document.getElementById('lang-en').submit();" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}">
-                English <img src="{% static 'img/flags/gb.svg' %}" alt="en" width="17">
-            </a>
-            <a href="#" onclick="document.getElementById('lang-fr').submit();" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}">
-                Français <img src="{% static 'img/flags/fr.svg' %}" alt="fr" width="17">
-            </a>
-            <a href="#" onclick="document.getElementById('lang-gl').submit();" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}">
-                Galego <img src="{% static 'img/flags/gl.png' %}" alt="gl" width="17">
-            </a>
-        </div>
-
-        <div class="container d-flex flex-column align-items-center py-3">
-            <!-- titres !-->
-            <h1 class="mb-1 text-white text-center">{%trans "GAMA: Galician Metrical Analyzer" %}</h1>
-            <p class="text-white-50 mb-2">{%trans "Metrical Analysis Tool" %}</p>
-
-            <!-- barre navigation !-->
-            <nav class="navbar navbar-expand-md w-100">
-                <div class="container justify-content-center">
-                    <button class="navbar-toggler text-white border-white" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#mainNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a href="{% url 'gama:index' %}" class="nav-link text-white">{%trans "Home" %}</a>
-                            </li>
-                            <li class="nav-separator">•</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link text-white">{%trans "About" %}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+    <header class="navbar-custom position-relative mb-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center px-2 py-0 my-0">
+            <!-- Titre -->
+            <h1 class="mb-2 no-wrap-title">{% trans "GAMA: Galician Metrical Analyzer" %}</h1>
+            <!-- Menu langues -->
+            <div class="d-flex align-items-center gap-3 rounded p-2 text-white">
+                <form action="{% url 'set_language' %}" method="post" id="lang-en" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="language" value="en">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                </form>
+                <form action="{% url 'set_language' %}" method="post" id="lang-fr" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="language" value="fr">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                </form>
+                <form action="{% url 'set_language' %}" method="post" id="lang-gl" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="language" value="gl">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                </form>
+                <a href="#" onclick="document.getElementById('lang-en').submit();" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}">en</a>
+                <a href="#" onclick="document.getElementById('lang-fr').submit();" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}">fr</a>
+                <a href="#" onclick="document.getElementById('lang-gl').submit();" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}">gl</a>
+            </div>
         </div>
     </header>
+<!-- barre navigation offcanvas -->
+<nav class="navbar navbar-expand-md w-100">
+    <div class="container d-flex justify-content-center justify-content-md-between">
 
-    <main class="container-fluid">
+        <!-- Toggler (visible seulement en petit écran) -->
+        <button class="navbar-toggler custom-toggler d-md-none ms-2 mt-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebarMenu"
+                aria-controls="sidebarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu standard (visible à partir de md) -->
+        <div class="d-none d-md-flex justify-content-center w-100">
+            <a href="{% url 'gama:index' %}" class="nav-link">{% trans "Home" %}</a>
+            <span class="nav-separator">•</span>
+            <a href="#" class="nav-link">{% trans "About" %}</a>
+        </div>
+    </div>
+</nav>
+
+
+<div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarMenuLabel">GAMA</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="{% url 'gama:index' %}" class="nav-link text-white">{% trans "Home" %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-white">{% trans "About" %}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+    <!-- body !-->
+    <main class="container-fluid py-0">
         {% block content %}{% endblock %}
     </main>
+<!-- footer !-->
+<footer class="footer fixed-bottom py-2 bg-dark border-top w-100">
+    <div class="container-fluid d-flex justify-content-evenly align-items-center flex-wrap px-3 py-0 my-0 gap-3">
+        <div class="footer-left text-white small d-flex align-items-center flex-shrink-1">
+            © 2025 GAMA · Built with&nbsp;<a href="https://getbootstrap.com" target="_blank" rel="noopener">Bootstrap</a>
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="text-white small me-2">Grant ID: <a href="https://cordis.europa.eu/project/id/101149659" target="_blank" rel="noopener">101149659 MSCA-PF</a></span>
+                <a href="https://cordis.europa.eu/project/id/101149659" target="_blank" rel="noopener">
+                <img src="/static/img/eu.png" alt="EU Funded" style="height: 35px;">
+                </a>
+        </div>
+    </div>
+</footer>
 </body>
 
 </html>

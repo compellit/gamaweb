@@ -6,19 +6,34 @@
 {% block content %}
 <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-10 col-lg-8">
-        <h2 class="mb-3">{% trans "Results" %}</h2>
 
 <!-- Bloc métadonnées -->
 
-        <section class="text-info-block">
+        <section class="text-info-block mt-3">
             <div class="inner-content">
-                <h3 class="mb-3">{%trans "Metadata" %}</h3>
-                    <ul class="list-unstyled">
-                        <li><strong>{% trans "Corpus name:" %}</strong> {{ corpus_name }}</li>
-                        <li><strong>{% trans "Title:" %}</strong> {{ doc_name }}</li>
-                        <li><strong>{% trans "Subtitle:" %}</strong> {{ doc_subtitle }}</li>
-                        <li><strong>{% trans "Author:" %}</strong> {{ author }}</li>
-                    </ul>
+                <h3 class="mb-1">{%trans "Metadata" %}</h3>
+                    <div class="container-fluid my-0">
+                        <div class="row mb-2 metad">
+                            <div class="col-6 d-flex">
+                                <strong class="mr-2">{% trans "Corpus name:" %}&nbsp;</strong>
+                                <span> {{ corpus_name }}</span>
+                            </div>
+                            <div class="col-6 d-flex">
+                                <strong class="mr-2">{% trans "Title:" %}&nbsp;</strong>
+                                <span> {{ doc_name }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-0 metad">
+                            <div class="col-6 d-flex">
+                                <strong class="mr-2">{% trans "Author:" %}&nbsp;</strong>
+                                <span> {{ author }}</span>
+                            </div>
+                            <div class="col-6 d-flex">
+                                <strong class="mr-2">{% trans "Subtitle:" %}&nbsp;</strong>
+                                <span> {{ doc_subtitle }}</span>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </section>
 
