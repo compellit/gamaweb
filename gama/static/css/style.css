@@ -10,7 +10,7 @@
 
 body {
     padding: 2rem;
-    background-color: #fcfcfc;
+    background-color: #f9f9f9;
     }
 
 table th, table td {
@@ -48,6 +48,7 @@ th {
 h2 {
     font-size: 1.6rem;
     font-weight: bold;
+    border-bottom: 2.5px solid var(--color-green);
     padding-bottom: 0.5rem;
 }
 
@@ -100,8 +101,8 @@ h3::after {
 }
 
 .navbar-custom {
-    background-color: #fcfcfc;
-    border-bottom: 2px solid var(--color-green-dark);
+    background-color: #f9f9f9;
+    border-bottom: 1px solid var(--color-green-dark);
 }
 
 .navbar-custom h1 {
@@ -126,6 +127,7 @@ h3::after {
 
 .nav-link:hover {
     text-decoration: underline;
+    color: black;
 }
 
 .nav-separator {
@@ -133,6 +135,14 @@ h3::after {
     align-items: center;
     padding: 0 0.5rem;
     color: #585964;
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+.nav-sep {
+    display: flex;
+    align-items: center;
+    color: var(--color-green-dark);
     pointer-events: none;
     font-size: 1rem;
 }
@@ -191,12 +201,12 @@ th:hover {
 
 .custom-offcanvas {
     width: 240px !important;
-    background-color: var(--color-green-dark);
+    background-color: var(--color-green-light);
 }
 
 .offcanvas-title {
     font-size: 1.8rem;
-    color: white;
+    color: #585964;
 }
 
 .nav-link {
@@ -224,4 +234,12 @@ th:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.btn-close {
+    --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(51, 51, 51, 0.25);
+}
+
+.custom-tog {
+    background-color: var(--color-green)
 }
