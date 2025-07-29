@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row justify-content-center mb-4">
-<div class="col-12 col-md-10 col-lg-8">
+<div class="col-12 col-md-10 col-lg-8 my-0">
 <form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
@@ -18,26 +18,31 @@
             <textarea class="form-control" rows="10" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}"></textarea>
 
     <!-- Bloc métadonnées -->
-        <h3 class="mb-1 mt-4">
+        <h3 class="mb-0 mt-4">
             {%trans "Metadata" %}
             <small class="text-muted">{%trans "(Default values will be used if empty)" %}</small>
         </h3>
 
-        <div class="container-fluid px-0">
+        <div class="container-fluid px-0 my-0">
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="corpus_name">{%trans "Corpus name" %}</label>
                     <input class="form-control" type="text" name="corpus_name" id="corpus_name"/>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="author">{%trans "Author" %}</label>
+                    <input class="form-control" type="text" name="author" id="author"/>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="date">{%trans "Date" %}</label>
+                    <input class="form-control" type="text" name="date" id="date"/>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="doc_name">{%trans "Text title" %}</label>
                     <input class="form-control" type="text" name="doc_name" id="doc_name"/>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="author">{%trans "Author" %}</label>
-                    <input class="form-control" type="text" name="author" id="author"/>
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -47,12 +52,78 @@
             </div>
         </div>
 
-    <!-- Bouton envoi -->
-        <section class="text-center">
-            <button type="submit" class="btn btn-beige">{%trans "Submit" %}</button>
+    <!-- Txt exemple -->
+    <h3 class="mb-3">
+            {%trans "Poem examples" %}
+    </h3>
+        <div class="mb-3">
+            <label for="exampleSelector" class="form-label">{% trans "Choose an example" %}</label>
+            <select id="exampleSelector" class="form-select">
+                <option value="">{% trans "Select a text" %}</option>
+                {% for key, ex in example_poems.items %}
+                    <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Bouton envoi -->
+        <section class="d-flex justify-content-between mt-4 mb-4">
+            <button type="button" class="btn btn-beige" id="clearBtn">{% trans "Clear" %}</button>
+            <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
         </section>
+
 </form>
 </div>
 </div>
+
+<script>
+    const examples = {{ example_poems|safe }};
+
+    document.getElementById("exampleSelector").addEventListener("change", function () {
+        const selectedKey = this.value;
+
+        // Liste des champs à remplir / vider
+        const fields = [
+            "corpus_name",
+            "doc_name",
+            "doc_subtitle",
+            "author",
+            "date",
+            "text"
+        ];
+
+        if (!selectedKey || !examples[selectedKey]) {
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el) el.value = "";
+            });
+            return;
+        }
+
+        const data = examples[selectedKey];
+        fields.forEach(field => {
+            const el = document.getElementById(field);
+            if (el) el.value = data[field] || "";
+        });
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", function () {
+    const fields = [
+        "corpus_name",
+        "doc_name",
+        "doc_subtitle",
+        "author",
+        "date",
+        "text",
+        "exampleSelector"
+    ];
+
+    fields.forEach(field => {
+        const el = document.getElementById(field);
+        if (el) el.value = "";
+    });
+});
+
+</script>
 
 {% endblock %}

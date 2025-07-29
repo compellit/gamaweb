@@ -13,24 +13,28 @@
             <div class="inner-content">
                 <h3 class="mb-1">{%trans "Metadata" %}</h3>
                     <div class="container-fluid my-0">
-                        <div class="row mb-2 metad">
-                            <div class="col-6 d-flex">
-                                <strong class="mr-2">{% trans "Corpus name:" %}&nbsp;</strong>
-                                <span> {{ corpus_name }}</span>
+                        <div class="row mb-0 metad">
+                            <div class="col-md-4 d-flex">
+                                <strong class="me-2">{% trans "Corpus name:" %}</strong>
+                                <span>{{ corpus_name }}</span>
                             </div>
-                            <div class="col-6 d-flex">
-                                <strong class="mr-2">{% trans "Title:" %}&nbsp;</strong>
-                                <span> {{ doc_name }}</span>
+                            <div class="col-md-4 d-flex">
+                                <strong class="me-2">{% trans "Author:" %}</strong>
+                                <span>{{ author }}</span>
+                            </div>
+                            <div class="col-md-4 d-flex">
+                                <strong class="me-2">{% trans "Date:" %}</strong>
+                                <span>{{ date }}</span>
                             </div>
                         </div>
                         <div class="row mb-0 metad">
-                            <div class="col-6 d-flex">
-                                <strong class="mr-2">{% trans "Author:" %}&nbsp;</strong>
-                                <span> {{ author }}</span>
+                            <div class="col-md-4 d-flex">
+                                <strong class="me-2">{% trans "Title:" %}</strong>
+                                <span>{{ doc_name }}</span>
                             </div>
-                            <div class="col-6 d-flex">
-                                <strong class="mr-2">{% trans "Subtitle:" %}&nbsp;</strong>
-                                <span> {{ doc_subtitle }}</span>
+                            <div class="col-md-4 d-flex">
+                                <strong class="me-2">{% trans "Subtitle:" %}</strong>
+                                <span>{{ doc_subtitle }}</span>
                             </div>
                         </div>
                     </div>
