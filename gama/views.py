@@ -208,3 +208,9 @@ def export_results(request):
             response = HttpResponse(f.read(), content_type="application/zip")
             response["Content-Disposition"] = f"attachment; filename={zip_filename}"
             return response
+
+def about(request):
+    """'About' page for each language."""
+    lang = request.LANGUAGE_CODE
+    translation.activate(lang)
+    return render(request, f"gama/about/about_{lang}.html")

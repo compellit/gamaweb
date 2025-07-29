@@ -195,3 +195,11 @@ table.dataTable thead th {
     table-layout: auto !important;
     
 }
+
+.text-110 {
+    font-size: 110%;
+}
+
+a {
+  text-decoration: none;
+}

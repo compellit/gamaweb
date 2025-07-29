@@ -8,4 +8,5 @@ urlpatterns = [
     path("analysis", views.analysis, name="analysis"),
     path("error/<str:errtype>/", views.error, name="error"),
     path("export_results/", views.export_results, name="export_results"),
+    path("about/", views.about, name="about"),
 ]

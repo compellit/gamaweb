@@ -1,61 +1,11 @@
-<div>
-<div id="en">
-    <div>
-        <h2>About</h2>
-        <h3>Introduction</h3>
-        <p>GAMA is part of the <a target="_blank" href="https://compellit.github.io/">COMPEL</a> project.</p>
-        <p>The tool performs a metrical analysis (scansion) of Galician poetry. It outputs:</p>
-        <ul>
-            <li>The number of metrical syllables for each line</li>
-            <li>The stress pattern or positions for stressed metrical syllables</li>
-            <li>The stress pattern excluding extrarhythmic stresses (i.e. those that lie outside the main rhythmic pattern for a line)</li>
-        </ul>
-    </div>
-    <div>
-        <h3>How it works</h3>
-        <p>Metrical analysis is based on the <a target="_blank" href="https://github.com/grmarco/jumper">JUMPER</a> library by Marco Remón &amp; Gonzalo (2021). This tool performs metrical analysis without syllabification. However, JUMPER is specialized in Spanish. So that it can handle Galician, we carried out some modifications</p>
-        <ul>
-            <li>The diphthong list  and the list of lexically unstressed words was adapted to Galician. For this we consulted works like Carballo Calero (1966) and Freixeiro Mato (2006).</li>
-            <li>A preprocessing module was developed, which handles input text before it is passed to the metrical analysis. This preprocessing does two things:
-                <ul>
-                    <li>First, it renders historical spelling closer to the current Galician norm. This could be useful for any downstream work with the text (e.g. part-of-speech tagging or dependency parsing with a model for current Galician)</li>
-                    <li>Second, for the purposes of scansion with JUMPER only, a version of the text where accent marks are closer to Spanish orthographic conventions is created. This helps JUMPER in cases where Galician orthographic stress conventions do not match Spanish ones; current Spanish has very explicit orthographic stress rules and, based on orthography, it possible to unambiguously know which lexical syllables bear prosodic stress. Galician orthography is somewhat more ambiguous in this respect. </li>
-                </ul>
-        </ul>
-    </div>
-    <div>
-        <h3>Credits</h3>
-        <p>The project started in April 2025, code for the application will be released at a later point, in compliance with project and funder's requirements. </p>
-        <!-- ajout lien pour Pauline (LinkedIn ou autre profil) si Pauline d'accord -->
-        <p>The developers are Pauline Moreau and <a target="_blank" href="https://citius.gal/team/pablo-ruiz-fabo/">Pablo Ruiz Fabo</a> (PI).</p>
-        <p>Metrical analysis relies on JUMPER's algorithm, as described above.</p>
-        <p>The vocabulary for contemporary Galician is based on a combination of items from dictionaries in <a target="_blank" href="https://github.com/citiususc/Linguakit">Linguakit</a> (Gamallo et al., 2018) and <a target="_blank" href="https://github.com/apertium/apertium-glg">Apertium (Forcada & Tyers, 2016)</a>.</p>
-        <p>A model for contextual spelling normalization was trained with texts from the <a target="_blank" href="https://nos.gal/es/proxecto-nos/recursos">Nós project</a> corpus (Gamallo et al., 2024).</p>
-        <p>The work is supported by the European Union (Grant ID <a target="_blank" href="https://cordis.europa.eu/project/id/101149659">101149659 MSCA-PF 2023</a>).</p>
-    </div>
-    <div>
-        <h3>How to cite</h3>
-        <p>Moreau, P. & Ruiz Fabo, P. (2025). GAMA web: Interface for the metrical analysis of Galician poetry. CiTIUS - Universidade de Santiago de Compostela.</p>
-    </div>
-    <div>
-        <h3>References</h3>
-        <ul>
-            <li>Carballo Calero, Ramón (1966). <em>Gramática elemental del gallego común</em>. Vigo: Galaxia.</li>
-            <li>Forcada, Mikel L. & Tyers, Francis M. (2016). Apertium: a free/open source platform for machine translation and basic language technology. In <em>Proceedings of the 19th Annual Conference of the European Association for Machine Translation: Projects/Products</em>. Riga, Latvia.</li>
-            <li>Freixeiro Mato, Xosé (2006). <em>Gramática da lingua galega I - Fonética e fonoloxía</em>. Vigo: Edicións A Nosa Terra.</li>
-            <li>Gamallo, Pablo, Marcos Garcia, César Piñeiro, Rodrigo Martínez-Castaño and Juan C. Pichel (2018). LinguaKit: a Big Data-based multilingual tool for linguistic analysis and information extraction. In <em>Fifth Conference on Social Network Analysis, Management and Security</em>, pp. 239-244. Available at <a target="_blank" href="https://ieeexplore.ieee.org/iel7/8536820/8554420/08554689.pdf?casa_token=HbI-KHotHh4AAAAA:iuGybTlpbquvR2DhKXAmww8BFC01eXSnbX8DzJjIvKagjci3qlg6hGYzIAdzFuH8BtBEnNsF">IEEE Xplore</a>
-            <li>Gamallo, P., Rodríguez, P., Paniagua, S., Bardanca, D., Pichel, J. R., & Garcia, M. (2024). Open
-            Generative Large Language Models for Galician. <em>Procesamiento del Lenguaje Natural</em>, 73, pp. 259-270. Available at <a target="_blank" href="http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6615">SEPLN</a></li>
-            <li>Marco Remón, G., & Gonzalo, J. (2021). Escansión automática de poesía española sin silabación. <em>Procesamiento del Lenguaje Natural</em>, 66, pp. 77-87. Available at <a target="_blank" href="http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6324">SEPLN</a>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <p>The application is developed with <a target="_blank" href="https://www.djangoproject.com/">Django</a>, using <a target="_blank" href="https://getbootstrap.com/">Bootstrap</a></p>
-        <p>It is hosted at <a target="_blank" href="https://strato.es">strato</a></p>
-    </div>
-</div>
-<div id="gl">
+{% extends "gama/base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+
+<div class="row m-3 text-110">
     <div>
         <h2>O proxecto</h2>
         <h3>Introdución</h3>
@@ -111,4 +61,6 @@
         <p>Aloxado en <a target="_blank" href="https://strato.es">strato</a></p>
     </div>
 </div>
-</div>
+
+
+{%  endblock %}
