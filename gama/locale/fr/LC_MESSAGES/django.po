@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-26 12:05+0000\n"
+"POT-Creation-Date: 2025-07-31 19:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,79 +22,84 @@ msgstr ""
 msgid "Results"
 msgstr "Résultats"
 
-#: gama/templates/gama/analysis.html:15 gama/templates/gama/index.html:21
+#: gama/templates/gama/analysis.html:15 gama/templates/gama/index.html:22
 msgid "Metadata"
 msgstr "Métadonnées"
 
-#: gama/templates/gama/analysis.html:17
+#: gama/templates/gama/analysis.html:19
 msgid "Corpus name:"
 msgstr "Nom du corpus"
 
-#: gama/templates/gama/analysis.html:18
-msgid "Title:"
-msgstr "Titre"
-
-#: gama/templates/gama/analysis.html:19
-msgid "Subtitle:"
-msgstr "Sous-titre"
-
-#: gama/templates/gama/analysis.html:20
+#: gama/templates/gama/analysis.html:23
 #, fuzzy
 #| msgid "Author"
 msgid "Author:"
 msgstr "Auteur·e"
 
-#: gama/templates/gama/analysis.html:28
+#: gama/templates/gama/analysis.html:27
+msgid "Date:"
+msgstr ""
+
+#: gama/templates/gama/analysis.html:33
+msgid "Title:"
+msgstr "Titre"
+
+#: gama/templates/gama/analysis.html:37
+msgid "Subtitle:"
+msgstr "Sous-titre"
+
+#: gama/templates/gama/analysis.html:48
 msgid "Scansion"
 msgstr "Scansion"
 
-#: gama/templates/gama/analysis.html:33
+#: gama/templates/gama/analysis.html:53
 msgid "Show Preprocessing"
 msgstr "Afficher la colonne Prétraitement"
 
-#: gama/templates/gama/analysis.html:44
+#: gama/templates/gama/analysis.html:64
 msgid "Original text"
 msgstr "Texte original"
 
-#: gama/templates/gama/analysis.html:47
+#: gama/templates/gama/analysis.html:67
 msgid "Preprocessing"
 msgstr "Prétraitement"
 
-#: gama/templates/gama/analysis.html:50
+#: gama/templates/gama/analysis.html:70
 msgid "Metrical syllables"
 msgstr "Syllabes métriques"
 
-#: gama/templates/gama/analysis.html:54
+#: gama/templates/gama/analysis.html:74
 msgid "Stressed syllables"
 msgstr "Syllabes accentuées"
 
-#: gama/templates/gama/analysis.html:57
+#: gama/templates/gama/analysis.html:77
 msgid "Extra rhythmic stresses removed"
 msgstr "Accent(s) rythmiques en trop supprimé(s)"
 
-#: gama/templates/gama/analysis.html:58
+#: gama/templates/gama/analysis.html:78
 msgid "No extra-rhythmic"
 msgstr "Sans extra-rythmiques"
 
-#: gama/templates/gama/analysis.html:69
+#: gama/templates/gama/analysis.html:89
 msgid "New analysis"
 msgstr "Nouvelle analyse"
 
-#: gama/templates/gama/analysis.html:71
+#: gama/templates/gama/analysis.html:91
 msgid "Download results (ZIP)"
 msgstr "Télécharger les résultats (ZIP)"
 
-#: gama/templates/gama/base.html:52
+#: gama/templates/gama/base.html:24
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA : Galician Metrical Analyzer"
 
-#: gama/templates/gama/base.html:65
-msgid "Home"
-msgstr "Accueil"
-
-#: gama/templates/gama/base.html:69
+#: gama/templates/gama/base.html:29 gama/templates/gama/base.html:59
+#: gama/templates/gama/base.html:83
 msgid "About"
 msgstr "À propos"
+
+#: gama/templates/gama/base.html:57 gama/templates/gama/base.html:80
+msgid "Home"
+msgstr "Accueil"
 
 #: gama/templates/gama/error.html:9
 msgid "Error!"
@@ -112,85 +117,109 @@ msgstr "Texte à analyser"
 msgid "Enter your text here..."
 msgstr "Entrez votre texte ici..."
 
-#: gama/templates/gama/index.html:21
+#: gama/templates/gama/index.html:23
 msgid "(Optional)"
 msgstr "(Optionnelles)"
 
-#: gama/templates/gama/index.html:23
+#: gama/templates/gama/index.html:29
 msgid "Corpus name"
 msgstr "Nom du corpus :"
 
-#: gama/templates/gama/index.html:28
-msgid "Title"
-msgstr "Titre"
-
-#: gama/templates/gama/index.html:33
-msgid "Subtitle"
-msgstr "Sous-titre"
-
-#: gama/templates/gama/index.html:38
+#: gama/templates/gama/index.html:34
 msgid "Author"
 msgstr "Auteur·e"
 
+#: gama/templates/gama/index.html:39
+msgid "Date"
+msgstr ""
+
 #: gama/templates/gama/index.html:44
+msgid "Text title"
+msgstr "Titre :"
+
+#: gama/templates/gama/index.html:49
+msgid "Subtitle"
+msgstr "Sous-titre"
+
+#: gama/templates/gama/index.html:57
+msgid "Or use an example"
+msgstr "Ou choisissez un exemple"
+
+#: gama/templates/gama/index.html:62
+msgid "Select a text"
+msgstr "Sélectionnez un texte"
+
+#: gama/templates/gama/index.html:71
+msgid "Clear"
+msgstr "Effacer"
+
+#: gama/templates/gama/index.html:72
 msgid "Submit"
 msgstr "Envoyer"
 
-#: gama/views.py:133
+#: gama/views.py:150
 msgid "The input text cannot be empty."
 msgstr "Le texte à analyser ne peut pas être vide."
 
-#: gama/views.py:135
+#: gama/views.py:152
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
 msgstr ""
 "Le texte à analyser est trop long. Longueur maximale : 4500 caractères."
 
-#: gama/views.py:137
-#, fuzzy
-#| msgid "The input text does not look like poetry in verse (lines too long?)."
-msgid "The input text does not look like poetry in verse (lines tool long?)."
+#: gama/views.py:154
+msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr ""
 "Le texte à analyser ne semble pas être en vers (lignes trop longues ?)."
 
-#: gama/views.py:140
+#: gama/views.py:157
 msgid "An unexpected error occurred."
 msgstr "Une erreur inattendue est survenue."
 
-#: gama/views.py:177
+#: gama/views.py:199
 msgid "corpus_name"
 msgstr "nom_du_corpus"
 
-#: gama/views.py:178
+#: gama/views.py:199
 msgid "title"
 msgstr "titre"
 
-#: gama/views.py:179
+#: gama/views.py:199
 msgid "subtitle"
 msgstr "sous_titre"
 
-#: gama/views.py:180
+#: gama/views.py:199
 msgid "author"
 msgstr "auteur"
 
-#: gama/views.py:185 gama/views.py:192
+#: gama/views.py:199
+msgid "date"
+msgstr ""
+
+#: gama/views.py:205 gama/views.py:212
 msgid "original_text"
 msgstr "texte_original"
 
-#: gama/views.py:185 gama/views.py:193
+#: gama/views.py:205 gama/views.py:213
 msgid "preprocessing"
 msgstr "pretraitement"
 
-#: gama/views.py:186 gama/views.py:194
+#: gama/views.py:206 gama/views.py:214
 msgid "metrical_syllables"
 msgstr "syllabes_metriques"
 
-#: gama/views.py:186 gama/views.py:195
+#: gama/views.py:206 gama/views.py:215
 msgid "stressed_syllables"
 msgstr "syllabes_accentuees"
 
-#: gama/views.py:186 gama/views.py:196
+#: gama/views.py:206 gama/views.py:216
 msgid "no_extra_rhythmic"
 msgstr "sans_extra_rythmiques"
+
+#~ msgid "Choose an example"
+#~ msgstr "Choisissez un exemple"
+
+#~ msgid "Title"
+#~ msgstr "Titre"
 
 #~ msgid "Unnamed corpus"
 #~ msgstr "Corpus sans nom"
@@ -206,9 +235,6 @@ msgstr "sans_extra_rythmiques"
 
 #~ msgid "(Default values will be used if empty)"
 #~ msgstr "(Des valeurs par défaut seront utilisées si les champs sont vides)"
-
-#~ msgid "Text title"
-#~ msgstr "Titre :"
 
 #~ msgid "English"
 #~ msgstr "Anglais"
