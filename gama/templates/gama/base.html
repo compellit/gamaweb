@@ -25,8 +25,8 @@
             <h1 class="mb-3 site-title"><a class="site-title" href="{% url 'gama:index' %}">{% trans "GAMA: Galician Metrical Analyzer" %}</a></h1>
             <!-- Container droite -->
             <div class="d-flex align-items-center gap-3">
-                <!-- Liens dans navbar avant menu langues -->
-                <div class="d-flex align-items-center gap-2">                
+                <!-- Liens dans navbar avant menu langues (hidden on small screens cos gonna go on sidebar) -->
+                <div class="d-none d-sm-flex align-items-center gap-2">                
                     <a href="{% url 'gama:about' %}" class="lang-link">{% trans "About" %}</a>
                 </div>    
                 <!-- Menu langues -->
