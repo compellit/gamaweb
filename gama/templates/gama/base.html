@@ -26,7 +26,7 @@
             <div class="d-flex align-items-center gap-3">
                 <!-- Liens dans navbar avant menu langues -->
                 <div class="d-flex align-items-center gap-2">                
-                    <a href="#" class="lang-link">{% trans "About" %}</a>
+                    <a href="{% url 'gama:about' %}" class="lang-link">{% trans "About" %}</a>
                 </div>    
                 <!-- Menu langues -->
                 <div class="d-flex flex-column gap-1 text-white" style="line-height: 1.2;">
@@ -88,6 +88,8 @@
     <!-- body !-->
     <main class="container-fluid py-0 my-0">
         {% block content %}{% endblock %}
+        <!-- Spacer to avoid footer overlap -->
+        <div style="height: 80px;"></div>
     </main>
 <!-- footer !-->
 <footer class="footer fixed-bottom py-2 bg-dark border-top w-100 custom-footer">
@@ -98,7 +100,7 @@
         <div class="d-flex align-items-center">
             <span class="text-white me-2">Grant ID: <a href="https://cordis.europa.eu/project/id/101149659" target="_blank" rel="noopener">101149659 MSCA-PF</a></span>
                 <a href="https://cordis.europa.eu/project/id/101149659" target="_blank" rel="noopener">
-                <img src="/static/img/eu-white-text.png" alt="EU Funded" style="height: 50px;">
+                <img src="{% static 'img/eu-white-text.png' %}"  alt="EU Funded" style="height: 50px;">
                 </a>
         </div>
     </div>
