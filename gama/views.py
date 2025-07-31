@@ -17,25 +17,36 @@ import uuid
 import re
 import csv
 import tempfile
+import json
+import os
 
 from gumper import config as gcf
 from gumper.gumper_client_web import main as gumper_main
 
 
 DBG = False
+DEFAULTS_TO_TRANSLATE = {
+    "corpus_name": ["Unnamed corpus"],
+    "doc_name": ["Untitled"],
+    "doc_subtitle": ["—"],
+    "author": ["Unknown"],
+    "date": ["—"],
+}
+
+def load_example_poems():
+    example_path = os.path.join(settings.BASE_DIR, "gama", "ext_data", "ex_poem.json")
+    try:
+        with open(example_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
     request.session.pop('analysis_data', None)
     request.session.pop('curid', None)
-    return render(request, "gama/index.html")
-
-DEFAULTS_TO_TRANSLATE = {
-    "corpus_name": ["—"],
-    "doc_name": ["—"],
-    "doc_subtitle": ["—"],
-    "author": ["—"],
-}
+    example_poems = load_example_poems()
+    return render(request, "gama/index.html", {"example_poems": example_poems})
 
 def translate_if_default(value, key):
     if value in DEFAULTS_TO_TRANSLATE.get(key, []):
@@ -59,7 +70,8 @@ def analysis(request):
         corpus_name_key = request.POST.get("corpus_name") or "—"
         doc_name_key = request.POST.get("doc_name") or "—"
         doc_subtitle_key = request.POST.get("doc_subtitle") or "—"
-        author_key = request.POST.get("author") or "—"
+        author_key = request.POST.get("author") or "Unknown"
+        date_key = request.POST.get("date") or "—"
 
         request.session['analysis_data'] = {
             "text": text,
@@ -67,6 +79,7 @@ def analysis(request):
             "doc_name": doc_name_key,
             "doc_subtitle": doc_subtitle_key,
             "author": author_key,
+            "date": date_key,
         }
 
         request.session["curid"] = str(uuid.uuid4())[0:6]
@@ -110,11 +123,13 @@ def analysis(request):
         doc_name_key = analysis_data.get("doc_name", "Untitled")
         doc_subtitle_key = analysis_data.get("doc_subtitle", "—")
         author_key = analysis_data.get("author", "Unknown")
+        date_key = analysis_data.get("date", "—")
 
     corpus_name = translate_if_default(corpus_name_key, "corpus_name")
     doc_name = translate_if_default(doc_name_key, "doc_name")
     doc_subtitle = translate_if_default(doc_subtitle_key, "doc_subtitle")
     author = translate_if_default(author_key, "author")
+    date = translate_if_default(date_key, "date")
 
     context = {
         "text": text,
@@ -122,6 +137,7 @@ def analysis(request):
         "doc_name": doc_name,
         "doc_subtitle": doc_subtitle,
         "author": author,
+        "date": date,
         "result": request.session.get('analysis_result', ""),
     }
 
@@ -140,8 +156,11 @@ def error(request, errtype):
         return render(request, "gama/error.html", {
             "message": _("An unexpected error occurred.")
         })
+
+    example_poems = load_example_poems()
     context = {
         "error_message": err_message,
+        "example_poems": example_poems,
     }
     return render(request, "gama/index.html", context)
 
@@ -161,11 +180,13 @@ def export_results(request):
     doc_name_key = analysis_data.get("doc_name", "Untitled")
     doc_subtitle_key = analysis_data.get("doc_subtitle", "—")
     author_key = analysis_data.get("author", "Unknown")
+    date_key = analysis_data.get("date", "—")
 
     corpus_name = translate_if_default(corpus_name_key, "corpus_name")
     doc_name = translate_if_default(doc_name_key, "doc_name")
     doc_subtitle = translate_if_default(doc_subtitle_key, "doc_subtitle")
     author = translate_if_default(author_key, "author")
+    date = translate_if_default(date_key, "date")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # input.txt
@@ -175,10 +196,8 @@ def export_results(request):
         # metadata.tsv
         with open(f"{tmpdir}/metadata.tsv", "w", encoding="utf-8", newline="") as f:
             writer = csv.writer(f, delimiter="\t")
-            writer.writerow([_("corpus_name"), corpus_name])
-            writer.writerow([_("title"), doc_name])
-            writer.writerow([_("subtitle"), doc_subtitle])
-            writer.writerow([_("author"), author])
+            writer.writerow([_("corpus_name"), _("title"), _("subtitle"), _("author"), _("date")])
+            writer.writerow([corpus_name, doc_name, doc_subtitle, author,date])
 
         # results.tsv
         with open(f"{tmpdir}/results.tsv", "w", encoding="utf-8", newline="") as f:
