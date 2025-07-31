@@ -75,7 +75,8 @@ coverage.xml
 .hypothesis/
 
 # Translations
-*.mo
+# commented to avoid having to generate them on server
+#*.mo
 *.pot
 
 # Django stuff:
