@@ -260,6 +260,7 @@ a {
 
 a {
   text-decoration: none;
+  color: var(--color-green-dark)
 }
 
 /* modifs pr base template */
