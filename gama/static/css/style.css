@@ -272,6 +272,24 @@ a {
     height: 80px;
 }
 
+@media (max-width: 650px) {
+  .small-text-mobile {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.05rem !important;
+    padding-top: 0.05rem !important;
+    padding-bottom: 0.05rem !important;
+  }
+
+  .small-text-mobile * {
+    font-size: 0.75rem !important;
+  }
+
+  .small-text-mobile img {
+    height: 20px;
+  }
+}
+
 /* modifs pr index template */
 
 .left-border-gr {
