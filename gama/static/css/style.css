@@ -276,7 +276,7 @@ a {
 @media (max-width: 650px) {
   .small-text-mobile {
     flex-direction: column !important;
-    align-items: flex-start !important;
+    //align-items: flex-start !important;
     gap: 0.05rem !important;
     padding-top: 0.05rem !important;
     padding-bottom: 0.05rem !important;
