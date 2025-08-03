@@ -255,7 +255,6 @@ a {
     text-decoration: none;    
 }
 
-
 /* modifs pr overall */
 
 a {
@@ -269,26 +268,25 @@ a {
     color: var(--color-green-dark) !important;
 }
 
-.custom-footer {
-    height: 80px;
-}
+/*    pour éléments sous footer  */   
 
 @media (max-width: 650px) {
-  .small-text-mobile {
-    flex-direction: column !important;
-    //align-items: flex-start !important;
-    gap: 0.05rem !important;
-    padding-top: 0.05rem !important;
-    padding-bottom: 0.05rem !important;
-  }
+    .small-text-mobile {
+        gap: 0.05rem !important;
+        padding-top: 0.05rem !important;
+        padding-bottom: 0.05rem !important;
+        font-size: 0.75em;
+    }
+}
 
-  .small-text-mobile * {
-    font-size: 0.75rem !important;
-  }
-
-  .small-text-mobile img {
-    height: 20px;
-  }
+#funded-eu{  
+    height: 50px !important;
+}
+    
+@media (max-width: 650px) {
+    #funded-eu {
+        height: 30px !important;
+    }
 }
 
 /* modifs pr index template */
@@ -303,8 +301,7 @@ table.dataTable thead th {
     text-align: center; !important;
     white-space: normal !important;
     word-wrap: break-word;
-    table-layout: auto !important;
-    
+    table-layout: auto !important;    
 }
 
 /* pr 'about' template */
