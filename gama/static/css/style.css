@@ -9,8 +9,11 @@
 }
 
 body {
-    padding: 2rem;
-    background-color: #f9f9f9;
+    padding-top: 0.75rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    //background-color: #f9f9f9;
     }
 
 table th, table td {
@@ -101,7 +104,7 @@ h3::after {
 }
 
 .navbar-custom {
-    background-color: #f9f9f9;
+    //background-color: #f9f9f9;
     border-bottom: 1px solid var(--color-green-dark);
 }
 
@@ -246,4 +249,61 @@ th:hover {
 
 .form-select:focus {
     box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* modifs pr overall */
+
+a {
+  text-decoration: none;
+}
+
+/* modifs pr base template */
+
+.site-title{
+    color: var(--color-green-dark) !important;
+}
+
+
+/* modifs pr index template */
+
+.left-border-gr {
+    border-left: 5px solid var(--color-green);
+}
+
+/* modifs pr analysis template */
+
+table.dataTable thead th {
+    text-align: center; !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    table-layout: auto !important;
+
+}
+
+/* pr 'about' template */
+
+.text-110 {
+    font-size: 110%;
+}
+
+.custom-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.vertical-separator {
+    width: 2px;
+    height: 30px;
+    background-color: var(--color-green-dark);
 }

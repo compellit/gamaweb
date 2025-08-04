@@ -13,9 +13,9 @@ if __name__ == "__main__":
     args = parse_args()
     with open(args.in_file, "r", encoding="utf-8") as infi:
         word_list = set([line.strip() for line in infi if line.strip()])
-    
+
     print(f"Loaded {len(word_list)} words")
-    
+
     # Save to Pickle file (binary mode)
     with open(args.out_file, "wb") as oufi:
         # Protocol 4: good for cross-platform, large files

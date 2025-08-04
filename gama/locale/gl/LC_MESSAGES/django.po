@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-29 14:03+0200\n"
+"POT-Creation-Date: 2025-08-01 15:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,8 @@ msgstr ""
 msgid "Results"
 msgstr "Resultados"
 
-#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\index.html:22
+#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\error.html:22
+#: .\gama\templates\gama\index.html:22
 msgid "Metadata"
 msgstr "Metadatos"
 
@@ -32,7 +33,7 @@ msgstr "Nome do corpus:"
 
 #: .\gama\templates\gama\analysis.html:22
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Autor·a:"
 
 #: .\gama\templates\gama\analysis.html:26
 msgid "Date:"
@@ -52,7 +53,7 @@ msgstr "Escansión"
 
 #: .\gama\templates\gama\analysis.html:52
 msgid "Show Preprocessing"
-msgstr "Amosar o Preprocesamento"
+msgstr "Amosar preprocesamento"
 
 #: .\gama\templates\gama\analysis.html:63
 msgid "Original text"
@@ -86,115 +87,127 @@ msgstr "Nova análise"
 msgid "Download results (ZIP)"
 msgstr "Descargar resultados (ZIP)"
 
-#: .\gama\templates\gama\base.html:24
+#: .\gama\templates\gama\base.html:25
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: .\gama\templates\gama\base.html:50 .\gama\templates\gama\base.html:73
+#: .\gama\templates\gama\base.html:29 .\gama\templates\gama\base.html:60
+#: .\gama\templates\gama\base.html:84
+msgid "About"
+msgstr "O proxecto"
+
+#: .\gama\templates\gama\base.html:58 .\gama\templates\gama\base.html:81
 msgid "Home"
 msgstr "Inicio"
 
-#: .\gama\templates\gama\base.html:52 .\gama\templates\gama\base.html:76
-msgid "About"
-msgstr "Sobre"
-
-#: .\gama\templates\gama\error.html:9
-msgid "Error!"
-msgstr "Erro!"
-
-#: .\gama\templates\gama\error.html:12
-msgid "Back"
-msgstr "Volver"
-
-#: .\gama\templates\gama\index.html:12
+#: .\gama\templates\gama\error.html:12 .\gama\templates\gama\index.html:12
 msgid "Input text for analysis"
 msgstr "Texto para análise"
 
-#: .\gama\templates\gama\index.html:18
+#: .\gama\templates\gama\error.html:18 .\gama\templates\gama\index.html:18
 msgid "Enter your text here..."
-msgstr "Introduza o seu texto aquí..."
+msgstr "Introduce o texto aquí..."
 
-#: .\gama\templates\gama\index.html:23
-msgid "(Default values will be used if empty)"
-msgstr "(Usaranse valores predeterminados se está baleiro)"
+#: .\gama\templates\gama\error.html:23 .\gama\templates\gama\index.html:23
+msgid "(Optional)"
+msgstr "(Opcionais)"
 
-#: .\gama\templates\gama\index.html:29
+#: .\gama\templates\gama\error.html:29 .\gama\templates\gama\index.html:29
 msgid "Corpus name"
 msgstr "Nome do corpus"
 
-#: .\gama\templates\gama\index.html:34
+#: .\gama\templates\gama\error.html:34 .\gama\templates\gama\index.html:34
 msgid "Author"
-msgstr "Autor"
+msgstr "Autor·a"
 
-#: .\gama\templates\gama\index.html:39
+#: .\gama\templates\gama\error.html:39 .\gama\templates\gama\index.html:39
 msgid "Date"
 msgstr "Data"
 
-#: .\gama\templates\gama\index.html:44
+#: .\gama\templates\gama\error.html:44 .\gama\templates\gama\index.html:44
 msgid "Text title"
 msgstr "Título"
 
-#: .\gama\templates\gama\index.html:49
+#: .\gama\templates\gama\error.html:49 .\gama\templates\gama\index.html:49
 msgid "Subtitle"
 msgstr "Subtítulo"
 
-#: .\gama\templates\gama\index.html:57
+#: .\gama\templates\gama\error.html:57 .\gama\templates\gama\index.html:57
+msgid "Or use an example"
+msgstr "Ou escolle un exemplo"
+
+#: .\gama\templates\gama\error.html:62 .\gama\templates\gama\index.html:62
+msgid "Select a text"
+msgstr "Escolle un texto"
+
+#: .\gama\templates\gama\error.html:71 .\gama\templates\gama\index.html:71
+msgid "Clear"
+msgstr "Limpar"
+
+#: .\gama\templates\gama\error.html:72 .\gama\templates\gama\index.html:72
 msgid "Submit"
 msgstr "Enviar"
 
-#: .\gama\views.py:139
+#: .\gama\templates\gama\index.html:60
+msgid "Choose an example"
+msgstr "Escolle un texto"
+
+#: .\gama\views.py:145
 msgid "The input text cannot be empty."
 msgstr "O texto de entrada non pode estar baleiro."
 
-#: .\gama\views.py:141
+#: .\gama\views.py:147
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
-msgstr "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
+msgstr ""
+"O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
-#: .\gama\views.py:143
-msgid "The input text does not look like poetry in verse (lines tool long?)."
-msgstr "O texto non semella estar en verso (liñas demasiado longas?)."
+#: .\gama\views.py:149
+#, fuzzy
+#| msgid "The input text does not look like poetry in verse (lines too long?)."
+msgid "The input text does not seem to be in verse (lines too long?)."
+msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: .\gama\views.py:146
+#: .\gama\views.py:152
 msgid "An unexpected error occurred."
-msgstr "Produciuse un erro inesperado."
+msgstr "Ocorreu un erro inesperado."
 
-#: .\gama\views.py:185
+#: .\gama\views.py:194
 msgid "corpus_name"
 msgstr "nome_do_corpus"
 
-#: .\gama\views.py:185
+#: .\gama\views.py:194
 msgid "title"
 msgstr "sen_titulo"
 
-#: .\gama\views.py:185
+#: .\gama\views.py:194
 msgid "subtitle"
 msgstr "subtitulo"
 
-#: .\gama\views.py:185
+#: .\gama\views.py:194
 msgid "author"
 msgstr "autor"
 
-#: .\gama\views.py:185
+#: .\gama\views.py:194
 msgid "date"
-msgstr "date"
+msgstr ""
 
-#: .\gama\views.py:191 .\gama\views.py:198
+#: .\gama\views.py:200 .\gama\views.py:207
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: .\gama\views.py:191 .\gama\views.py:199
+#: .\gama\views.py:200 .\gama\views.py:208
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: .\gama\views.py:192 .\gama\views.py:200
+#: .\gama\views.py:201 .\gama\views.py:209
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: .\gama\views.py:192 .\gama\views.py:201
+#: .\gama\views.py:201 .\gama\views.py:210
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: .\gama\views.py:192 .\gama\views.py:202
+#: .\gama\views.py:201 .\gama\views.py:211
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
@@ -210,6 +223,15 @@ msgstr "Francés"
 msgid "Galician"
 msgstr "Galego"
 
+#~ msgid "Error!"
+#~ msgstr "Erro!"
+
+#~ msgid "Back"
+#~ msgstr "Volver"
+
+#~ msgid "Title"
+#~ msgstr "Título"
+
 #~ msgid "Unnamed corpus"
 #~ msgstr "Corpus sen nome"
 
@@ -221,3 +243,6 @@ msgstr "Galego"
 
 #~ msgid "Metrical Analysis Tool"
 #~ msgstr "Ferramenta de análise métrica para o galego"
+
+#~ msgid "(Default values will be used if empty)"
+#~ msgstr "(Usaranse valores predeterminados se está baleiro)"

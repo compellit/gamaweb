@@ -20,7 +20,7 @@
     <!-- Bloc métadonnées -->
         <h3 class="mb-0 mt-4">
             {%trans "Metadata" %}
-            <small class="text-muted">{%trans "(Default values will be used if empty)" %}</small>
+            <small class="text-muted">{%trans "(Optional)" %}</small>
         </h3>
 
         <div class="container-fluid px-0 my-0">
@@ -54,10 +54,10 @@
 
     <!-- Txt exemple -->
     <h3 class="mb-3">
-            {%trans "Poem examples" %}
+            {%trans "Or use an example" %}
     </h3>
         <div class="mb-3">
-            <label for="exampleSelector" class="form-label">{% trans "Choose an example" %}</label>
+{#            <label for="exampleSelector" class="form-label">{% trans "Choose an example" %}</label>#}
             <select id="exampleSelector" class="form-select">
                 <option value="">{% trans "Select a text" %}</option>
                 {% for key, ex in example_poems.items %}
@@ -67,7 +67,7 @@
         </div>
 
         <!-- Bouton envoi -->
-        <section class="d-flex justify-content-between mt-4 mb-4">
+        <section class="d-flex justify-content-between mt-4">
             <button type="button" class="btn btn-beige" id="clearBtn">{% trans "Clear" %}</button>
             <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
         </section>

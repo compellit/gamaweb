@@ -53,17 +53,18 @@ def write_output_file(poem_lines, outinfo, poem_id):
         for idx, info in enumerate(info_list):
             postpro_text = info[1]
             keeps = [poem_lines[outer_idx][idx], postpro_text,  # orig lines + my own postpro
-                     info[2],                                   # nbSyll, met, met no antirhythmic
+                     info[2],  # nbSyll, met, met no antirhythmic
                      " ".join([str(x) for x in info[3]]),
                      " ".join([str(x) for x in info[4]]),
-                     f"{100*info[-1]:.2f}",                     # match ratio with pattern
-                     info[-2]]                                  # meter name
+                     f"{100 * info[-1]:.2f}",  # match ratio with pattern
+                     info[-2]]  # meter name
             out_lines.append(keeps)
     ouname = cf.oufi.stem + f"_{str.zfill(poem_id, 3)}" + cf.oufi.suffix
     with open(cf.oufi.with_name(ouname), "w", encoding="utf-8") as oufh:
         for line in out_lines:
             oufh.write("\t".join([str(x) for x in line]) + "\n")
-    
+
+
 def read_gold_stress_patterns(gold_location):
     """
     Reads the gold stress patterns from a file.

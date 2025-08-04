@@ -33,6 +33,21 @@ DEFAULTS_TO_TRANSLATE = {
     "date": ["—"],
 }
 
+def handle_language(request):
+    lang = None
+    if request.method == "POST":
+        lang = request.POST.get("language")
+    if not lang:
+        lang = request.GET.get("lang")
+    if lang:
+        translation.activate(lang)
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    else:
+        lang = request.session.get(translation.LANGUAGE_SESSION_KEY, settings.LANGUAGE_CODE)
+        translation.activate(lang)
+    return lang
+
+
 def load_example_poems():
     example_path = os.path.join(settings.BASE_DIR, "gama", "ext_data", "ex_poem.json")
     try:
@@ -43,6 +58,7 @@ def load_example_poems():
 
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
+    handle_language(request)
     request.session.pop('analysis_data', None)
     request.session.pop('curid', None)
     example_poems = load_example_poems()
@@ -54,21 +70,19 @@ def translate_if_default(value, key):
     return value
 
 def analysis(request):
-    lang = request.POST.get('language')
-    if lang:
-        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    handle_language(request)
 
-    if request.method == "POST" and request.POST.get("text"):
+    if request.method == "POST":
         text = request.POST.get("text", "")
         if not text:
             return redirect("gama:error", errtype="empty")
         if len(text) > 4500:
             return redirect("gama:error", errtype="too_long")
-        if any(len(line.strip()) > 100 for line in text.splitlines() if line.strip()):
+        if any(len(line.strip()) > 200 for line in text.splitlines() if line.strip()):
             return redirect("gama:error", errtype="not_verse")
 
-        corpus_name_key = request.POST.get("corpus_name") or "Unnamed corpus"
-        doc_name_key = request.POST.get("doc_name") or "Untitled"
+        corpus_name_key = request.POST.get("corpus_name") or "—"
+        doc_name_key = request.POST.get("doc_name") or "—"
         doc_subtitle_key = request.POST.get("doc_subtitle") or "—"
         author_key = request.POST.get("author") or "Unknown"
         date_key = request.POST.get("date") or "—"
@@ -110,47 +124,45 @@ def analysis(request):
         request.session['analysis_result'] = "".join(scansion)
         request.session['results_data'] = results_data
 
-    else:
-        analysis_data = request.session.get('analysis_data')
-        analysis_result = request.session.get('analysis_result')
+        #Redirection nouvelle view pour PRG
+        return redirect("gama:analysis_result")
 
-        if not analysis_data or not analysis_result:
-            return redirect("gama:error", errtype="empty")
+    return redirect("gama:index")
 
-        text = analysis_data.get("text", "")
-        corpus_name_key = analysis_data.get("corpus_name", "Unnamed corpus")
-        doc_name_key = analysis_data.get("doc_name", "Untitled")
-        doc_subtitle_key = analysis_data.get("doc_subtitle", "—")
-        author_key = analysis_data.get("author", "Unknown")
-        date_key = analysis_data.get("date", "—")
+def analysis_result(request):
+    handle_language(request)
+    analysis_data = request.session.get("analysis_data")
+    analysis_result = request.session.get("analysis_result")
 
-    corpus_name = translate_if_default(corpus_name_key, "corpus_name")
-    doc_name = translate_if_default(doc_name_key, "doc_name")
-    doc_subtitle = translate_if_default(doc_subtitle_key, "doc_subtitle")
-    author = translate_if_default(author_key, "author")
-    date = translate_if_default(date_key, "date")
+    if not analysis_data or not analysis_result:
+        return redirect("gama:error", errtype="empty")
+
+    corpus_name = translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
+    doc_name = translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
+    doc_subtitle = translate_if_default(analysis_data.get("doc_subtitle", "—"), "doc_subtitle")
+    author = translate_if_default(analysis_data.get("author", "Unknown"), "author")
+    date = translate_if_default(analysis_data.get("date", "—"), "date")
 
     context = {
-        "text": text,
+        "text": analysis_data.get("text", ""),
         "corpus_name": corpus_name,
         "doc_name": doc_name,
         "doc_subtitle": doc_subtitle,
         "author": author,
         "date": date,
-        "result": request.session.get('analysis_result', ""),
+        "result": analysis_result,
     }
 
     return render(request, "gama/analysis.html", context)
 
-
-
 def error(request, errtype):
+    handle_language(request)
     if errtype == "empty":
         err_message = _("The input text cannot be empty.")
     elif errtype == "too_long":
         err_message = _("The input text is too long. Maximum length allowed: 4500 characters.")
     elif errtype == "not_verse":
-        err_message = _("The input text does not look like poetry in verse (lines tool long?).")
+        err_message = _("The input text does not seem to be in verse (lines too long?).")
     else:
         return render(request, "gama/error.html", {
             "message": _("An unexpected error occurred.")
@@ -164,8 +176,7 @@ def error(request, errtype):
     return render(request, "gama/index.html", context)
 
 def export_results(request):
-    lang = request.LANGUAGE_CODE
-    translation.activate(lang)
+    handle_language(request)
 
     analysis_data = request.session.get("analysis_data")
     results_data = request.session.get("results_data")
@@ -226,3 +237,10 @@ def export_results(request):
             response = HttpResponse(f.read(), content_type="application/zip")
             response["Content-Disposition"] = f"attachment; filename={zip_filename}"
             return response
+
+def about(request):
+    """'About' page for each language."""
+    handle_language(request)
+    lang = request.LANGUAGE_CODE
+    translation.activate(lang)
+    return render(request, f"gama/about/about_{lang}.html")

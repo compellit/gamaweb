@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-10 col-lg-8">
-        <h2 class="mb-3">{% trans "Results" %}</h2>
+        <h2 class="mb-3 mt-3">{% trans "Results" %}</h2>
 <!-- Bloc métadonnées -->
 
         <section class="text-info-block mt-3">
@@ -14,25 +14,25 @@
                 <h3 class="mb-1">{%trans "Metadata" %}</h3>
                     <div class="container-fluid my-0">
                         <div class="row mb-0 metad">
-                            <div class="col-md-4 d-flex">
+                            <div class="col-md-4">
                                 <strong class="me-2">{% trans "Corpus name:" %}</strong>
                                 <span>{{ corpus_name }}</span>
                             </div>
-                            <div class="col-md-4 d-flex">
+                            <div class="col-md-4">
                                 <strong class="me-2">{% trans "Author:" %}</strong>
                                 <span>{{ author }}</span>
                             </div>
-                            <div class="col-md-4 d-flex">
+                            <div class="col-md-4">
                                 <strong class="me-2">{% trans "Date:" %}</strong>
                                 <span>{{ date }}</span>
                             </div>
                         </div>
                         <div class="row mb-0 metad">
-                            <div class="col-md-4 d-flex">
+                            <div class="col-md-4">
                                 <strong class="me-2">{% trans "Title:" %}</strong>
                                 <span>{{ doc_name }}</span>
                             </div>
-                            <div class="col-md-4 d-flex">
+                            <div class="col-md-4">
                                 <strong class="me-2">{% trans "Subtitle:" %}</strong>
                                 <span>{{ doc_subtitle }}</span>
                             </div>
@@ -106,6 +106,7 @@ $(document).ready(function () {
     const table = $('#myTable').DataTable({
         responsive: true,
         paging: true,
+        pageLength: 100,
         searching: true,
         ordering: true,
         language: {
@@ -115,9 +116,9 @@ $(document).ready(function () {
 
     document.getElementById("togglePreprocessing").addEventListener("change", function () {
         const show = this.checked;
-        const column = table.column('.col-preprocessing'); // sélectionne la colonne via sa classe
-        column.visible(show);  // montre ou cache la colonne via DataTables
-        table.columns.adjust().draw();  // ajuste la largeur et redessine le tableau
+        const column = table.column('.col-preprocessing');
+        column.visible(show);
+        table.columns.adjust().draw();
     });
 });
 

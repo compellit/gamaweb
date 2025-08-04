@@ -1,0 +1,66 @@
+{% extends "gama/base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+
+<div class="row m-3 text-110">
+    <div>
+        <h2>À propos</h2>
+        <h3>Introduction</h3>
+        <p>L'outil effectue une analyse métrique de poésie en galicien, et donne comme sortie:</p>
+        <ul>
+            <li>Le nombre de syllabes métriques de chaque vers</li>
+            <li>Le schéma accentuel formé par les positions des syllabes métriques accentuées</li>
+            <li>Le schéma accentuel excluant les accents extrarythmiques (qui se trouvent en dehors du schéma rythmique principal d'un vers)</li>
+        </ul>
+        <p>GAMA fait partie du projet <a target="_blank" href="https://compellit.github.io/">COMPEL</a>.</p>
+    </div>
+    <div>
+        <h3>Fonctionnement</h3>
+        <p>L'analyse métrique s'appuie sur la bibliothèque <a target="_blank" href="https://github.com/grmarco/jumper">JUMPER</a> créée par Marco Remón &amp; Gonzalo (2021), qui fournit une scansion sans syllabation préalable. JUMPER est spécialisé dans l'espagnol et nous avons apporté quelques modifications pour utiliser la bibliothèque avec des textes en galicien :</p>
+        <ul>
+            <li>La liste des diphtongues et des mots lexicalement non accentués a été adaptée au galicien. Pour cela, nous avons consulté des travaux tels que Carballo Calero (1966) et Freixeiro Mato (2006).</li>
+            <li>Un module de prétraitement a été développé, qui s'applique au texte original du poème avant son analyse métrique. Le prétraitement se charge de deux opérations :
+                <ul>
+                    <li>Premièrement, il rapproche l'orthographe des textes de l'orthographe actuelle du galicien (selon la norme ILG/RAG)&nbsp; le prétraitement a été testé sur des textes du XIXᵉ siècle. Ce traitement est utile pour toute analyse ultérieure, comme l'étiquetage grammatical ou en dépendances utilisant un modèle entraîné pour le galicien contemporain.</li>
+                    <li>Deuxièmement, exclusivement pour l'analyse métrique avec JUMPER, une version du texte est créée dans laquelle les accents graphiques sont rapprochés des conventions orthographiques de l'espagnol. Cela aide JUMPER dans la scansion dans les cas où les conventions d'accentuation graphique en galicien ne correspondent pas à celles de l'espagnol. L'espagnol contemporain dispose de règles orthographiques très explicites pour l'accentuation graphique, permettant d'identifier sans ambiguïté les syllabes lexicales avec accent prosodique, tandis que les conventions galiciennes présentent un peu plus d'ambiguïté.</li>
+                </ul>
+        </ul>
+    </div>
+    <div>
+        <h3>Crédits</h3>
+        <p>Le projet a commencé en avril 2025. Le code pour l'application sera publié à l'avenir, en accord avec les requis du projet. </p>
+        <!-- ajout lien pour Pauline (LinkedIn ou autre profil) si Pauline d'accord -->
+        <p>L'application est en cours de développement par Pauline Moreau e <a target="_blank" href="https://citius.gal/gl/team/pablo-ruiz-fabo/">Pablo Ruiz Fabo</a> (IP).</p>
+        <p>L'analyse métrique repose sur l'algorithme de JUMPER (v. supra).</p>
+        <p>Le vocabulaire pour le galicien est basé sur une combinaison de termres des dictionnaires de <a target="_blank" href="https://github.com/citiususc/Linguakit">Linguakit</a> (Gamallo et al., 2018) et <a target="_blank" href="https://github.com/apertium/apertium-glg">Apertium</a> (Forcada & Tyers, 2016).</p>
+        <p>Un modèle de normalisation orthographique contextuelle a été entraîné avec des textes du corpus du <a target="_blank" href="https://nos.gal/es/proxecto-nos/recursos">projet Nós</a> (Gamallo et al., 2024).</p>
+        <p>Le travail a été soutenu par l'Union européenne (<a target="_blank" href="https://cordis.europa.eu/project/id/101149659">101149659 MSCA-PF 2023)</a></p>
+    </div>
+    <div>
+        <h3>Citation</h3>
+        <p>Moreau, P. & Ruiz Fabo, P. (2025). GAMA web: Interface for the metrical analysis of Galician poetry. CiTIUS - Universidade de Santiago de Compostela.</p>
+    </div>
+    <div>
+        <h3>Références</h3>
+        <ul>
+            <li>Carballo Calero, Ramón (1966). <em>Gramática elemental del gallego común</em>. Vigo: Galaxia.</li>
+            <li>Forcada, Mikel L. & Tyers, Francis M. (2016). Apertium: a free/open source platform for machine translation and basic language technology. In <em>Proceedings of the 19th Annual Conference of the European Association for Machine Translation: Projects/Products</em>. Riga, Latvia.</li>
+            <li>Freixeiro Mato, Xosé (2006). <em>Gramática da lingua galega I - Fonética e fonoloxía</em>. Vigo: Edicións A Nosa Terra.</li>
+            <li>Gamallo, Pablo, Marcos Garcia, César Piñeiro, Rodrigo Martínez-Castaño and Juan C. Pichel (2018). LinguaKit: a Big Data-based multilingual tool for linguistic analysis and information extraction. In <em>Fifth Conference on Social Network Analysis, Management and Security</em>, pp. 239-244. Disponible sur <a target="_blank" href="https://ieeexplore.ieee.org/iel7/8536820/8554420/08554689.pdf?casa_token=HbI-KHotHh4AAAAA:iuGybTlpbquvR2DhKXAmww8BFC01eXSnbX8DzJjIvKagjci3qlg6hGYzIAdzFuH8BtBEnNsF">IEEE Xplore</a>
+            <li>Gamallo, P., Rodríguez, P., Paniagua, S., Bardanca, D., Pichel, J. R., & Garcia, M. (2024.). Open
+            Generative Large Language Models for Galician. <em>Procesamiento del Lenguaje Natural</em>, 73, pp. 259-270. Disponible sur <a target="_blank" href="http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6615">SEPLN</a></li>
+            <li>Marco Remón, G., & Gonzalo, J. (2021). Escansión automática de poesía española sin silabación. <em>Procesamiento del Lenguaje Natural</em>, 66, pp. 77-87. Disponible sur <a target="_blank" href="http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6324">SEPLN</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <p>L'application a été développée avec <a target="_blank" href="https://www.djangoproject.com/">Django</a> et <a target="_blank" href="https://getbootstrap.com/">Bootstrap</a></p>
+        <p>Hébergement: <a target="_blank" href="https://strato.es">strato</a></p>
+    </div>
+</div>
+
+
+{%  endblock %}
