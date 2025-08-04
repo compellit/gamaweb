@@ -37,14 +37,14 @@ def handle_language(request):
     lang = None
     if request.method == "POST":
         lang = request.POST.get("language")
-    if not lang:
-        lang = request.GET.get("lang")
+
     if lang:
         translation.activate(lang)
-        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+        request.LANGUAGE_CODE = lang
     else:
-        lang = request.session.get(translation.LANGUAGE_SESSION_KEY, settings.LANGUAGE_CODE)
+        lang = translation.get_language()
         translation.activate(lang)
+
     return lang
 
 
