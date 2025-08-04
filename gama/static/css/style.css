@@ -217,6 +217,20 @@ th:hover {
     color: #585964;
 }
 
+.navig-link {
+    color: rgba(23, 140, 25, 1);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+    font-size: 1rem;
+}
+
+.navig-link:hover {
+    color: rgba(23, 140, 25, 0.7);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -308,4 +322,9 @@ table.dataTable thead th {
 
 .text-110 {
     font-size: 110%;
+}
+.vertical-separator {
+    width: 2px;
+    height: 30px;
+    background-color: var(--color-green-dark);
 }
