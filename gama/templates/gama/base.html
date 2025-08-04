@@ -26,7 +26,7 @@
             <!-- Container droite -->
             <div class="d-flex align-items-center gap-4">
                 <!-- Liens dans navbar avant menu langues (hidden on small screens cos gonna go on sidebar) -->
-                <a href="{% url 'gama:about' %}" class="lang-link d-none d-sm-inline">{% trans "About" %}</a>
+                <a href="{% url 'gama:about' %}" class="navig-link d-none d-sm-inline">{% trans "About" %}</a>
                 <!-- Séparateur -->
                 <span class="vertical-separator d-none d-sm-inline"></span>
                 <!-- Menu langues -->
@@ -41,14 +41,16 @@
                         <input type="hidden" name="language" value="fr">
                         <input type="hidden" name="next" value="{{ request.path }}">
                     </form>
-                    <form action="{% url 'set_language' %}" method="post" id="lang-gl" style="display: none;">
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}" data-lang="en">en</a>
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}" data-lang="fr">fr</a>
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}" data-lang="gl">gl</a>
+
+                    <form id="lang-form" action="{% url 'set_language' %}" method="post" style="display: none;">
                         {% csrf_token %}
-                        <input type="hidden" name="language" value="gl">
-                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <input type="hidden" name="language" id="lang-input">
+                        <input type="hidden" name="next" id="lang-next" value="{{ request.path }}">
                     </form>
-                    <a href="#" onclick="document.getElementById('lang-en').submit();" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}">en</a>
-                    <a href="#" onclick="document.getElementById('lang-fr').submit();" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}">fr</a>
-                    <a href="#" onclick="document.getElementById('lang-gl').submit();" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}">gl</a>
+
                 </div>
             </div>
         </div>
@@ -107,6 +109,36 @@
         </div>
     </div>
 </footer>
+
+<script>
+    document.querySelectorAll('.lang-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const lang = this.dataset.lang;
+            const form = document.getElementById('lang-form');
+            document.getElementById('lang-input').value = lang;
+            document.getElementById('lang-next').value = window.location.pathname;
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: `language=${lang}&next=${encodeURIComponent(window.location.pathname)}`
+            }).then(() => {
+
+                window.location.replace(window.location.pathname);
+            });
+        });
+    });
+
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+  });
+</script>
 
 </body>
 
