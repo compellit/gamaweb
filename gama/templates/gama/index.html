@@ -3,77 +3,74 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<div class="row justify-content-center mb-4">
-<div class="col-12 col-md-10 col-lg-8 my-0">
-<form action="{% url 'gama:analysis' %}" method="post">
+<div class="container-fluid px-4">
+    <form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
-    <!-- Bloc texte à analyser -->
-        <h3 class="mb-3 mt-3">{%trans "Input text for analysis" %}</h3>
-            {% if error_message %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error_message }}
+
+        <div class="row mt-4">
+            <!-- Colonne gauche : Texte -->
+            <div class="col-md-6 mb-4">
+                <h3 class="mb-3">{%trans "Input text for analysis" %}</h3>
+
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
+                {% endif %}
+
+                <textarea class="form-control" rows="15" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}">{{ initial_data.text|default:'' }}</textarea>
+            </div>
+
+            <!-- Colonne droite : Métadonnées + exemple + boutons -->
+            <div class="col-md-6 mb-4">
+                <!-- Bloc métadonnées -->
+                <h3 class="mb-0">{%trans "Metadata" %} <small class="text-muted">{%trans "(Optional)" %}</small></h3>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="corpus_name">{%trans "Corpus name" %}</label>
+                        <input class="form-control" type="text" name="corpus_name" id="corpus_name" value="{{ initial_data.corpus_name|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="author">{%trans "Author" %}</label>
+                        <input class="form-control" type="text" name="author" id="author" value="{{ initial_data.author|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="date">{%trans "Date" %}</label>
+                        <input class="form-control" type="text" name="date" id="date" value="{{ initial_data.date|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="doc_name">{%trans "Text title" %}</label>
+                        <input class="form-control" type="text" name="doc_name" id="doc_name" value="{{ initial_data.doc_name|default:'' }}"/>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="doc_subtitle">{%trans "Subtitle" %}</label>
+                        <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
+                    </div>
                 </div>
-            {% endif %}
-            <textarea class="form-control" rows="10" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}">{{ initial_data.text|default:'' }}</textarea>
 
-    <!-- Bloc métadonnées -->
-        <h3 class="mb-0 mt-4">
-            {%trans "Metadata" %}
-            <small class="text-muted">{%trans "(Optional)" %}</small>
-        </h3>
+                <!-- Txt exemple -->
+                <h3 class="mt-4 mb-3">{%trans "Or use an example" %}</h3>
+                <select id="exampleSelector" class="form-select mb-3">
+                    <option value="">{% trans "Select a text" %}</option>
+                    {% for key, ex in example_poems.items %}
+                        <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>
+                    {% endfor %}
+                </select>
 
-        <div class="container-fluid px-0 my-0">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label for="corpus_name">{%trans "Corpus name" %}</label>
-                    <input class="form-control" type="text" name="corpus_name" id="corpus_name" value="{{ initial_data.corpus_name|default:'' }}"/>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label for="author">{%trans "Author" %}</label>
-                    <input class="form-control" type="text" name="author" id="author" value="{{ initial_data.author|default:'' }}"/>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label for="date">{%trans "Date" %}</label>
-                    <input class="form-control" type="text" name="date" id="date" value="{{ initial_data.date|default:'' }}"/>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="doc_name">{%trans "Text title" %}</label>
-                    <input class="form-control" type="text" name="doc_name" id="doc_name" value="{{ initial_data.doc_name|default:'' }}"/>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="doc_subtitle">{%trans "Subtitle" %}</label>
-                    <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "Clear" %}</a>
+                    <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
                 </div>
             </div>
         </div>
-
-    <!-- Txt exemple -->
-    <h3 class="mb-3">
-            {%trans "Or use an example" %}
-    </h3>
-        <div class="mb-3">
-{#            <label for="exampleSelector" class="form-label">{% trans "Choose an example" %}</label>#}
-            <select id="exampleSelector" class="form-select">
-                <option value="">{% trans "Select a text" %}</option>
-                {% for key, ex in example_poems.items %}
-                    <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!-- Bouton envoi -->
-        <section class="d-flex justify-content-between mt-4">
-            <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "Clear" %}</a>
-            <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
-        </section>
-
-</form>
-</div>
+    </form>
 </div>
 
 <script>
