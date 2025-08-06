@@ -10,4 +10,5 @@ urlpatterns = [
     path("export_results/", views.export_results, name="export_results"),
     path("about/", views.about, name="about"),
     path("analysis_result/", views.analysis_result, name="analysis_result"),
+    path('clear-session/', views.clear_session, name='clear_session'),
 ]

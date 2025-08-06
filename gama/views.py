@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.utils import translation
-from django.shortcuts import redirect
 
 from pathlib import Path
 import subprocess
@@ -32,6 +31,13 @@ DEFAULTS_TO_TRANSLATE = {
     "author": ["Unknown"],
     "date": ["—"],
 }
+
+def clear_session(request):
+    try:
+        del request.session['analysis_data']
+    except KeyError:
+        pass
+    return redirect('gama:index')
 
 def handle_language(request):
     lang = None
@@ -59,10 +65,12 @@ def load_example_poems():
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
     handle_language(request)
-    request.session.pop('analysis_data', None)
-    request.session.pop('curid', None)
     example_poems = load_example_poems()
-    return render(request, "gama/index.html", {"example_poems": example_poems})
+    initial_data = request.session.get('analysis_data', {})
+    return render(request, "gama/index.html", {
+            "example_poems": example_poems,
+            "initial_data": initial_data,
+    })
 
 def translate_if_default(value, key):
     if value in DEFAULTS_TO_TRANSLATE.get(key, []):
