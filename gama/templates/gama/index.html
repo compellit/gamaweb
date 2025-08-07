@@ -1,10 +1,11 @@
 {% extends "gama/base.html" %}
 {% load i18n %}
+{% load static %}
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
 <div class="container-fluid px-4">
-    <form action="{% url 'gama:analysis' %}" method="post">
+    <form action="{% url 'gama:analysis' %}" method="post" onsubmit="showLoading()">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
 
@@ -68,12 +69,21 @@
                     <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "Clear" %}</a>
                     <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
                 </div>
+                <div id="loading-gif" class="text-center mt-3" style="visibility: hidden;">
+                    <img src="{% static 'img/loader_green.gif' %}" alt="Loading..." style="height: 50px;">
+                </div>
             </div>
         </div>
     </form>
 </div>
 
 <script>
+    function showLoading() {
+    document.getElementById('loading-gif').style.visibility = 'visible';
+    console.log("Loading...");
+    }
+
+
     // Champs concernés
     const fields = [
         "corpus_name",
@@ -153,6 +163,11 @@
         // Nettoie le localStorage pour ne pas restaurer les anciens champs si un exemple est choisi
         localStorage.removeItem("restore_on_load");
         fields.forEach(field => localStorage.removeItem("field_" + field));
+    });
+
+    // Masquer le GIF à chaque chargement de la page, même depuis le cache
+    window.addEventListener("pageshow", function () {
+        document.getElementById("loading-gif").style.visibility = "hidden";
     });
 
 </script>
