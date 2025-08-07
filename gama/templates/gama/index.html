@@ -1,10 +1,11 @@
 {% extends "gama/base.html" %}
 {% load i18n %}
+{% load static %}
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
 <div class="container">
-    <form action="{% url 'gama:analysis' %}" method="post">
+    <form action="{% url 'gama:analysis' %}" method="post" onsubmit="showLoading()">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
 
@@ -52,6 +53,9 @@
                         <input class="form-control left-border-gr" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
                     </div>
                 </div>
+                <div id="loading-gif-mobile" class="text-center mt-3" style="display:none;">
+                    <img src="{% static 'img/loader_green.gif' %}" alt="Loading..." style="height: 50px;">
+                </div>
 
                 <!-- Txt exemple -->
                 <h3 class="mt-4 mb-3">{%trans "Or use an example" %}</h3>
@@ -73,6 +77,17 @@
 </div>
 
 <script>
+function showLoading() {
+    const mobileDiv = document.getElementById('loading-gif-mobile');
+    const desktopDiv = document.getElementById('loading-gif-desktop');
+    
+    if (mobileDiv) mobileDiv.style.display = 'block';
+    if (desktopDiv) desktopDiv.style.display = 'block';
+    
+    console.log("Loading...");
+}
+
+
     // Champs concernés
     const fields = [
         "corpus_name",
@@ -152,6 +167,12 @@
         // Nettoie le localStorage pour ne pas restaurer les anciens champs si un exemple est choisi
         localStorage.removeItem("restore_on_load");
         fields.forEach(field => localStorage.removeItem("field_" + field));
+    });
+
+    // Masquer le GIF à chaque chargement de la page, même depuis le cache
+    window.addEventListener("pageshow", function () {
+        document.getElementById("loading-gif-desktop").style.display = "none";
+        document.getElementById("loading-gif-mobile").style.display = "none";
     });
 
 </script>
