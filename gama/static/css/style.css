@@ -103,7 +103,7 @@ h3::after {
     padding-right: 1rem;
 }
 
-.navbar-custom {
+.navbar-border {
     //background-color: #f9f9f9;
     border-bottom: 1px solid var(--color-green-dark);
 }
@@ -282,6 +282,26 @@ a {
     color: var(--color-green-dark) !important;
 }
 
+/*    pour éléments sous footer  */
+
+@media (max-width: 650px) {
+    .small-text-mobile {
+        gap: 0.05rem !important;
+        padding-top: 0.05rem !important;
+        padding-bottom: 0.05rem !important;
+        font-size: 0.75em;
+    }
+}
+
+#funded-eu{
+    height: 50px !important;
+}
+
+@media (max-width: 650px) {
+    #funded-eu {
+        height: 30px !important;
+    }
+}
 
 /* modifs pr index template */
 
@@ -296,7 +316,6 @@ table.dataTable thead th {
     white-space: normal !important;
     word-wrap: break-word;
     table-layout: auto !important;
-
 }
 
 /* pr 'about' template */
@@ -304,18 +323,6 @@ table.dataTable thead th {
 .text-110 {
     font-size: 110%;
 }
-
-.custom-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
 .vertical-separator {
     width: 2px;
     height: 30px;

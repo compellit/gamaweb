@@ -4,7 +4,7 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<div class="container-fluid px-4">
+<div class="container">
     <form action="{% url 'gama:analysis' %}" method="post" onsubmit="showLoading()">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
@@ -20,7 +20,7 @@
                     </div>
                 {% endif %}
 
-                <textarea class="form-control" rows="15" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}">{{ initial_data.text|default:'' }}</textarea>
+                <textarea class="form-control left-border-gr" rows="15" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}">{{ initial_data.text|default:'' }}</textarea>
             </div>
 
             <!-- Colonne droite : Métadonnées + exemple + boutons -->
@@ -31,33 +31,33 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="corpus_name">{%trans "Corpus name" %}</label>
-                        <input class="form-control" type="text" name="corpus_name" id="corpus_name" value="{{ initial_data.corpus_name|default:'' }}"/>
+                        <input class="form-control left-border-gr" type="text" name="corpus_name" id="corpus_name" value="{{ initial_data.corpus_name|default:'' }}"/>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="author">{%trans "Author" %}</label>
-                        <input class="form-control" type="text" name="author" id="author" value="{{ initial_data.author|default:'' }}"/>
+                        <input class="form-control left-border-gr" type="text" name="author" id="author" value="{{ initial_data.author|default:'' }}"/>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="date">{%trans "Date" %}</label>
-                        <input class="form-control" type="text" name="date" id="date" value="{{ initial_data.date|default:'' }}"/>
+                        <input class="form-control left-border-gr" type="text" name="date" id="date" value="{{ initial_data.date|default:'' }}"/>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="doc_name">{%trans "Text title" %}</label>
-                        <input class="form-control" type="text" name="doc_name" id="doc_name" value="{{ initial_data.doc_name|default:'' }}"/>
+                        <input class="form-control left-border-gr" type="text" name="doc_name" id="doc_name" value="{{ initial_data.doc_name|default:'' }}"/>
                     </div>
 
                     <div class="col-12 mb-3">
                         <label for="doc_subtitle">{%trans "Subtitle" %}</label>
-                        <input class="form-control" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
+                        <input class="form-control left-border-gr" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
                     </div>
                 </div>
 
                 <!-- Txt exemple -->
                 <h3 class="mt-4 mb-3">{%trans "Or use an example" %}</h3>
-                <select id="exampleSelector" class="form-select mb-3">
+                <select id="exampleSelector" class="form-select mb-3 left-border-gr">
                     <option value="">{% trans "Select a text" %}</option>
                     {% for key, ex in example_poems.items %}
                         <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>

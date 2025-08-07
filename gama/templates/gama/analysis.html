@@ -85,7 +85,7 @@
         </div>
         <!-- boutons retour/téléchargement !-->
         <section class="d-flex justify-content-between my-3 mt-5">
-            <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "New analysis" %}</a>
+            <a href="{% url 'gama:index' %}" class="btn btn-beige">{% trans "New analysis" %}</a>
             <a href="{% url 'gama:export_results' %}" class="btn btn-beige">
                 {% trans "Download results (ZIP)" %}
             </a>
@@ -98,9 +98,9 @@
 $(document).ready(function () {
     window.lang = "{{ LANGUAGE_CODE }}";
     const langUrls = {
-        'fr': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json',
-        'en': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/en-GB.json',
-        'gl': 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        'fr': '{% static "js/i18n/datatables/fr-FR.json" %}',
+        'en': '{% static "js/i18n/datatables/en-GB.json" %}',
+        'gl': '{% static "js/i18n/datatables/gl-ES.json" %}',
     };
 
     const table = $('#myTable').DataTable({
@@ -116,9 +116,9 @@ $(document).ready(function () {
 
     document.getElementById("togglePreprocessing").addEventListener("change", function () {
         const show = this.checked;
-        const column = table.column('.col-preprocessing');
-        column.visible(show);
-        table.columns.adjust().draw();
+        const column = table.column('.col-preprocessing'); // sélectionne la colonne via sa classe
+        column.visible(show);  // montre ou cache la colonne via DataTables
+        table.columns.adjust().draw();  // ajuste la largeur et redessine le tableau
     });
 });
 
