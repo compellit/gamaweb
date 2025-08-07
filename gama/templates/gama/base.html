@@ -21,36 +21,37 @@
 </head>
 <body>
     <header class="navbar-custom position-relative mb-0">
-        <div class="container-fluid d-flex justify-content-between align-items-center px-2 py-0 my-0 mb-0">
+        <div class="container navbar-border d-flex justify-content-between align-items-center px-2 py-0 my-0 mb-0">
             <!-- Titre -->
-            <h1 class="mb-3 site-title"><a class="site-title" href="{% url 'gama:index' %}">{% trans "GAMA: Galician Metrical Analyzer" %}</a></h1>
+            <h1 class="mb-3 site-title"><a class="site-title" href="{% url 'gama:clear_session' %}">{% trans "GAMA: Galician Metrical Analyzer" %}</a></h1>
             <!-- Container droite -->
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-4">
                 <!-- Liens dans navbar avant menu langues (hidden on small screens cos gonna go on sidebar) -->
-                <div class="d-none d-sm-flex align-items-center gap-2">                
-                    <a href="{% url 'gama:about' %}" class="lang-link">{% trans "About" %}</a>
-                </div>    
+                <a href="{% url 'gama:about' %}" class="navig-link d-none d-sm-inline">{% trans "About" %}</a>
+                <!-- Séparateur -->
                 <span class="vertical-separator d-none d-sm-inline"></span>
                 <!-- Menu langues -->
-                <div class="d-flex flex-column gap-1 text-white" style="line-height: 1.2;">
+                <div class="d-flex flex-column gap-1 mb-2" style="line-height: 1.2;">
                     <form action="{% url 'set_language' %}" method="post" id="lang-en" style="display: none;">
                         {% csrf_token %}
                         <input type="hidden" name="language" value="en">
-                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
                     </form>
                     <form action="{% url 'set_language' %}" method="post" id="lang-fr" style="display: none;">
                         {% csrf_token %}
                         <input type="hidden" name="language" value="fr">
-                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
                     </form>
-                    <form action="{% url 'set_language' %}" method="post" id="lang-gl" style="display: none;">
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}" data-lang="en">en</a>
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}" data-lang="fr">fr</a>
+                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}" data-lang="gl">gl</a>
+
+                    <form id="lang-form" action="{% url 'set_language' %}" method="post" style="display: none;">
                         {% csrf_token %}
-                        <input type="hidden" name="language" value="gl">
-                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <input type="hidden" name="language" id="lang-input">
+                        <input type="hidden" name="next" id="lang-next" value="{{ request.path }}">
                     </form>
-                    <a href="#" onclick="document.getElementById('lang-en').submit();" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}">en</a>
-                    <a href="#" onclick="document.getElementById('lang-fr').submit();" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}">fr</a>
-                    <a href="#" onclick="document.getElementById('lang-gl').submit();" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}">gl</a>
+
                 </div>
             </div>
         </div>
@@ -80,7 +81,7 @@
         <div class="offcanvas-body">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{% url 'gama:index' %}" class="nav-link">{% trans "Home" %}</a>
+                    <a href="{% url 'gama:clear_session' %}" class="nav-link">{% trans "Home" %}</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'gama:about' %}" class="nav-link">{% trans "About" %}</a>
@@ -89,7 +90,7 @@
         </div>
     </div>
     <!-- body !-->
-    <main class="container-fluid py-0 my-0">
+    <main class="container py-0 my-0">
         {% block content %}{% endblock %}
     </main>
 
@@ -109,6 +110,47 @@
     </div>
 </footer>
 
+<script>
+    document.querySelectorAll('.lang-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const lang = this.dataset.lang;
+            const form = document.getElementById('lang-form');
+            document.getElementById('lang-input').value = lang;
+            document.getElementById('lang-next').value = window.location.pathname;
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: `language=${lang}&next=${encodeURIComponent(window.location.pathname)}`
+            }).then(() => {
+
+                window.location.replace(`/${lang}${window.location.pathname.slice(3)}`);
+            });
+        });
+    });
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            const urlLang = window.location.pathname.split("/")[1]; // 'fr', 'en', 'gl'
+            const cookieLang = getCookie("django_language");
+
+            if (cookieLang && urlLang !== cookieLang) {
+                const newUrl = `/${cookieLang}${window.location.pathname.slice(3)}`;
+                window.location.replace(newUrl);
+            }
+        }
+    });
+</script>
 
 </body>
 

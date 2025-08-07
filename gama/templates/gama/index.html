@@ -3,94 +3,137 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<div class="row justify-content-center mb-4">
-<div class="col-12 col-md-10 col-lg-8 my-0">
-<form action="{% url 'gama:analysis' %}" method="post">
+<div class="container">
+    <form action="{% url 'gama:analysis' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
-    <!-- Bloc texte à analyser -->
-        <h3 class="mb-3 mt-3">{%trans "Input text for analysis" %}</h3>
-            {% if error_message %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error_message }}
+
+        <div class="row mt-4">
+            <!-- Colonne gauche : Texte -->
+            <div class="col-md-6 mb-4">
+                <h3 class="mb-3">{%trans "Input text for analysis" %}</h3>
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
+                {% endif %}
+
+                <textarea class="form-control left-border-gr" rows="15" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}">{{ initial_data.text|default:'' }}</textarea>
+            </div>
+
+            <!-- Colonne droite : Métadonnées + exemple + boutons -->
+            <div class="col-md-6 mb-4">
+                <!-- Bloc métadonnées -->
+                <h3 class="mb-0">{%trans "Metadata" %} <small class="text-muted">{%trans "(Optional)" %}</small></h3>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="corpus_name">{%trans "Corpus name" %}</label>
+                        <input class="form-control left-border-gr" type="text" name="corpus_name" id="corpus_name" value="{{ initial_data.corpus_name|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="author">{%trans "Author" %}</label>
+                        <input class="form-control left-border-gr" type="text" name="author" id="author" value="{{ initial_data.author|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="date">{%trans "Date" %}</label>
+                        <input class="form-control left-border-gr" type="text" name="date" id="date" value="{{ initial_data.date|default:'' }}"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="doc_name">{%trans "Text title" %}</label>
+                        <input class="form-control left-border-gr" type="text" name="doc_name" id="doc_name" value="{{ initial_data.doc_name|default:'' }}"/>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="doc_subtitle">{%trans "Subtitle" %}</label>
+                        <input class="form-control left-border-gr" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
+                    </div>
                 </div>
-            {% endif %}
-            <textarea class="form-control left-border-gr" rows="10" name="text" id="text" placeholder="{%trans 'Enter your text here...' %}"></textarea>
 
-    <!-- Bloc métadonnées -->
-        <h3 class="mb-0 mt-4">
-            {%trans "Metadata" %}
-            <small class="text-muted">{%trans "(Optional)" %}</small>
-        </h3>
+                <!-- Txt exemple -->
+                <h3 class="mt-4 mb-3">{%trans "Or use an example" %}</h3>
+                <select id="exampleSelector" class="form-select mb-3 left-border-gr">
+                    <option value="">{% trans "Select a text" %}</option>
+                    {% for key, ex in example_poems.items %}
+                        <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>
+                    {% endfor %}
+                </select>
 
-        <div class="container-fluid px-0 my-0">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label for="corpus_name">{%trans "Corpus name" %}</label>
-                    <input class="form-control left-border-gr" type="text" name="corpus_name" id="corpus_name"/>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label for="author">{%trans "Author" %}</label>
-                    <input class="form-control left-border-gr" type="text" name="author" id="author"/>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label for="date">{%trans "Date" %}</label>
-                    <input class="form-control left-border-gr" type="text" name="date" id="date"/>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="doc_name">{%trans "Text title" %}</label>
-                    <input class="form-control left-border-gr" type="text" name="doc_name" id="doc_name"/>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="doc_subtitle">{%trans "Subtitle" %}</label>
-                    <input class="form-control left-border-gr" type="text" name="doc_subtitle" id="doc_subtitle"/>
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "Clear" %}</a>
+                    <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
                 </div>
             </div>
         </div>
-
-    <!-- Txt exemple -->
-    <h3 class="mb-3">
-            {%trans "Or use an example" %}
-    </h3>
-        <div class="mb-3">
-{#            <label for="exampleSelector" class="form-label">{% trans "Choose an example" %}</label>#}
-            <select id="exampleSelector" class="form-select left-border-gr">
-                <option value="">{% trans "Select a text" %}</option>
-                {% for key, ex in example_poems.items %}
-                    <option value="{{ key }}">{{ ex.doc_name }} – {{ ex.author }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!-- Bouton envoi -->
-        <section class="d-flex justify-content-between mt-4 mb-4">
-            <button type="button" class="btn btn-beige" id="clearBtn">{% trans "Clear" %}</button>
-            <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
-        </section>
-
-</form>
-</div>
+    </form>
 </div>
 
 <script>
+    // Champs concernés
+    const fields = [
+        "corpus_name",
+        "doc_name",
+        "doc_subtitle",
+        "author",
+        "date",
+        "text"
+    ];
+
+    // Restauration automatique des champs à partir de localStorage
+    window.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem("restore_on_load") === "true") {
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                const saved = localStorage.getItem("field_" + field);
+                if (el && saved !== null) {
+                    el.value = saved;
+                }
+            });
+        }
+
+        // Nettoyage du localStorage une fois que les données sont restaurées
+        localStorage.removeItem("restore_on_load");
+
+        // Nettoyage complet si pas d'analyse faite
+        if (!localStorage.getItem("analysis_done")) {
+            fields.forEach(field => localStorage.removeItem("field_" + field));
+        }
+    });
+
+    // Avant de changer la langue : sauvegarder les champs
+    document.querySelectorAll(".lang-link").forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const lang = this.dataset.lang;
+            const form = document.getElementById("lang-form");
+
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el) {
+                    localStorage.setItem("field_" + field, el.value);
+                }
+            });
+
+            // Indique qu'on veut restaurer les champs au prochain chargement
+            localStorage.setItem("restore_on_load", "true");
+
+            // Remplit et soumet le formulaire caché
+            document.getElementById("lang-input").value = lang;
+            document.getElementById("lang-next").value = window.location.pathname;
+            form.submit();
+        });
+    });
+
+    // Gestion du select d'exemples
     const examples = {{ example_poems|safe }};
 
     document.getElementById("exampleSelector").addEventListener("change", function () {
         const selectedKey = this.value;
-
-        // Liste des champs à remplir / vider
-        const fields = [
-            "corpus_name",
-            "doc_name",
-            "doc_subtitle",
-            "author",
-            "date",
-            "text"
-        ];
 
         if (!selectedKey || !examples[selectedKey]) {
             fields.forEach(field => {
@@ -105,25 +148,13 @@
             const el = document.getElementById(field);
             if (el) el.value = data[field] || "";
         });
-    });
 
-    document.getElementById("clearBtn").addEventListener("click", function () {
-    const fields = [
-        "corpus_name",
-        "doc_name",
-        "doc_subtitle",
-        "author",
-        "date",
-        "text",
-        "exampleSelector"
-    ];
-
-    fields.forEach(field => {
-        const el = document.getElementById(field);
-        if (el) el.value = "";
+        // Nettoie le localStorage pour ne pas restaurer les anciens champs si un exemple est choisi
+        localStorage.removeItem("restore_on_load");
+        fields.forEach(field => localStorage.removeItem("field_" + field));
     });
-});
 
 </script>
+
 
 {% endblock %}
