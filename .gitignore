@@ -4,6 +4,7 @@ log_001.txt
 settings_new.py
 new_settings.py
 bkp_settings.py
+settings.py.bkp
 io/
 staticfiles/
 db.sqlite3
