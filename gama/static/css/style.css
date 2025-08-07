@@ -328,3 +328,16 @@ table.dataTable thead th {
     height: 30px;
     background-color: var(--color-green-dark);
 }
+
+/* for 'loading' gif (location changes c/o screen size) */
+@media (max-width: 768px) {
+    #loading-gif-desktop {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    #loading-gif-mobile {
+        display: none !important;
+    }
+}
