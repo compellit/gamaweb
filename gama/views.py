@@ -253,28 +253,6 @@ def about(request):
     translation.activate(lang)
     return render(request, f"gama/about/about_{lang}.html")
 
-def run_analysis(text):
-    curid = str(uuid.uuid4())[:6]
-    out_dir = settings.IO_DIR / curid
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    with open(out_dir / "input.txt", encoding="utf8", mode="w") as f:
-        f.write(text)
-
-    subprocess.run(
-        ["python", "../preprocessing/g2s_client_running_text.py",
-         str(out_dir / "input.txt"), "-p", "-d", "-n", "-s", "-b", "001"],
-        check=True,
-        cwd=settings.PREPRO_DIR,
-    )
-
-    orig_poem_path = out_dir / "input.txt"
-    prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
-    scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
-
-    return scansion, results_data
-
-
 def bulk_analysis(request):
     handle_language(request)
 
