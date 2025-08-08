@@ -24,9 +24,9 @@
             </div>
 
             <!-- Colonne droite : Métadonnées + exemple + boutons -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6">
                 <!-- Bloc métadonnées -->
-                <h3 class="mb-0">{%trans "Metadata" %} <small class="text-muted">{%trans "(Optional)" %}</small></h3>
+                <h3 class="mb-3">{%trans "Metadata" %} <small class="text-muted">{%trans "(Optional)" %}</small></h3>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -54,7 +54,9 @@
                         <input class="form-control left-border-gr" type="text" name="doc_subtitle" id="doc_subtitle" value="{{ initial_data.doc_subtitle|default:'' }}"/>
                     </div>
                 </div>
-
+                <div id="loading-gif-mobile" class="text-center mt-3" style="display:none;">
+                    <img src="{% static 'img/loader_green.gif' %}" alt="Loading..." style="height: 50px;">
+                </div>
                 <!-- Txt exemple -->
                 <h3 class="mt-4 mb-3">{%trans "Or use an example" %}</h3>
                 <select id="exampleSelector" class="form-select mb-3 left-border-gr">
@@ -66,23 +68,36 @@
 
                 <!-- Boutons -->
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="{% url 'gama:clear_session' %}" class="btn btn-beige">{% trans "Clear" %}</a>
                     <button type="submit" class="btn btn-beige">{% trans "Submit" %}</button>
+                    <a href="{% url 'gama:clear_session' %}" class="btn btn-orange">{% trans "Clear" %}</a>
                 </div>
-                <div id="loading-gif" class="text-center mt-3" style="visibility: hidden;">
+                <div id="loading-gif-desktop" class="text-center mt-3" style="display: none;">
                     <img src="{% static 'img/loader_green.gif' %}" alt="Loading..." style="height: 50px;">
                 </div>
             </div>
         </div>
     </form>
+    <h3 class="mb-3 mt-4">{% trans "Multi-file analysis" %} <small class="text-muted">{% trans "(ZIP upload)" %}</small></h3>
+    <form action="{% url 'gama:bulk_analysis' %}" method="post" enctype="multipart/form-data" onsubmit="showLoadingZip()">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="zip_file" class="form-label">{% trans "Upload a .zip containing .txt files" %}</label>
+            <input class="form-control" type="file" name="zip_file" id="zip_file" accept=".zip" required>
+        </div>
+        <button type="submit" class="btn btn-beige">{% trans "Analyze ZIP" %}</button>
+    </form>
 </div>
 
 <script>
-    function showLoading() {
-    document.getElementById('loading-gif').style.visibility = 'visible';
-    console.log("Loading...");
-    }
 
+function showLoading() {
+    if (window.innerWidth < 768) { // Mobile
+        document.getElementById('loading-gif-mobile').style.display = 'block';
+    } else { // Desktop
+        document.getElementById('loading-gif-desktop').style.display = 'block';
+    }
+    console.log("Loading...");
+}
 
     // Champs concernés
     const fields = [
@@ -167,8 +182,10 @@
 
     // Masquer le GIF à chaque chargement de la page, même depuis le cache
     window.addEventListener("pageshow", function () {
-        document.getElementById("loading-gif").style.visibility = "hidden";
+        document.getElementById("loading-gif-desktop").style.display = "none";
+        document.getElementById("loading-gif-mobile").style.display = "none";
     });
+
 
 </script>
 

@@ -137,7 +137,7 @@ def analysis(request):
 
     return redirect("gama:index")
 
-def analysis_result(request):
+def analysis_results(request):
     handle_language(request)
     analysis_data = request.session.get("analysis_data")
     analysis_result = request.session.get("analysis_result")
@@ -252,3 +252,117 @@ def about(request):
     lang = request.LANGUAGE_CODE
     translation.activate(lang)
     return render(request, f"gama/about/about_{lang}.html")
+
+def run_analysis(text):
+    curid = str(uuid.uuid4())[:6]
+    out_dir = settings.IO_DIR / curid
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(out_dir / "input.txt", encoding="utf8", mode="w") as f:
+        f.write(text)
+
+    subprocess.run(
+        ["python", "../preprocessing/g2s_client_running_text.py",
+         str(out_dir / "input.txt"), "-p", "-d", "-n", "-s", "-b", "001"],
+        check=True,
+        cwd=settings.PREPRO_DIR,
+    )
+
+    orig_poem_path = out_dir / "input.txt"
+    prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+    scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+
+    return scansion, results_data
+
+
+def bulk_analysis(request):
+    handle_language(request)
+
+    if request.method == 'POST' and request.FILES.get('zip_file'):
+        uploaded_zip = request.FILES['zip_file']
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            zip_path = os.path.join(tmpdir, 'uploaded.zip')
+            with open(zip_path, 'wb') as f:
+                for chunk in uploaded_zip.chunks():
+                    f.write(chunk)
+
+            extract_dir = os.path.join(tmpdir, 'extracted')
+            os.makedirs(extract_dir, exist_ok=True)
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+
+            result_paths = []
+
+            for fname in os.listdir(extract_dir):
+                if fname.endswith('.txt'):
+                    input_path = os.path.join(extract_dir, fname)
+                    try:
+                        with open(input_path, "r", encoding="utf-8") as f:
+                            text = f.read()
+
+                        if not text.strip():
+                            continue
+
+                        curid = str(uuid.uuid4())[:6]
+                        out_dir = settings.IO_DIR / f"bulk_{curid}"
+                        Path(out_dir).mkdir(parents=True, exist_ok=True)
+
+                        input_txt = out_dir / "input.txt"
+                        with open(input_txt, "w", encoding="utf-8") as f:
+                            f.write(text)
+
+                        subprocess.run(
+                            ["python", "../preprocessing/g2s_client_running_text.py",
+                             str(input_txt), "-p", "-d", "-n", "-s", "-b", "001"],
+                            check=True,
+                            cwd=settings.PREPRO_DIR,
+                        )
+
+                        orig_poem_path = input_txt
+                        prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+                        scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+
+                        # Création du fichier TSV
+                        result_name = f"{Path(fname).stem}_results.tsv"
+                        result_path = os.path.join(tmpdir, result_name)
+                        with open(result_path, "w", encoding="utf-8", newline="") as f:
+                            writer = csv.DictWriter(f, fieldnames=[
+                                "#", _("original_text"), _("preprocessing"),
+                                _("metrical_syllables"), _("stressed_syllables"), _("no_extra_rhythmic")
+                            ], delimiter="\t")
+                            writer.writeheader()
+                            for row in results_data:
+                                writer.writerow({
+                                    "#": row["line"],
+                                    _("original_text"): row["original_text"],
+                                    _("preprocessing"): row["preprocessing"],
+                                    _("metrical_syllables"): row["metrical_syllables"],
+                                    _("stressed_syllables"): row["stressed_syllables"],
+                                    _("no_extra_rhythmic"): row["no_extra_rhythmic"]
+                                })
+
+                        result_paths.append((result_name, result_path))
+
+                    except Exception as e:
+                        print(f"Error with {fname}: {e}")
+                        continue
+
+            if not result_paths:
+                return HttpResponse(_("No valid poems found in ZIP."), status=400)
+
+            # Création du zip de sortie
+            original_name = uploaded_zip.name
+            base_name = original_name.rsplit('.', 1)[0]
+            output_zip_name = f"{base_name}_results.zip"
+            with zipfile.ZipFile(output_zip_name, 'w') as out_zip:
+                for name, path in result_paths:
+                    out_zip.write(path, arcname=name)
+
+            with open(output_zip_name, 'rb') as f:
+                response = HttpResponse(f.read(), content_type='application/zip')
+                response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
+                return response
+
+    return HttpResponse(_("No ZIP file uploaded or method not allowed."), status=400)
+
