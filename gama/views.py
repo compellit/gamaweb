@@ -95,6 +95,7 @@ def analysis(request):
         author_key = request.POST.get("author") or "Unknown"
         date_key = request.POST.get("date") or "—"
 
+        # session["analysis_data"] contains the metadata
         request.session['analysis_data'] = {
             "text": text,
             "corpus_name": corpus_name_key,
@@ -127,9 +128,15 @@ def analysis(request):
 
         orig_poem_path = out_dir / "input.txt"
         prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+
+        # `scansion` is a list of HTML table rows, `results_data` is a list of dict for exporting
+		# both are added to session
         scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
 
-        request.session['analysis_result'] = "".join(scansion)
+        # old
+        #request.session['analysis_result'] = "".join(scansion)
+        request.session['analysis_result_desktop'] = "".join(scansion["desktop"])
+        request.session['analysis_result_mobile'] = "".join(scansion["mobile"])
         request.session['results_data'] = results_data
 
         #Redirection nouvelle view pour PRG
@@ -139,11 +146,17 @@ def analysis(request):
 
 def analysis_result(request):
     handle_language(request)
+	# `analysis_data` is the metadata
     analysis_data = request.session.get("analysis_data")
+	# now have two variables for scansion results: desktop and mobile
     analysis_result = request.session.get("analysis_result")
 
-    if not analysis_data or not analysis_result:
+    analysis_result_desktop  = request.session.get('analysis_result_desktop')
+    analysis_result_mobile = request.session.get('analysis_result_mobile')
+
+    if not analysis_data or not (analysis_result_desktop or analysis_result_mobile):
         return redirect("gama:error", errtype="empty")
+
 
     corpus_name = translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
     doc_name = translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
@@ -158,7 +171,8 @@ def analysis_result(request):
         "doc_subtitle": doc_subtitle,
         "author": author,
         "date": date,
-        "result": analysis_result,
+        "result_desktop": request.session.get('analysis_result_desktop', ""),
+        "result_mobile": request.session.get('analysis_result_mobile', ""),
     }
 
     return render(request, "gama/analysis.html", context)

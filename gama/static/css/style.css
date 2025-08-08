@@ -274,6 +274,7 @@ a {
 
 a {
   text-decoration: none;
+  color: var(--color-green-dark)
 }
 
 /* modifs pr base template */
@@ -340,4 +341,49 @@ table.dataTable thead th {
     #loading-gif-mobile {
         display: none !important;
     }
+}
+/* For having a different table on mobile */
+
+.mobile-table { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-table { display: none; }
+  .mobile-table { display: block; }
+}
+
+/* Smaller DataTable controls on mobile */
+@media (max-width: 768px) {
+  #myTableMobile_length select {
+    height: 25px;
+    font-size: 14px;
+    padding: 2px 6px;
+    width: auto;
+  }
+
+  /* Target the search box */
+  #myTableMobile_filter input[type="search"] {
+    height: 25px;
+    padding: 2px 6px;
+    width: 120px;
+  }
+}
+
+/* thinner border between line with the text and line with the metrics on mobile table */
+
+#myTableMobile tbody tr:nth-child(odd) {
+  border-bottom: 1px solid lightgray;
+}
+
+@media (max-width: 768px) {
+  #myTableMobile_wrapper .dataTables_length,
+  #myTableMobile_wrapper .dataTables_filter {
+    display: inline-block;
+  }
+
+  #myTableMobile_wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* wrap to next line if too tight */
+    align-items: center;
+  }
 }
