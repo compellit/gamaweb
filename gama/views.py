@@ -21,6 +21,7 @@ import os
 
 from gumper import config as gcf
 from gumper.gumper_client_web import main as gumper_main
+from gama import utils as ut # views is run from package
 
 
 DBG = False
@@ -82,6 +83,7 @@ def analysis(request):
 
     if request.method == "POST":
         text = request.POST.get("text", "")
+        text = ut._preprocess_poem_text(text)
         if not text:
             return redirect("gama:error", errtype="empty")
         if len(text) > 4500:
@@ -95,7 +97,7 @@ def analysis(request):
         author_key = request.POST.get("author") or "Unknown"
         date_key = request.POST.get("date") or "—"
 
-        # session["analysis_data"] contains the metadata
+        # session["analysis_data"] contains the text + metadata
         request.session['analysis_data'] = {
             "text": text,
             "corpus_name": corpus_name_key,
@@ -146,9 +148,9 @@ def analysis(request):
 
 def analysis_results(request):
     handle_language(request)
-	# `analysis_data` is the metadata
+    # `analysis_data` is the text + metadata
     analysis_data = request.session.get("analysis_data")
-	# now have two variables for scansion results: desktop and mobile
+    # now have two variables for scansion results: desktop and mobile
     analysis_result = request.session.get("analysis_result")
 
     analysis_result_desktop  = request.session.get('analysis_result_desktop')
