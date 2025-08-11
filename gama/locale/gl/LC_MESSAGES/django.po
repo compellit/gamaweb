@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 19:27+0000\n"
+"POT-Creation-Date: 2025-08-11 21:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,35 +22,36 @@ msgstr ""
 msgid "Results"
 msgstr "Resultados"
 
-#: gama/templates/gama/analysis.html:15 gama/templates/gama/index.html:22
+#: gama/templates/gama/analysis.html:14 gama/templates/gama/error.html:22
+#: gama/templates/gama/index.html:29
 msgid "Metadata"
 msgstr "Metadatos"
 
-#: gama/templates/gama/analysis.html:19
+#: gama/templates/gama/analysis.html:18
 msgid "Corpus name:"
 msgstr "Nome do corpus:"
 
-#: gama/templates/gama/analysis.html:23
+#: gama/templates/gama/analysis.html:22
 msgid "Author:"
 msgstr "Autor·a:"
 
-#: gama/templates/gama/analysis.html:27
+#: gama/templates/gama/analysis.html:26
 msgid "Date:"
 msgstr "Data:"
 
-#: gama/templates/gama/analysis.html:33
+#: gama/templates/gama/analysis.html:32
 msgid "Title:"
 msgstr "Título:"
 
-#: gama/templates/gama/analysis.html:37
+#: gama/templates/gama/analysis.html:36
 msgid "Subtitle:"
 msgstr "Subtítulo:"
 
-#: gama/templates/gama/analysis.html:48
+#: gama/templates/gama/analysis.html:47
 msgid "Scansion"
 msgstr "Escansión"
 
-#: gama/templates/gama/analysis.html:53
+#: gama/templates/gama/analysis.html:53 gama/templates/gama/analysis.html:92
 msgid "Show Preprocessing"
 msgstr "Amosar preprocesamento"
 
@@ -78,141 +79,169 @@ msgstr "Eliminación de acentos rítmicos extra"
 msgid "No extra-rhythmic"
 msgstr "Sen extra-ritmicas"
 
-#: gama/templates/gama/analysis.html:89
+#: gama/templates/gama/analysis.html:104
+msgid "Text"
+msgstr ""
+
+#: gama/templates/gama/analysis.html:117
 msgid "New analysis"
 msgstr "Nova análise"
 
-#: gama/templates/gama/analysis.html:91
+#: gama/templates/gama/analysis.html:119
 msgid "Download results (ZIP)"
 msgstr "Descargar resultados (ZIP)"
 
-#: gama/templates/gama/base.html:24
+#: gama/templates/gama/base.html:26
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: gama/templates/gama/base.html:29 gama/templates/gama/base.html:59
-#: gama/templates/gama/base.html:83
+#: gama/templates/gama/base.html:30 gama/templates/gama/base.html:63
+#: gama/templates/gama/base.html:87
 msgid "About"
 msgstr "O proxecto"
 
-#: gama/templates/gama/base.html:57 gama/templates/gama/base.html:80
+#: gama/templates/gama/base.html:61 gama/templates/gama/base.html:84
 msgid "Home"
 msgstr "Inicio"
 
-#: gama/templates/gama/error.html:9
-msgid "Error!"
-msgstr "Erro!"
-
-#: gama/templates/gama/error.html:12
-msgid "Back"
-msgstr "Volver"
-
-#: gama/templates/gama/index.html:12
+#: gama/templates/gama/error.html:12 gama/templates/gama/index.html:15
 msgid "Input text for analysis"
 msgstr "Texto para análise"
 
-#: gama/templates/gama/index.html:18
+#: gama/templates/gama/error.html:18 gama/templates/gama/index.html:23
 msgid "Enter your text here..."
 msgstr "Introduce o texto aquí..."
 
-#: gama/templates/gama/index.html:23
+#: gama/templates/gama/error.html:23 gama/templates/gama/index.html:29
 msgid "(Optional)"
 msgstr "(Opcionais)"
 
-#: gama/templates/gama/index.html:29
+#: gama/templates/gama/error.html:29 gama/templates/gama/index.html:33
 msgid "Corpus name"
-msgstr "Nome do corpus:"
+msgstr "Nome do corpus"
 
-#: gama/templates/gama/index.html:34
+#: gama/templates/gama/error.html:34 gama/templates/gama/index.html:38
 msgid "Author"
 msgstr "Autor·a"
 
-#: gama/templates/gama/index.html:39
+#: gama/templates/gama/error.html:39 gama/templates/gama/index.html:43
 msgid "Date"
 msgstr "Data"
 
-#: gama/templates/gama/index.html:44
+#: gama/templates/gama/error.html:44 gama/templates/gama/index.html:48
 msgid "Text title"
 msgstr "Título"
 
-#: gama/templates/gama/index.html:49
+#: gama/templates/gama/error.html:49 gama/templates/gama/index.html:53
 msgid "Subtitle"
 msgstr "Subtítulo"
 
-#: gama/templates/gama/index.html:57
+#: gama/templates/gama/error.html:57 gama/templates/gama/index.html:61
 msgid "Or use an example"
 msgstr "Ou escolle un exemplo"
 
-#: gama/templates/gama/index.html:62
+#: gama/templates/gama/error.html:62 gama/templates/gama/index.html:63
 msgid "Select a text"
 msgstr "Escolle un texto"
 
-#: gama/templates/gama/index.html:71
+#: gama/templates/gama/error.html:71 gama/templates/gama/index.html:72
 msgid "Clear"
 msgstr "Limpar"
 
-#: gama/templates/gama/index.html:72
+#: gama/templates/gama/error.html:72 gama/templates/gama/index.html:71
 msgid "Submit"
 msgstr "Enviar"
 
-#: gama/views.py:150
+#: gama/templates/gama/index.html:80
+#, fuzzy
+#| msgid "New analysis"
+msgid "Multi-file analysis"
+msgstr "Nova análise"
+
+#: gama/templates/gama/index.html:80
+msgid "(ZIP upload)"
+msgstr ""
+
+#: gama/templates/gama/index.html:84
+msgid "Upload a .zip containing .txt files"
+msgstr ""
+
+#: gama/templates/gama/index.html:87
+msgid "Analyze ZIP"
+msgstr ""
+
+#: gama/views.py:183
 msgid "The input text cannot be empty."
 msgstr "O texto de entrada non pode estar baleiro."
 
-#: gama/views.py:152
+#: gama/views.py:185
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
 msgstr ""
 "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
-#: gama/views.py:154
+#: gama/views.py:187
 #, fuzzy
 #| msgid "The input text does not look like poetry in verse (lines too long?)."
 msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: gama/views.py:157
+#: gama/views.py:190
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
-#: gama/views.py:199
+#: gama/views.py:231
 msgid "corpus_name"
 msgstr "nome_do_corpus"
 
-#: gama/views.py:199
+#: gama/views.py:231
 msgid "title"
 msgstr "sen_titulo"
 
-#: gama/views.py:199
+#: gama/views.py:231
 msgid "subtitle"
 msgstr "subtitulo"
 
-#: gama/views.py:199
+#: gama/views.py:231
 msgid "author"
 msgstr "autor"
 
-#: gama/views.py:199
+#: gama/views.py:231
 msgid "date"
 msgstr ""
 
-#: gama/views.py:205 gama/views.py:212
+#: gama/views.py:237 gama/views.py:244 gama/views.py:325 gama/views.py:332
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: gama/views.py:205 gama/views.py:213
+#: gama/views.py:237 gama/views.py:245 gama/views.py:325 gama/views.py:333
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: gama/views.py:206 gama/views.py:214
+#: gama/views.py:238 gama/views.py:246 gama/views.py:326 gama/views.py:334
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: gama/views.py:206 gama/views.py:215
+#: gama/views.py:238 gama/views.py:247 gama/views.py:326 gama/views.py:335
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: gama/views.py:206 gama/views.py:216
+#: gama/views.py:238 gama/views.py:248 gama/views.py:326 gama/views.py:336
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
+
+#: gama/views.py:346
+msgid "No valid poems found in ZIP."
+msgstr ""
+
+#: gama/views.py:361
+msgid "No ZIP file uploaded or method not allowed."
+msgstr ""
+
+#~ msgid "Error!"
+#~ msgstr "Erro!"
+
+#~ msgid "Back"
+#~ msgstr "Volver"
 
 #~ msgid "Choose an example"
 #~ msgstr "Escolle un texto"
