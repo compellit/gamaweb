@@ -1,7 +1,10 @@
+/* GENERAL */
+
 * {
     font-family: 'Segoe UI', sans-serif;
     }
 
+/* nuances de vert du site */
 :root {
     --color-green-dark: #178c19;
     --color-green: #88cfa1;
@@ -16,63 +19,18 @@ body {
     //background-color: #f9f9f9;
     }
 
-table th, table td {
-  vertical-align: middle;
+/* modifs pr overall */
+a {
+  text-decoration: none;
+  color: var(--color-green-dark)
 }
 
-td:nth-child(5),
-td:nth-child(6) {
-    white-space: nowrap;
-}
-
-th:nth-child(2) {
-    padding-left: 1em;
-}
-
-.table thead th {
-    background-color: var(--color-green);
-    border-bottom: 2px solid var(--color-green-dark);
-    color: #2c2c2c;
-}
-
-.table tbody td {
-    color: #2f2f2f;
-}
-
-.table {
-    --bs-table-bg: var(--color-green-light);
-    --bs-table-hover-bg: #c9e9d4;
-}
-
-th {
-  white-space: nowrap;
-}
-
-h2 {
-    font-size: 1.6rem;
-    font-weight: bold;
-    border-bottom: 2.5px solid var(--color-green);
-    padding-bottom: 0.5rem;
-}
-
-h3 {
-    text-align: left;
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-    color: #222;
-    position: relative;
-    padding-bottom: 0.3rem;
-}
-
-h3::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0rem;
-    width: 3rem;
-    height: 2.5px;
-    background-color: var(--color-green);
-    border-radius: 1px;
+/* moins de padding sur petit écran */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 }
 
 .container-fluid {
@@ -80,254 +38,90 @@ h3::after {
     margin-bottom: 1rem;
 }
 
-.text-info-block {
-    background-color: var(--color-green-light);
-    border-left: 5px solid var(--color-green);
-    border-radius: 0.3rem;
-    padding: 1rem 0;
-}
-
-.text-info-block ul li {
-    margin-bottom: 0.5rem;
-    color: #333;
-    margin-left: 2rem;
-}
-
-.metad {
-  margin-left: 2rem;
-  color: #333;
-}
-
-.inner-content {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.navbar-border {
-    //background-color: #f9f9f9;
-    border-bottom: 1px solid var(--color-green-dark);
-}
-
-.navbar-custom h1 {
-    font-size: 1.8rem;
-    color: var(--color-green-dark);
-}
-
-.navbar-toggler {
-    border-color: var(--color-green-dark) !important;
-}
-
-.navbar-toggler:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(23,140,25,1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    width: 1.2em;
-    height: 1.2em;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-    color: black;
-}
-
-.nav-separator {
-    display: flex;
-    align-items: center;
-    padding: 0 0.5rem;
-    color: #585964;
-    pointer-events: none;
-    font-size: 1rem;
-}
-
-.nav-sep {
-    display: flex;
-    align-items: center;
-    color: var(--color-green-dark);
-    pointer-events: none;
-    font-size: 1rem;
-}
-
-@media (max-width: 767.98px) {
-    .nav-separator {
-        display: none;
-    }
-}
-
+/* style des boutons */
+/* boutons généraux (verts) */
 .btn-beige {
     background-color: var(--color-green);
     color: #2c2c2c;
-    border: none;
+    border: 1px solid var(--color-green);
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
+.btn-beige:hover {
+    border: 1px solid var(--color-green);
 }
 
+/* bouton clear */
+.btn-orange {
+    background-color: #FAA18F;
+    color: #2c2c2c;
+    border: 1px solid #FAA18F;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-orange:hover {
+    border: 1px solid #FAA18F;
+}
+
+
+/* TABLEAU RESULTATS */
+
+/* aligner verticalement les textes du tableau */
+table th, table td {
+  vertical-align: middle;
+}
+
+/* style entêtes tableau */
+.table thead th {
+    background-color: var(--color-green);
+    color: #2c2c2c;
+}
+
+/* surlignage entêtes qd hover */
+th:hover {
+    text-decoration: underline;
+}
+
+/* style texte colonnes tableau */
+.table tbody td {
+    color: #2f2f2f;
+}
+
+/* style backgrd colonnes tableau */
+.table {
+    --bs-table-bg: var(--color-green-light);
+    --bs-table-hover-bg: #c9e9d4;
+}
+
+/* colonnes 5-6 contenant chiffres (métrique) sur 1 lg */
+td:nth-child(5),
+td:nth-child(6) {
+    white-space: nowrap;
+}
+
+/* modifs pr analysis template */
+table.dataTable thead th {
+    text-align: center; !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    table-layout: auto !important;
+}
+
+/* style afficher/cacher Preprocessing */
 .form-check-label {
     font-style: italic;
     color: #3a3a3a;
     cursor: pointer;
 }
-
-th.sortable {
-    cursor: pointer;
-}
-
-th:hover {
-    text-decoration: underline;
-}
-
-.lang-link {
-    color: rgba(23, 140, 25, 1);
-    font-size: 0.8rem;
-    text-decoration: none;
-    transition: text-decoration 0.3s ease;
-    font-size: 1rem;
-}
-
-.lang-link:hover {
-    color: rgba(23, 140, 25, 0.7);
-    text-decoration: underline;
-    cursor: pointer;
-}
-
+/* espace entre tableau et fct Search */
 .dataTables_filter {
     margin-bottom: 0.5rem;
-}
-
-.custom-offcanvas {
-    width: 240px !important;
-    background-color: var(--color-green-light);
-}
-
-.offcanvas-title {
-    font-size: 1.8rem;
-    color: #585964;
-}
-
-.nav-link {
-    font-weight: bold;
-    color: #585964;
-}
-
-.navig-link {
-    color: rgba(23, 140, 25, 1);
-    font-size: 0.8rem;
-    text-decoration: none;
-    transition: text-decoration 0.3s ease;
-    font-size: 1rem;
-}
-
-.navig-link:hover {
-    color: rgba(23, 140, 25, 0.7);
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    background-color: #f8f9fa;
-    font-size: 0.875rem;
-    color: #6c757d;
-    border-top: 1px solid #dee2e6;
-}
-.footer a {
-    color: white;
-    text-decoration: none;
-}
-.footer a:hover {
-    color: #178C19;
-}
-
-.no-wrap-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.btn-close {
-    --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(51, 51, 51, 0.25);
-}
-
-.custom-tog {
-    background-color: var(--color-green)
-}
-
-.form-select:focus {
-    box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
-}
-
-a {
-    text-decoration: none;    
-}
-
-
-/* modifs pr overall */
-
-a {
-  text-decoration: none;
-  color: var(--color-green-dark)
-}
-
-/* modifs pr base template */
-
-.site-title{ 
-    color: var(--color-green-dark) !important;
-}
-
-/*    pour éléments sous footer  */   
-
-@media (max-width: 650px) {
-    .small-text-mobile {
-        gap: 0.05rem !important;
-        padding-top: 0.05rem !important;
-        padding-bottom: 0.05rem !important;
-        font-size: 0.75em;
-    }
-}
-
-#funded-eu{  
-    height: 50px !important;
-}
-    
-@media (max-width: 650px) {
-    #funded-eu {
-        height: 30px !important;
-    }
-}
-
-/* modifs pr index template */
-
-.left-border-gr {
-    border-left: 5px solid var(--color-green);
-}
-
-/* modifs pr analysis template */
-
-table.dataTable thead th {
-    text-align: center; !important;
-    white-space: normal !important;
-    word-wrap: break-word;
-    table-layout: auto !important;    
-}
-
-/* pr 'about' template */
-
-.text-110 {
-    font-size: 110%;
-}
-.vertical-separator {
-    width: 2px;
-    height: 30px;
-    background-color: var(--color-green-dark);
 }
 
 /* for 'loading' gif (location changes c/o screen size) */
@@ -342,6 +136,7 @@ table.dataTable thead th {
         display: none !important;
     }
 }
+
 /* For having a different table on mobile */
 
 .mobile-table { display: none; }
@@ -359,7 +154,6 @@ table.dataTable thead th {
     padding: 2px 6px;
     width: auto;
   }
-
   /* Target the search box */
   #myTableMobile_filter input[type="search"] {
     height: 25px;
@@ -369,7 +163,6 @@ table.dataTable thead th {
 }
 
 /* thinner border between line with the text and line with the metrics on mobile table */
-
 #myTableMobile tbody tr:nth-child(odd) {
   border-bottom: 1px solid lightgray;
 }
@@ -388,3 +181,275 @@ table.dataTable thead th {
     align-items: center;
   }
 }
+
+
+/* TITRES */
+
+/* style titre h2 */
+h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    border-bottom: 2.5px solid var(--color-green);
+    padding-bottom: 0.5rem;
+}
+
+/* style titre h3 */
+h3 {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    color: #222;
+    position: relative;
+    padding-bottom: 0.3rem;
+}
+
+/* court soulignage vert sous h3 */
+h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0rem;
+    width: 3rem;
+    height: 2.5px;
+    background-color: var(--color-green);
+    border-radius: 1px;
+}
+
+
+/* HEADER */
+
+/* modifs pr base template */
+/* Titre GAMA header */
+.site-title{
+    color: var(--color-green-dark) !important;
+    font-size: 1.8rem;
+}
+
+/* bordure bottom header */
+.navbar-border {
+    //background-color: #f9f9f9;
+    border-bottom: 1px solid var(--color-green-dark);
+}
+
+/* style menu langues */
+.lang-link {
+    color: rgba(23, 140, 25, 1);
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+    font-size: 1rem;
+}
+
+.lang-link:hover {
+    color: rgba(23, 140, 25, 0.7);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* liens navigation header (About) */
+.navig-link {
+    color: rgba(23, 140, 25, 1);
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+    font-size: 1rem;
+}
+
+.navig-link:hover {
+    color: rgba(23, 140, 25, 0.7);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* FOOTER */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #f8f9fa;
+    font-size: 0.875rem;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+}
+
+/* liens footer */
+.footer a {
+    color: white;
+}
+
+.footer a:hover {
+    color: #178C19;
+}
+
+/*    pour éléments sous footer  */
+
+@media (max-width: 650px) {
+    .small-text-mobile {
+        gap: 0.05rem !important;
+        padding-top: 0.05rem !important;
+        padding-bottom: 0.05rem !important;
+        font-size: 0.75em;
+    }
+}
+
+#funded-eu{
+    height: 50px !important;
+}
+
+@media (max-width: 650px) {
+    #funded-eu {
+        height: 30px !important;
+    }
+}
+
+
+/* OFFCANVAS */
+
+/* taille + couleur */
+.custom-offcanvas {
+    width: 240px !important;
+    background-color: var(--color-green-light);
+}
+
+/* style titre GAMA */
+.offcanvas-title {
+    font-size: 1.8rem;
+    color: #585964;
+}
+
+/* style liens navigation */
+.nav-link {
+    font-weight: bold;
+    color: #585964;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+/* croix fermeture offcanvas shadow grise */
+.btn-close {
+    --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(51, 51, 51, 0.25);
+}
+
+/* bouton latéral droit ouverture offcanvas */
+.custom-tog {
+    background-color: var(--color-green)
+}
+
+
+/* CHAMPS INDEX */
+
+/* shadow champs verte */
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
+}
+
+/* shadow verte selector exemple poème */
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(136, 207, 161, 0.4);
+}
+
+/* modifs pr index template */
+.left-border-gr {
+    border-left: 5px solid var(--color-green);
+}
+
+/* bordure champs verte qd focus */
+.left-border-gr:focus {
+    outline: none;
+    border-top: 1px solid var(--color-green);
+    border-bottom: 1px solid var(--color-green);
+    border-right: 1px solid var(--color-green);
+    border-left: 5px solid var(--color-green);
+}
+
+
+/* CONTENU ANALYSIS */
+
+/* style bloc metadata page analysis */
+.text-info-block {
+    background-color: var(--color-green-light);
+    border-left: 5px solid var(--color-green);
+    border-radius: 0.3rem;
+    padding: 1rem 0;
+}
+
+/* style texte bloc metadata page analysis */
+.metad {
+  margin-left: 1.5rem;
+  color: #333;
+}
+
+/* moins de marge gauche petit écran */
+@media (max-width: 768px) {
+    .metad {
+        margin-left: 0rem;
+    }
+}
+
+/* marge contenu textuel page analysis (pas collé bordure metadata) */
+.inner-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+/* ABOUT */
+
+/* pr 'about' template */
+
+.text-110 {
+    font-size: 110%;
+}
+.vertical-separator {
+    width: 2px;
+    height: 30px;
+    background-color: var(--color-green-dark);
+}
+
+
+
+/*INACTIFS */
+
+/* Bouton burger petit écran (inactif)
+.navbar-toggler {
+    border-color: var(--color-green-dark) !important;
+}
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(23,140,25,1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    width: 1.2em;
+    height: 1.2em;
+}
+*/
+
+/* séparateurs menus navigation header (inactifs : 1 seul bouton About)
+menu (inactif) sous header
+.nav-separator {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: #585964;
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+menu (actif) dans header
+.nav-sep {
+    display: flex;
+    align-items: center;
+    color: var(--color-green-dark);
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .nav-separator {
+        display: none;
+    }
+}
+*/
