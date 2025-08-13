@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container">
-    <form action="{% url 'gama:analysis_do' %}" method="post" onsubmit="showLoading()">
+    <form action="{% url 'gama:analysis_run' %}" method="post" onsubmit="showLoading()">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
 
@@ -89,18 +89,31 @@
 </div>
 
 <script>
-function showLoading() {
-    const mobileDiv = document.getElementById('loading-gif-mobile');
-    const desktopDiv = document.getElementById('loading-gif-desktop');
-    
-    if (mobileDiv) mobileDiv.style.display = 'block';
-    if (desktopDiv) desktopDiv.style.display = 'block';
-    
-    console.log("Loading...");
-}
 
+    // ---------------------------
+    // Affichage du GIF loader
+    // ---------------------------
+    function showLoading() {
+        const mobileDiv = document.getElementById('loading-gif-mobile');
+        const desktopDiv = document.getElementById('loading-gif-desktop');
 
-    // Champs concernés
+        if (mobileDiv) mobileDiv.style.display = 'block';
+        if (desktopDiv) desktopDiv.style.display = 'block';
+
+        console.log("Loading...");
+    }
+
+    // ---------------------------
+    // Masquer le GIF à chaque chargement de la page, même depuis le cache (back)
+    // ---------------------------
+    window.addEventListener("pageshow", function () {
+        document.getElementById("loading-gif-desktop").style.display = "none";
+        document.getElementById("loading-gif-mobile").style.display = "none";
+    });
+
+    // ---------------------------
+    // Champs de formulaire à sauveagrder/restaurer
+    // ---------------------------
     const fields = [
         "corpus_name",
         "doc_name",
@@ -110,35 +123,18 @@ function showLoading() {
         "text"
     ];
 
-    // Restauration automatique des champs à partir de localStorage
-    window.addEventListener("DOMContentLoaded", () => {
-        if (localStorage.getItem("restore_on_load") === "true") {
-            fields.forEach(field => {
-                const el = document.getElementById(field);
-                const saved = localStorage.getItem("field_" + field);
-                if (el && saved !== null) {
-                    el.value = saved;
-                }
-            });
-        }
-
-        // Nettoyage du localStorage une fois que les données sont restaurées
-        localStorage.removeItem("restore_on_load");
-
-        // Nettoyage complet si pas d'analyse faite
-        if (!localStorage.getItem("analysis_done")) {
-            fields.forEach(field => localStorage.removeItem("field_" + field));
-        }
-    });
-
-    // Avant de changer la langue : sauvegarder les champs
+    // ---------------------------
+    // Changement de langue via le menu de langue
+    // ---------------------------
+    // Avant de changer la langue : sauvegarder les champs dans le localStorage
     document.querySelectorAll(".lang-link").forEach(link => {
         link.addEventListener("click", function (e) {
             e.preventDefault();
 
-            const lang = this.dataset.lang;
-            const form = document.getElementById("lang-form");
+            const lang = this.dataset.lang; // Récupère le code de langue
+            const form = document.getElementById("lang-form"); // Formulaire caché Django
 
+            // Sauvegarde les champs dans localStorage
             fields.forEach(field => {
                 const el = document.getElementById(field);
                 if (el) {
@@ -149,20 +145,51 @@ function showLoading() {
             // Indique qu'on veut restaurer les champs au prochain chargement
             localStorage.setItem("restore_on_load", "true");
 
-            // Remplit et soumet le formulaire caché
+            // Remplit et soumet le formulaire caché pour changer la langue
             document.getElementById("lang-input").value = lang;
             document.getElementById("lang-next").value = window.location.pathname;
             form.submit();
         });
     });
 
+    // ---------------------------
+    // Restauration automatique des champs à partir de localStorage
+    // ---------------------------
+    // Quand la page se charge, on vérifie si l'utilisateur a changé la langue récemment
+    // Si oui, on restaure les valeurs des champs depuis le localStorage
+    window.addEventListener("DOMContentLoaded", () => {
+        // Vérifie si on doit restaurer les champs
+        if (localStorage.getItem("restore_on_load") === "true") {
+            fields.forEach(field => {
+                const el = document.getElementById(field); // Récupération du champ
+                const saved = localStorage.getItem("field_" + field); // Récupération de la valeur sauvegardée
+                if (el && saved !== null) {
+                    el.value = saved; // Remplissage du champ avec la valeur récupérée
+                }
+            });
+        }
+
+        // Nettoyage du localStorage une fois que les données sont restaurées pour ne pas garder anciennes valeurs
+        localStorage.removeItem("restore_on_load");
+
+        // Nettoyage complet des valeurs sauvegardées si pas aucune analyse de faite
+        if (!localStorage.getItem("analysis_done")) {
+            fields.forEach(field => localStorage.removeItem("field_" + field));
+        }
+    });
+
+    // ---------------------------
     // Gestion du select d'exemples
+    // ---------------------------
+    // Permet de pré-remplir les champs avec l'exemple choisi
     const examples = {{ example_poems|safe }};
 
     document.getElementById("exampleSelector").addEventListener("change", function () {
         const selectedKey = this.value;
 
+        // Si aucune option de sélectionnée ou option par défaut ('Select a text') --> vide les champs
         if (!selectedKey || !examples[selectedKey]) {
+            // Si l'option par défaut ("Select a text") est enclenchée dans le sélecteur, on vide tous les champs
             fields.forEach(field => {
                 const el = document.getElementById(field);
                 if (el) el.value = "";
@@ -170,6 +197,7 @@ function showLoading() {
             return;
         }
 
+        // Sinon les champs sont pré-remplis avec les données de l'exemple sélectionné
         const data = examples[selectedKey];
         fields.forEach(field => {
             const el = document.getElementById(field);
@@ -180,13 +208,6 @@ function showLoading() {
         localStorage.removeItem("restore_on_load");
         fields.forEach(field => localStorage.removeItem("field_" + field));
     });
-
-    // Masquer le GIF à chaque chargement de la page, même depuis le cache
-    window.addEventListener("pageshow", function () {
-        document.getElementById("loading-gif-desktop").style.display = "none";
-        document.getElementById("loading-gif-mobile").style.display = "none";
-    });
-
 
 </script>
 
