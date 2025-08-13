@@ -20,20 +20,20 @@ msgstr ""
 
 #: gamaweb/settings.py:137
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 #: gamaweb/settings.py:138
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #: gamaweb/settings.py:139
 msgid "Galician"
-msgstr ""
+msgstr "Galicien"
 
 #: io/c57624/input.txt:3
 msgid "New analysis"
-msgstr ""
+msgstr "Nouvelle analyse"
 
 #: io/c57624/input.txt:7
 msgid "Download results (ZIP)"
-msgstr ""
+msgstr "Télécharger résultats (ZIP)"
