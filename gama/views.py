@@ -150,14 +150,13 @@ def analysis_show(request):
     _handle_language(request)
     # `analysis_data` is the text + metadata
     analysis_data = request.session.get("analysis_data")
-    # now have two variables for scansion results: desktop and mobile
 
+    # now have two variables for scansion results: desktop and mobile
     analysis_result_desktop  = request.session.get('analysis_result_desktop')
     analysis_result_mobile = request.session.get('analysis_result_mobile')
 
     if not analysis_data or not (analysis_result_desktop or analysis_result_mobile):
         return redirect("gama:error", errtype="empty")
-
 
     corpus_name = _translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
     doc_name = _translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
