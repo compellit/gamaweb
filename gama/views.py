@@ -78,7 +78,7 @@ def translate_if_default(value, key):
         return _(value)
     return value
 
-def analysis(request):
+def analysis_do(request):
     handle_language(request)
 
     if request.method == "POST":
@@ -142,16 +142,15 @@ def analysis(request):
         request.session['results_data'] = results_data
 
         #Redirection nouvelle view pour PRG
-        return redirect("gama:analysis_result")
+        return redirect("gama:analysis_show")
 
     return redirect("gama:index")
 
-def analysis_results(request):
+def analysis_show(request):
     handle_language(request)
     # `analysis_data` is the text + metadata
     analysis_data = request.session.get("analysis_data")
     # now have two variables for scansion results: desktop and mobile
-    analysis_result = request.session.get("analysis_result")
 
     analysis_result_desktop  = request.session.get('analysis_result_desktop')
     analysis_result_mobile = request.session.get('analysis_result_mobile')
@@ -270,7 +269,7 @@ def about(request):
     return render(request, f"gama/about/about_{lang}.html")
 
 
-def bulk_analysis(request):
+def analysis_bulk(request):
     """Zip analysis"""
     handle_language(request)
 

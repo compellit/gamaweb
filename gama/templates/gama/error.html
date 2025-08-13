@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row justify-content-center mb-4">
 <div class="col-12 col-md-10 col-lg-8 my-0">
-<form action="{% url 'gama:analysis' %}" method="post">
+<form action="{% url 'gama:analysis_do' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="language" value="{{ LANGUAGE_CODE }}">
     <!-- Bloc texte à analyser -->

@@ -5,11 +5,11 @@ from . import views
 app_name = "gama"
 urlpatterns = [
     path("", views.index, name="index"),
-    path("analysis", views.analysis, name="analysis"),
+    path("analysis_do", views.analysis_do, name="analysis_do"),
     path("error/<str:errtype>/", views.error, name="error"),
     path("export_results/", views.export_results, name="export_results"),
     path("about/", views.about, name="about"),
-    path("results/", views.analysis_results, name="analysis_result"),
-    path('clear-session/', views.clear_session, name='clear_session'),
-    path('bulk_analysis/', views.bulk_analysis, name='bulk_analysis'),
+    path("analysis/", views.analysis_show, name="analysis_show"),
+    path('clear/', views.clear_session, name='clear_session'),
+    path('analysis_bulk/', views.analysis_bulk, name='analysis_bulk'),
 ]
