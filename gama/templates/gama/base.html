@@ -20,6 +20,8 @@
     <!-- <script src="{% static 'js/tablesort.js' %}"></script> !-->
 </head>
 <body>
+
+    <!-- HEADER -->
     <header class="navbar-custom position-relative mb-0">
         <div class="container navbar-border d-flex justify-content-between align-items-center px-2 py-0 my-0 mb-0">
             <!-- Titre -->
@@ -32,26 +34,16 @@
                 <span class="vertical-separator d-none d-sm-inline"></span>
                 <!-- Menu langues -->
                 <div class="d-flex flex-column gap-1 mb-2" style="line-height: 1.2;">
-                    <form action="{% url 'set_language' %}" method="post" id="lang-en" style="display: none;">
-                        {% csrf_token %}
-                        <input type="hidden" name="language" value="en">
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                    </form>
-                    <form action="{% url 'set_language' %}" method="post" id="lang-fr" style="display: none;">
-                        {% csrf_token %}
-                        <input type="hidden" name="language" value="fr">
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                    </form>
                     <a href="#" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}" data-lang="en">en</a>
                     <a href="#" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}" data-lang="fr">fr</a>
                     <a href="#" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}" data-lang="gl">gl</a>
 
+                    <!-- Formulaire pour soumettre langue via JS -->
                     <form id="lang-form" action="{% url 'set_language' %}" method="post" style="display: none;">
                         {% csrf_token %}
                         <input type="hidden" name="language" id="lang-input">
                         <input type="hidden" name="next" id="lang-next" value="{{ request.path }}">
                     </form>
-
                 </div>
             </div>
         </div>
@@ -63,7 +55,8 @@
             <a href="#" class="lang-link">{% trans "About" %}</a>
         </div>
     </nav>-->
-        <!-- Toggler (visible seulement en petit écran) -->
+
+        <!-- TOGGLER pour sidebar (visible seulement en petit écran) -->
     <button id="sidebarToggle"
             class="sidebar-toggle custom-tog position-fixed top-50 start-0 translate-middle-y border-0 px-1 py-2 rounded-end shadow-sm d-md-none"
             type="button"
@@ -73,6 +66,7 @@
         <i class="bi bi-chevron-right fs-4"></i>
     </button>
 
+    <!-- SIDEBAR (offcanvas) -->
     <div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">GAMA</h5>
@@ -89,13 +83,13 @@
             </ul>
         </div>
     </div>
-    <!-- body !-->
-    <main class="container my-0" style="padding-bottom: 70px;">
-        {% block content %}{% endblock %}
-    </main>
 
-<!-- footer !-->
+<!-- body !-->
+<main class="container my-0" style="padding-bottom: 70px;">
+    {% block content %}{% endblock %}
+</main>
 
+<!-- FOOTER !-->
 <footer class="footer fixed-bottom py-2 bg-dark border-top w-100">
     <div class="container-fluid d-flex justify-content-evenly align-items-center flex-wrap px-0 py-0 my-0 gap-3 small-text-mobile">
         <div class="footer-left text-white d-flex align-items-center flex-shrink-1">
@@ -110,15 +104,20 @@
     </div>
 </footer>
 
+<!-- JAVASCRIPT -->
 <script>
+    // ---------------------------
+    // Changement de langue via le menu de langue
+    // ---------------------------
     document.querySelectorAll('.lang-link').forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
-            const lang = this.dataset.lang;
+            const lang = this.dataset.lang; // Récupère la langue
             const form = document.getElementById('lang-form');
             document.getElementById('lang-input').value = lang;
             document.getElementById('lang-next').value = window.location.pathname;
 
+            // Soumission du formulaire pour changer la langue
             fetch(form.action, {
                 method: 'POST',
                 headers: {
@@ -127,18 +126,30 @@
                 },
                 body: `language=${lang}&next=${encodeURIComponent(window.location.pathname)}`
             }).then(() => {
-
+                // Redirection vers même page avec le nouveau préfixe de langue dans url
+                // + Remplace la page courante dans l'historique au lieu d'en créer une nouvelle)
+                    // (si l'utilisateur a changé plusierus fois de langue sur une page --> pas conservées dans historique
+                    // empêche les retours vers une même page dans différentes langues)
                 window.location.replace(`/${lang}${window.location.pathname.slice(3)}`);
             });
         });
     });
 
+    // ---------------------------
+    // Fonction permettant de récupérer un cookie
+    // ---------------------------
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    // ---------------------------
+    // Gestion du retour arrière (back button)
+    // ---------------------------
+    // Si la langue du cookie est différente de l'URL --> redirige dans la bonne langue
+        // (ex : si l'utilisateur change de langue depuis une page et fait un back sur la page précédente,
+        // celle-ci s'affiche dans la nouvelle langue)
     window.addEventListener("pageshow", function (event) {
         if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
             const urlLang = window.location.pathname.split("/")[1]; // 'fr', 'en', 'gl'

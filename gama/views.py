@@ -33,6 +33,9 @@ DEFAULTS_TO_TRANSLATE = {
 }
 
 def clear_session(request):
+    """
+    Supprime les données d'analyse stockées en session et redirige vers la page index
+    """
     try:
         del request.session['analysis_data']
     except KeyError:
@@ -40,21 +43,37 @@ def clear_session(request):
     return redirect('gama:index')
 
 def handle_language(request):
+    """
+    Gestion des langues
+    """
+
+    # Initialise lang à None
     lang = None
+
+    # Récupère les langues envoyées en POST (menu de langues)
     if request.method == "POST":
         lang = request.POST.get("language")
 
+    # Si une langue est récupérée (=/ None) on active cette langue
+    # (--> changement de langue d'une page via le menu de langues)
     if lang:
         translation.activate(lang)
         request.LANGUAGE_CODE = lang
+
+    # Sinon (aucune langue passée en POST) on récupère la langue enregistrée par Django
+    # (--> simple navigation ou rechargement d'une page)
     else:
         lang = translation.get_language()
         translation.activate(lang)
 
+    # Renvoi la langue utilisée
     return lang
 
 
 def load_example_poems():
+    """
+    Charge le fichier JSON contenant des exemples de poèmes.
+    """
     example_path = os.path.join(settings.BASE_DIR, "gama", "ext_data", "ex_poem.json")
     try:
         with open(example_path, "r", encoding="utf-8") as f:
@@ -63,23 +82,66 @@ def load_example_poems():
         return {}
 
 def index(request):
+    """
+    Page d'accueil de l'application.
+
+    Étapes :
+    1. Gére la langue via handle_language.
+    2. Charge les poèmes d'exemple pour l'affichage.
+    3. Récupère les données précédemment saisies en session
+       (si l'utilisateur revient sur la page les champs restent pré-remplis).
+    4. Passe les données au template index.html pour affichage.
+    """
     #return HttpResponse("Hello, world. You're at the gama index.")
+
+    # Gestion de la langue
     handle_language(request)
+
+    # Chargement des poèmes exemples
     example_poems = load_example_poems()
+
+    # Récupération des metadata depuis la session
     initial_data = request.session.get('analysis_data', {})
+
+    # Rendu template html avec le context
     return render(request, "gama/index.html", {
             "example_poems": example_poems,
             "initial_data": initial_data,
     })
 
 def translate_if_default(value, key):
+    """
+    Traduit une valeur uniquement si elle correspond à une valeur par défaut
+    définie dans DEFAULTS_TO_TRANSLATE.
+    """
     if value in DEFAULTS_TO_TRANSLATE.get(key, []):
         return _(value)
     return value
 
 def analysis(request):
+    """
+    Traite le POST d'une analyse de texte.
+
+    Rôle :
+    1. Vérifie et valide le texte soumis (taille, format des vers, etc.).
+    2. Récupère et stocke les metadata dans la session.
+       (utile pour conserver les valeurs si l'utilisateur change de langue)
+    3. Crée un dossier unique pour l'analyse et écrit le texte en fichier.
+    4. Lance le prétraitement via un script externe.
+    5. Effectue l'analyse métrique via gumper_main et stocke :
+       - scansion (pour affichage)
+       - results_data (pour export)
+    6. Redirige vers analysis_results pour afficher le résultat (PRG).
+
+    Remarques :
+    - Ne gère que le POST.
+    - Les résultats sont conservés en session pour permettre changement de langue
+      sans relancer l'analyse.
+    """
+    # Gestion de la langue via handle_language
     handle_language(request)
 
+    # Récupère et vérifie que le texte n'est pas vide, trop long, ou contient des vers trop longs
     if request.method == "POST":
         text = request.POST.get("text", "")
         if not text:
@@ -89,12 +151,15 @@ def analysis(request):
         if any(len(line.strip()) > 200 for line in text.splitlines() if line.strip()):
             return redirect("gama:error", errtype="not_verse")
 
+        # Récupération des métadonnées (or "valeur par défaut" si champ vide)
         corpus_name_key = request.POST.get("corpus_name") or "—"
         doc_name_key = request.POST.get("doc_name") or "—"
         doc_subtitle_key = request.POST.get("doc_subtitle") or "—"
         author_key = request.POST.get("author") or "Unknown"
         date_key = request.POST.get("date") or "—"
 
+        # Stockage en session des metadata pour pouvoir changer la langue sur la page
+        # (et éviter l'erreur et redirection 'empty' lors du changement)
         request.session['analysis_data'] = {
             "text": text,
             "corpus_name": corpus_name_key,
@@ -104,6 +169,7 @@ def analysis(request):
             "date": date_key,
         }
 
+        # ID unique et dossier de sortie
         request.session["curid"] = str(uuid.uuid4())[0:6]
         curid = request.session["curid"]
         out_dir = settings.IO_DIR / curid
@@ -125,32 +191,66 @@ def analysis(request):
             }
             return render(request, "gama/analysis.html", context)
 
+        # Analyse métrique
         orig_poem_path = out_dir / "input.txt"
         prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+        # scansion : texte formaté pour l'affichage
+        # results_data : dictionnaire pour export tsv
         scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
 
+        # Stockage résultats de l'analyse en session
+        # Pour pouvoir changer lg depuis la page de résultats (sans relancer l'analyse)
         request.session['analysis_result'] = "".join(scansion)
+
+        # Stockage des résultats pour l'export au format tsv
         request.session['results_data'] = results_data
 
-        #Redirection nouvelle view pour PRG
+        # Redirection vers analysis_results selon principe PRG
         return redirect("gama:analysis_result")
 
     return redirect("gama:index")
 
 def analysis_results(request):
+    """
+    Affiche les résultats d'une analyse de texte.
+
+    Rôle :
+    1. Récupère depuis la session :
+       - `analysis_data` (texte + métadonnées)
+       - `analysis_result` (scansion du texte)
+    2. Si les données sont absentes, redirige vers une page d'erreur.
+    3. Traduit les métadonnées par défaut si besoin,
+       sans toucher aux valeurs saisies par l'utilisateur.
+    4. Passe les données au template analysis.html pour affichage.
+
+    Remarques :
+    - Gère uniquement le GET.
+    - Permet de changer la langue sur la page résultats sans perdre le texte ou
+      les métadonnées.
+    - Compatible avec le principe PRG : l'analyse est séparée de l'affichage.
+    """
+
+    # Gestion de la langue
     handle_language(request)
+
+    # Récupération des données stockées en session
+    # Permet d'afficher sans relancer l'analyse
     analysis_data = request.session.get("analysis_data")
     analysis_result = request.session.get("analysis_result")
 
+    # Si vide et qu'on ne peut rien afficher, redirection vers page erreur 'empty'
     if not analysis_data or not analysis_result:
         return redirect("gama:error", errtype="empty")
 
+    # Traduction des métadonnées uniquement si valeurs par défaut
+    # (ne traduit pas des valeurs saisies par l'utilisateur)
     corpus_name = translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
     doc_name = translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
     doc_subtitle = translate_if_default(analysis_data.get("doc_subtitle", "—"), "doc_subtitle")
     author = translate_if_default(analysis_data.get("author", "Unknown"), "author")
     date = translate_if_default(analysis_data.get("date", "—"), "date")
 
+    # Context pour le rendu du template analysis.html
     context = {
         "text": analysis_data.get("text", ""),
         "corpus_name": corpus_name,
@@ -164,7 +264,25 @@ def analysis_results(request):
     return render(request, "gama/analysis.html", context)
 
 def error(request, errtype):
+    """
+    Gère l'affichage des erreurs côté utilisateur.
+
+    Étapes :
+    1. Active la langue de l'utilisateur via handle_language.
+    2. Détermine le message d'erreur en fonction de `errtype` :
+       - 'empty' : texte vide
+       - 'too_long' : texte trop long
+       - 'not_verse' : ligne trop longue / non conforme au format vers
+       - autre : erreur inattendue
+    3. Prépare le contexte pour le template de la page d'accueil,
+       incluant des poèmes exemples pour que le sélecteur ne soit pas vide.
+    4. Rendu du template approprié.
+    """
+
+    # Gestion de la langue
     handle_language(request)
+
+    # Gestion du message selon le type d'erreur
     if errtype == "empty":
         err_message = _("The input text cannot be empty.")
     elif errtype == "too_long":
@@ -172,20 +290,46 @@ def error(request, errtype):
     elif errtype == "not_verse":
         err_message = _("The input text does not seem to be in verse (lines too long?).")
     else:
+        # Autre erreur inattendue : renvoi vers page dédiée
         return render(request, "gama/error.html", {
             "message": _("An unexpected error occurred.")
         })
 
-    example_poems = load_example_poems()
+    # Contexte pour renvoi vers page d'accueil (index)
+    # avec message d'erreur + rechargement des poèmes exemples
+    example_poems = load_example_poems()    # Nécessaire, sinon sélecteur vide sur page erreur
     context = {
         "error_message": err_message,
         "example_poems": example_poems,
     }
+
+    # Rendu de la page d'accueil avec l'erreur
     return render(request, "gama/index.html", context)
 
 def export_results(request):
+    """
+    Exporte les résultats d'une analyse sous forme de ZIP.
+
+    Contenu du ZIP :
+    - input.txt : texte brut
+    - metadata.tsv : métadonnées (traduites si valeurs par défaut)
+    - results.tsv : résultats de l'analyse métrique
+
+    Étapes :
+    1. Gestion de la langue.
+    2. Récupération des données en session : texte, métadonnées, résultats, ID unique.
+    3. Vérification que des résultats existent, sinon HTTP 400.
+    4. Traduction conditionnelle des métadonnées par défaut.
+    5. Création d'un répertoire temporaire pour générer les fichiers.
+    6. Écriture des fichiers texte et TSV.
+    7. Création d'une archive ZIP contenant ces fichiers.
+    8. Envoi du ZIP en réponse HTTP avec header Content-Disposition.
+    """
+
+    # Gestion de la langue
     handle_language(request)
 
+    # Récupération des données depuis la session
     analysis_data = request.session.get("analysis_data")
     results_data = request.session.get("results_data")
     text = analysis_data.get("text", "") if analysis_data else ""
@@ -194,6 +338,8 @@ def export_results(request):
     if not results_data:
         return HttpResponse("No analysis results to export.", status=400)
 
+    # Traduction des métadonnées uniquement si valeurs par défaut
+    # (ne traduit pas des valeurs saisies par l'utilisateur)
     corpus_name_key = analysis_data.get("corpus_name", "Unnamed corpus")
     doc_name_key = analysis_data.get("doc_name", "Untitled")
     doc_subtitle_key = analysis_data.get("doc_subtitle", "—")
@@ -206,6 +352,7 @@ def export_results(request):
     author = translate_if_default(author_key, "author")
     date = translate_if_default(date_key, "date")
 
+    # Création d'un répertoire temporaire pour générer fichiers de sortie
     with tempfile.TemporaryDirectory() as tmpdir:
         # input.txt
         with open(f"{tmpdir}/input.txt", "w", encoding="utf-8") as f:
@@ -233,7 +380,7 @@ def export_results(request):
                     _("stressed_syllables"): row["stressed_syllables"],
                     _("no_extra_rhythmic"): row["no_extra_rhythmic"]
                 })
-        # zip
+        # Création du zip contenant les 3 fichiers
         zip_filename = f"results_scansion_{curid}.zip"
         zip_path = f"{tmpdir}/{zip_filename}"
         with zipfile.ZipFile(zip_path, "w") as zipf:
@@ -241,6 +388,7 @@ def export_results(request):
             zipf.write(f"{tmpdir}/metadata.tsv", "metadata.tsv")
             zipf.write(f"{tmpdir}/results.tsv", "results.tsv")
 
+        # Lecture du zip + renvoi en réponse HTTP pour téléchargement
         with open(zip_path, "rb") as f:
             response = HttpResponse(f.read(), content_type="application/zip")
             response["Content-Disposition"] = f"attachment; filename={zip_filename}"
@@ -248,23 +396,49 @@ def export_results(request):
 
 def about(request):
     """'About' page for each language."""
+    # Gestion de la langue
     handle_language(request)
-    lang = request.LANGUAGE_CODE
-    translation.activate(lang)
-    return render(request, f"gama/about/about_{lang}.html")
+    return render(request, f"gama/about/about_{request.LANGUAGE_CODE}.html")
 
 def bulk_analysis(request):
+    """
+    Analyse par lot de plusieurs poèmes à partir d'un ZIP contenant des fichiers txt.
+
+    Rôle :
+    1. Gérer la langue via handle_language.
+    2. Vérifier la présence d'un fichier ZIP uploadé.
+    3. Décompresser le ZIP dans un dossier temporaire.
+    4. Parcourir chaque fichier .txt et :
+       - Lire le texte
+       - Générer un ID unique pour l'analyse
+       - Sauvegarder le texte brut
+       - Prétraiter le texte via le script de preprocessing
+       - Analyser le texte (scansion et métrique)
+       - Générer un fichier TSV des résultats
+    5. Regrouper tous les TSV générés dans un ZIP de sortie.
+    6. Retourner le ZIP via une réponse HTTP avec header Content-Disposition
+       pour téléchargement direct.
+
+    Retour :
+    - ZIP contenant les résultats TSV de tous les poèmes valides,
+      ou HTTP 400 si aucun fichier ou aucun poème valide n'est fourni.
+    """
+
+    # Gestion de la langue
     handle_language(request)
 
+    # Vérification POST + fichier zip
     if request.method == 'POST' and request.FILES.get('zip_file'):
         uploaded_zip = request.FILES['zip_file']
 
         with tempfile.TemporaryDirectory() as tmpdir:
+            # Sauvegarde temporaire du zip uploadé
             zip_path = os.path.join(tmpdir, 'uploaded.zip')
             with open(zip_path, 'wb') as f:
                 for chunk in uploaded_zip.chunks():
                     f.write(chunk)
 
+            # Extraction du zip
             extract_dir = os.path.join(tmpdir, 'extracted')
             os.makedirs(extract_dir, exist_ok=True)
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
@@ -272,24 +446,30 @@ def bulk_analysis(request):
 
             result_paths = []
 
+            # Parcours des fichiers extraits
             for fname in os.listdir(extract_dir):
                 if fname.endswith('.txt'):
                     input_path = os.path.join(extract_dir, fname)
                     try:
+                        # Lacture du texte
                         with open(input_path, "r", encoding="utf-8") as f:
                             text = f.read()
 
+                        # Ignore les fichiers vides
                         if not text.strip():
                             continue
 
+                        # ID et dossier de sortie
                         curid = str(uuid.uuid4())[:6]
                         out_dir = settings.IO_DIR / f"bulk_{curid}"
                         Path(out_dir).mkdir(parents=True, exist_ok=True)
 
+                        # Sauvegarde texte brut
                         input_txt = out_dir / "input.txt"
                         with open(input_txt, "w", encoding="utf-8") as f:
                             f.write(text)
 
+                        # Prétraitement
                         subprocess.run(
                             ["python", "../preprocessing/g2s_client_running_text.py",
                              str(input_txt), "-p", "-d", "-n", "-s", "-b", "001"],
@@ -297,6 +477,7 @@ def bulk_analysis(request):
                             cwd=settings.PREPRO_DIR,
                         )
 
+                        # Analyse
                         orig_poem_path = input_txt
                         prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
                         scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
@@ -329,18 +510,20 @@ def bulk_analysis(request):
             if not result_paths:
                 return HttpResponse(_("No valid poems found in ZIP."), status=400)
 
-            # Création du zip de sortie
+            # Création du zip de sortie avec ID unique
+            curid = str(uuid.uuid4())[:6]
             original_name = uploaded_zip.name
             base_name = original_name.rsplit('.', 1)[0]
-            output_zip_name = f"{base_name}_results.zip"
+            output_zip_name = f"{base_name}_results_{curid}.zip"
             with zipfile.ZipFile(output_zip_name, 'w') as out_zip:
                 for name, path in result_paths:
                     out_zip.write(path, arcname=name)
 
+            # Réponse HTTP pour téléchargement
             with open(output_zip_name, 'rb') as f:
                 response = HttpResponse(f.read(), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
                 return response
 
+    # Méthode non POST ou aucun fichier zip uploadé
     return HttpResponse(_("No ZIP file uploaded or method not allowed."), status=400)
-

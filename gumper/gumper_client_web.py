@@ -28,6 +28,8 @@ def main(cf, origfile, infile):
     reps_t = ut.load_t_replacements(cf)
 
     all_scansion_out = []
+    # Pour construire le fichier results.tsv pour l'export
+    # (Sinon les résultats de l'analyse sont sous forme html, compliquée à reformater dans un tsv)
     results_data = []
 
     with open(origfile, encoding="utf8") as f:
@@ -49,13 +51,15 @@ def main(cf, origfile, infile):
             postpro_txt = f"{result[1]:<50}"
             out_format = (f"<tr><td style='text-align:right'>{idx+1}.</td>"
                   f"<td style='padding-left:1em'>{orig_lines[idx]:<50}</td>" 
-                  f"<td class='col-preprocessing'>{postpro_txt}"
+                  f"<td class='col-preprocessing'>{postpro_txt}"    #Ajout class pour fonction Afficher/Cacher colonne
                   f"</td><td style='padding-left:3em;text-align:right'>{result[2]:>3}"
                   f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[3]]):>16}"
                   f"</td><td style='padding-left:3em;text-align:right'>\t{' '.join([str(x) for x in result[4]]):>16}</td></tr>\n") 
             DBG and print(out_format)
             all_scansion_out.append(out_format)
     #ut.write_output_file(all_poem_lines_out, all_scansion_out, f"001")
+
+            # Stockage données d'analyse pour tsv
             results_data.append({
                 "line": idx + 1,
                 "original_text": orig_lines[idx],
@@ -64,6 +68,7 @@ def main(cf, origfile, infile):
                 "stressed_syllables": " ".join(map(str, result[3])),
                 "no_extra_rhythmic": " ".join(map(str, result[4]))
             })
+    # Retourner all_scansion_out (page html) et results_data (export)
     return all_scansion_out, results_data
 
 if __name__ == "__main__":

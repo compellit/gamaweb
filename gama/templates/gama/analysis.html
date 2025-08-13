@@ -46,6 +46,7 @@
         <div class="inner-content">
             <h3 class="mb-3 mt-4">{%trans "Scansion" %}</h3>
         </div>
+        <!-- Bouton Afficher/Cacher Preprocessing -->
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="togglePreprocessing" checked>
             <label class="form-check-label" for="togglePreprocessing">
@@ -96,13 +97,31 @@
 
 <script>
 $(document).ready(function () {
+
+    // ---------------------------
+    // Récupération de la langue active Django
+    // ---------------------------
+    // Permet de savoir dans quelle langue afficher la table (fr, en, gl)
     window.lang = "{{ LANGUAGE_CODE }}";
+
+    // ---------------------------
+    // Chargement du fichier de traduction correspondant pour affichage du DataTable
+    // ---------------------------
     const langUrls = {
         'fr': '{% static "js/i18n/datatables/fr-FR.json" %}',
         'en': '{% static "js/i18n/datatables/en-GB.json" %}',
         'gl': '{% static "js/i18n/datatables/gl-ES.json" %}',
     };
 
+    // ---------------------------
+    // Paramètres du DataTable
+    // ---------------------------
+    // - responsive: adapte la table aux écrans petits
+    // - paging: active la pagination
+    // - pageLength: nombre de lignes par page (ici 100)
+    // - searching: barre de recherche
+    // - ordering: tri des colonnes activé
+    // - language.url: charge le JSON correspondant à la langue pour la traduction
     const table = $('#myTable').DataTable({
         responsive: true,
         paging: true,
@@ -110,12 +129,16 @@ $(document).ready(function () {
         searching: true,
         ordering: true,
         language: {
-            url: langUrls[window.lang] || langUrls['en']
+            url: langUrls[window.lang] || langUrls['en'] // fallback en en si langue non trouvée
         }
     });
 
+    // ---------------------------
+    // Gestion du bouton Afficher/Cacher colonne Preprocessing
+    // ---------------------------
+    // Le checkbox #togglePreprocessing permet de masquer/afficher la colonne
     document.getElementById("togglePreprocessing").addEventListener("change", function () {
-        const show = this.checked;
+        const show = this.checked;  // true si coché, false sinon
         const column = table.column('.col-preprocessing'); // sélectionne la colonne via sa classe
         column.visible(show);  // montre ou cache la colonne via DataTables
         table.columns.adjust().draw();  // ajuste la largeur et redessine le tableau

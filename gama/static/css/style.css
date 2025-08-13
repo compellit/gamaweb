@@ -50,8 +50,9 @@ a {
     transition: background-color 0.2s ease;
 }
 
-.btn-beige:hover {
-    border: 1px solid var(--color-green);
+/* bordure verte tout le temps */
+.btn-beige:hover, .btn-beige:focus, .btn-beige:active {
+    border: 1px solid var(--color-green) !important;
 }
 
 /* bouton clear */
@@ -65,8 +66,9 @@ a {
     transition: background-color 0.2s ease;
 }
 
-.btn-orange:hover {
-    border: 1px solid #FAA18F;
+/* bordure orange tout le temps */
+.btn-orange:hover, .btn-orange:focus, .btn-orange:active {
+    border: 1px solid #FAA18F !important;
 }
 
 
@@ -349,6 +351,19 @@ h3::after {
     border-bottom: 1px solid var(--color-green);
     border-right: 1px solid var(--color-green);
     border-left: 5px solid var(--color-green);
+}
+
+/* for 'loading' gif (location changes c/o screen size) */
+@media (max-width: 768px) {
+    #loading-gif-desktop {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    #loading-gif-mobile {
+        display: none !important;
+    }
 }
 
 
