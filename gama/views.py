@@ -40,7 +40,7 @@ def clear_session(request):
         pass
     return redirect('gama:index')
 
-def handle_language(request):
+def _handle_language(request):
     lang = None
     if request.method == "POST":
         lang = request.POST.get("language")
@@ -55,7 +55,7 @@ def handle_language(request):
     return lang
 
 
-def load_example_poems():
+def _load_example_poems():
     example_path = os.path.join(settings.BASE_DIR, "gama", "ext_data", "ex_poem.json")
     try:
         with open(example_path, "r", encoding="utf-8") as f:
@@ -65,21 +65,21 @@ def load_example_poems():
 
 def index(request):
     #return HttpResponse("Hello, world. You're at the gama index.")
-    handle_language(request)
-    example_poems = load_example_poems()
+    _handle_language(request)
+    example_poems = _load_example_poems()
     initial_data = request.session.get('analysis_data', {})
     return render(request, "gama/index.html", {
             "example_poems": example_poems,
             "initial_data": initial_data,
     })
 
-def translate_if_default(value, key):
+def _translate_if_default(value, key):
     if value in DEFAULTS_TO_TRANSLATE.get(key, []):
         return _(value)
     return value
 
 def analysis_do(request):
-    handle_language(request)
+    _handle_language(request)
 
     if request.method == "POST":
         text = request.POST.get("text", "")
@@ -147,7 +147,7 @@ def analysis_do(request):
     return redirect("gama:index")
 
 def analysis_show(request):
-    handle_language(request)
+    _handle_language(request)
     # `analysis_data` is the text + metadata
     analysis_data = request.session.get("analysis_data")
     # now have two variables for scansion results: desktop and mobile
@@ -159,11 +159,11 @@ def analysis_show(request):
         return redirect("gama:error", errtype="empty")
 
 
-    corpus_name = translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
-    doc_name = translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
-    doc_subtitle = translate_if_default(analysis_data.get("doc_subtitle", "—"), "doc_subtitle")
-    author = translate_if_default(analysis_data.get("author", "Unknown"), "author")
-    date = translate_if_default(analysis_data.get("date", "—"), "date")
+    corpus_name = _translate_if_default(analysis_data.get("corpus_name", "Unnamed corpus"), "corpus_name")
+    doc_name = _translate_if_default(analysis_data.get("doc_name", "Untitled"), "doc_name")
+    doc_subtitle = _translate_if_default(analysis_data.get("doc_subtitle", "—"), "doc_subtitle")
+    author = _translate_if_default(analysis_data.get("author", "Unknown"), "author")
+    date = _translate_if_default(analysis_data.get("date", "—"), "date")
 
     context = {
         "text": analysis_data.get("text", ""),
@@ -179,7 +179,7 @@ def analysis_show(request):
     return render(request, "gama/analysis.html", context)
 
 def error(request, errtype):
-    handle_language(request)
+    _handle_language(request)
     if errtype == "empty":
         err_message = _("The input text cannot be empty.")
     elif errtype == "too_long":
@@ -191,7 +191,7 @@ def error(request, errtype):
             "message": _("An unexpected error occurred.")
         })
 
-    example_poems = load_example_poems()
+    example_poems = _load_example_poems()
     context = {
         "error_message": err_message,
         "example_poems": example_poems,
@@ -199,7 +199,7 @@ def error(request, errtype):
     return render(request, "gama/index.html", context)
 
 def export_results(request):
-    handle_language(request)
+    _handle_language(request)
 
     analysis_data = request.session.get("analysis_data")
     results_data = request.session.get("results_data")
@@ -215,11 +215,11 @@ def export_results(request):
     author_key = analysis_data.get("author", "Unknown")
     date_key = analysis_data.get("date", "—")
 
-    corpus_name = translate_if_default(corpus_name_key, "corpus_name")
-    doc_name = translate_if_default(doc_name_key, "doc_name")
-    doc_subtitle = translate_if_default(doc_subtitle_key, "doc_subtitle")
-    author = translate_if_default(author_key, "author")
-    date = translate_if_default(date_key, "date")
+    corpus_name = _translate_if_default(corpus_name_key, "corpus_name")
+    doc_name = _translate_if_default(doc_name_key, "doc_name")
+    doc_subtitle = _translate_if_default(doc_subtitle_key, "doc_subtitle")
+    author = _translate_if_default(author_key, "author")
+    date = _translate_if_default(date_key, "date")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # input.txt
@@ -263,7 +263,7 @@ def export_results(request):
 
 def about(request):
     """'About' page for each language."""
-    handle_language(request)
+    _handle_language(request)
     lang = request.LANGUAGE_CODE
     translation.activate(lang)
     return render(request, f"gama/about/about_{lang}.html")
@@ -271,7 +271,7 @@ def about(request):
 
 def analysis_bulk(request):
     """Zip analysis"""
-    handle_language(request)
+    _handle_language(request)
 
     if request.method == 'POST' and request.FILES.get('zip_file'):
         uploaded_zip = request.FILES['zip_file']
