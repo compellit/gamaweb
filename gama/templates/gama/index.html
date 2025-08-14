@@ -133,7 +133,7 @@
     // ---------------------------
     // Changement de langue via le menu de langue
     // ---------------------------
-    // Avant de changer la langue : sauvegarder les champs dans le localStorage
+    // Avant de changer la langue : sauvegarder les champs dans le sessionStorage
     document.querySelectorAll(".lang-link").forEach(link => {
         link.addEventListener("click", function (e) {
             e.preventDefault();
@@ -141,16 +141,16 @@
             const lang = this.dataset.lang; // Récupère le code de langue
             const form = document.getElementById("lang-form"); // Formulaire caché Django
 
-            // Sauvegarde les champs dans localStorage
+            // Sauvegarde les champs dans sessionStorage
             fields.forEach(field => {
                 const el = document.getElementById(field);
                 if (el) {
-                    localStorage.setItem("field_" + field, el.value);
+                    sessionStorage.setItem("field_" + field, el.value);
                 }
             });
 
             // Indique qu'on veut restaurer les champs au prochain chargement
-            localStorage.setItem("restore_on_load", "true");
+            sessionStorage.setItem("restore_on_load", "true");
 
             // Remplit et soumet le formulaire caché pour changer la langue
             document.getElementById("lang-input").value = lang;
@@ -160,31 +160,31 @@
     });
 
     // ---------------------------
-    // Restauration automatique des champs à partir de localStorage
+    // Restauration automatique des champs à partir de sessionStorage
     // ---------------------------
     // Quand la page se charge, on vérifie si l'utilisateur a changé la langue récemment
-    // Si oui, on restaure les valeurs des champs depuis le localStorage
+    // Si oui, on restaure les valeurs des champs depuis le sessionStorage
     window.addEventListener("DOMContentLoaded", () => {
         // Vérifie si on doit restaurer les champs
-        if (localStorage.getItem("restore_on_load") === "true") {
+        if (sessionStorage.getItem("restore_on_load") === "true") {
             fields.forEach(field => {
                 const el = document.getElementById(field); // Récupération du champ
-                const saved = localStorage.getItem("field_" + field); // Récupération de la valeur sauvegardée
+                const saved = sessionStorage.getItem("field_" + field); // Récupération de la valeur sauvegardée
                 if (el && saved !== null) {
                     el.value = saved; // Remplissage du champ avec la valeur récupérée
                 }
             });
         }
 
-        // Nettoyage du localStorage une fois que les données sont restaurées pour ne pas garder anciennes valeurs
-        localStorage.removeItem("restore_on_load");
+        // Nettoyage du sessionStorage une fois que les données sont restaurées pour ne pas garder anciennes valeurs
+        sessionStorage.removeItem("restore_on_load");
 
         // Nettoyage préventif :
         // Comme la clé "analysis_done" n'est jamais définie dans le code actuel,
         // ce bloc supprime toujours toutes les données sauvegardées pour les champs du formulaire.
-        // Cela évite que d'anciennes valeurs restent dans le localStorage et soient restaurées par erreur.
-        if (!localStorage.getItem("analysis_done")) {
-            fields.forEach(field => localStorage.removeItem("field_" + field));
+        // Cela évite que d'anciennes valeurs restent dans le sessionStorage et soient restaurées par erreur.
+        if (!sessionStorage.getItem("analysis_done")) {
+            fields.forEach(field => sessionStorage.removeItem("field_" + field));
         }
     });
 
@@ -214,9 +214,9 @@
             if (el) el.value = data[field] || "";
         });
 
-        // Nettoie le localStorage pour ne pas restaurer les anciens champs si un exemple est choisi
-        localStorage.removeItem("restore_on_load");
-        fields.forEach(field => localStorage.removeItem("field_" + field));
+        // Nettoie le sessionStorage pour ne pas restaurer les anciens champs si un exemple est choisi
+        sessionStorage.removeItem("restore_on_load");
+        fields.forEach(field => sessionStorage.removeItem("field_" + field));
     });
 
     // ---------------------------
@@ -303,7 +303,7 @@
             gif.style.display = 'none';
         }
     });
-    
+
 </script>
 
 
