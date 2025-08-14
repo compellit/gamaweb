@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 15:01+0200\n"
+"POT-Creation-Date: 2025-08-14 10:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,21 +155,27 @@ msgstr "Enviar"
 msgid "Clear"
 msgstr "Limpar"
 
-#: .\gama\templates\gama\index.html:80
-#, fuzzy
-#| msgid "New analysis"
+#: .\gama\templates\gama\index.html:82
 msgid "Multi-file analysis"
 msgstr "Análise multi-arquivo"
 
-#: .\gama\templates\gama\index.html:80
+#: .\gama\templates\gama\index.html:82
 msgid "(ZIP upload)"
 msgstr "(Subir ZIP)"
 
-#: .\gama\templates\gama\index.html:84
+#: .\gama\templates\gama\index.html:85
 msgid "Upload a .zip containing .txt files"
 msgstr "Sube un .zip con arquivos .txt"
 
 #: .\gama\templates\gama\index.html:87
+msgid "Browse..."
+msgstr "Explorar..."
+
+#: .\gama\templates\gama\index.html:89 .\gama\templates\gama\index.html:229
+msgid "No file selected"
+msgstr "Ningún ficheiro seleccionado"
+
+#: .\gama\templates\gama\index.html:91
 msgid "Analyze ZIP"
 msgstr "Analizar ZIP"
 
