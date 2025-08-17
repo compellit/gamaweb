@@ -366,6 +366,62 @@ h3::after {
     }
 }
 
+/* Section Multi-file analysis
+/* Bouton "Parcourir" personnalisé */
+/* Cacher le bouton par défaut input file visuellement en le laissant focusable */
+#zip_file {
+    opacity :0;
+    position: absolute;
+    width :0;
+    height: 0;
+}
+/* Conteneur global champ personnalisé (label + nom fichier) */
+.custom-file-upload {
+  display: flex; /* pour aligner label "Parcourir" + nom fichier sur la même ligne */
+  width: 100%;   /* prend toute la largeur de son parent */
+  max-width: 100%; /* s'assure que ça ne dépasse pas */
+  height: 38px; /* hauteur alignée sur les autres champs */
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  overflow: hidden; /* masque les dépassements */
+  background-color: white;
+  cursor: pointer;
+}
+/* Effet de focus vert sur tout le conteneur */
+.custom-file-upload:focus-within {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 128, 0, 0.25); /* ombre verte comme Bootstrap */
+  border-color: var(--color-green-dark); /* vert aussi sur la bordure */
+}
+/* Bordure intérieure */
+.custom-file-upload:focus-within .custom-file-label {
+    border-right-color: var(--color-green-dark);
+}
+/* Bouton "Parcourir" personnalisé */
+.custom-file-label {
+  background-color: #e9ecef;
+  padding: 0 12px;  /* espace texte-bordure */
+  display: flex;
+  align-items: center;
+  color: #495057;
+  border-right: 1px solid #ced4da; /* bordure visuelle droite (avant nom fichier) */
+  height: 100%;
+  white-space: nowrap;
+  flex-shrink: 0; /* ne pas rétrécir */
+}
+/* Zone affichant le nom du fichier choisi */
+.custom-file-name {
+  padding: 0 12px;  /* espace interne (texte-bordure) */
+  color: #6c757d;
+  white-space: nowrap; /* sur une seule ligne */
+  overflow: hidden; /* masque dépassement */
+  text-overflow: ellipsis; /* si texte dépasse [...] */
+  flex-grow: 1; /* prend toute la place restante */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: white;
+}
 
 /* CONTENU ANALYSIS */
 

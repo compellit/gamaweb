@@ -77,15 +77,21 @@
             </div>
         </div>
     </form>
+    <!-- Section Multi-file -->
     <h3 class="mb-3 mt-4">{% trans "Multi-file analysis" %} <small class="text-muted">{% trans "(ZIP upload)" %}</small></h3>
-    <form action="{% url 'gama:analysis_bulk' %}" method="post" enctype="multipart/form-data" onsubmit="showLoadingZip()">
+    <form id="bulk-form" action="{% url 'gama:analysis_bulk' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="zip_file" class="form-label">{% trans "Upload a .zip containing .txt files" %}</label>
-            <input class="form-control" type="file" name="zip_file" id="zip_file" accept=".zip" required>
-        </div>
+        <p class="form-label">{% trans "Upload a .zip containing .txt files" %}</p>
+        <label for="zip_file" class="mb-3 custom-file-upload">
+            <span class="custom-file-label">{% trans "Browse..." %}</span>
+            <input type="file" id="zip_file" name="zip_file" accept=".zip" required>
+            <span id="file-name" class="custom-file-name">{% trans "No file selected" %}</span>
+        </label>
         <button type="submit" class="btn btn-beige">{% trans "Analyze ZIP" %}</button>
     </form>
+    <div id="loading-gif-zip" class="text-center mt-3" style="display: none;">
+        <img src="{% static 'img/loader_green.gif' %}" alt="Loading..." style="height: 50px;">
+    </div>
 </div>
 
 <script>
@@ -126,7 +132,7 @@
     // ---------------------------
     // Changement de langue via le menu de langue
     // ---------------------------
-    // Avant de changer la langue : sauvegarder les champs dans le localStorage
+    // Avant de changer la langue : sauvegarder les champs dans le sessionStorage
     document.querySelectorAll(".lang-link").forEach(link => {
         link.addEventListener("click", function (e) {
             e.preventDefault();
@@ -134,16 +140,16 @@
             const lang = this.dataset.lang; // Récupère le code de langue
             const form = document.getElementById("lang-form"); // Formulaire caché Django
 
-            // Sauvegarde les champs dans localStorage
+            // Sauvegarde les champs dans sessionStorage
             fields.forEach(field => {
                 const el = document.getElementById(field);
                 if (el) {
-                    localStorage.setItem("field_" + field, el.value);
+                    sessionStorage.setItem("field_" + field, el.value);
                 }
             });
 
             // Indique qu'on veut restaurer les champs au prochain chargement
-            localStorage.setItem("restore_on_load", "true");
+            sessionStorage.setItem("restore_on_load", "true");
 
             // Remplit et soumet le formulaire caché pour changer la langue
             document.getElementById("lang-input").value = lang;
@@ -153,28 +159,31 @@
     });
 
     // ---------------------------
-    // Restauration automatique des champs à partir de localStorage
+    // Restauration automatique des champs à partir de sessionStorage
     // ---------------------------
     // Quand la page se charge, on vérifie si l'utilisateur a changé la langue récemment
-    // Si oui, on restaure les valeurs des champs depuis le localStorage
+    // Si oui, on restaure les valeurs des champs depuis le sessionStorage
     window.addEventListener("DOMContentLoaded", () => {
         // Vérifie si on doit restaurer les champs
-        if (localStorage.getItem("restore_on_load") === "true") {
+        if (sessionStorage.getItem("restore_on_load") === "true") {
             fields.forEach(field => {
                 const el = document.getElementById(field); // Récupération du champ
-                const saved = localStorage.getItem("field_" + field); // Récupération de la valeur sauvegardée
+                const saved = sessionStorage.getItem("field_" + field); // Récupération de la valeur sauvegardée
                 if (el && saved !== null) {
                     el.value = saved; // Remplissage du champ avec la valeur récupérée
                 }
             });
         }
 
-        // Nettoyage du localStorage une fois que les données sont restaurées pour ne pas garder anciennes valeurs
-        localStorage.removeItem("restore_on_load");
+        // Nettoyage du sessionStorage une fois que les données sont restaurées pour ne pas garder anciennes valeurs
+        sessionStorage.removeItem("restore_on_load");
 
-        // Nettoyage complet des valeurs sauvegardées si pas aucune analyse de faite
-        if (!localStorage.getItem("analysis_done")) {
-            fields.forEach(field => localStorage.removeItem("field_" + field));
+        // Nettoyage préventif :
+        // Comme la clé "analysis_done" n'est jamais définie dans le code actuel,
+        // ce bloc supprime toujours toutes les données sauvegardées pour les champs du formulaire.
+        // Cela évite que d'anciennes valeurs restent dans le sessionStorage et soient restaurées par erreur.
+        if (!sessionStorage.getItem("analysis_done")) {
+            fields.forEach(field => sessionStorage.removeItem("field_" + field));
         }
     });
 
@@ -204,11 +213,82 @@
             if (el) el.value = data[field] || "";
         });
 
-        // Nettoie le localStorage pour ne pas restaurer les anciens champs si un exemple est choisi
-        localStorage.removeItem("restore_on_load");
-        fields.forEach(field => localStorage.removeItem("field_" + field));
+        // Nettoie le sessionStorage pour ne pas restaurer les anciens champs si un exemple est choisi
+        sessionStorage.removeItem("restore_on_load");
+        fields.forEach(field => sessionStorage.removeItem("field_" + field));
     });
 
+    // ---------------------------
+    // Affichage du fichier ZIP importé dans le champ "Parcourir..."
+    // ---------------------------
+    // MAJ texte affiché dans <span id="file-name"> pour montrer le nom du fichier sélectionné
+    // Si aucun fichier n'est choisi, on réinitialise l'affichage avec le texte par défaut
+    document.getElementById('zip_file').addEventListener('change', function(){
+    const fileNameSpan = document.getElementById('file-name');
+    if(this.files.length > 0){
+        fileNameSpan.textContent = this.files[0].name;
+    } else {
+        fileNameSpan.textContent = '{% trans "No file selected" %}';
+    }
+});
+    // ---------------------------
+    // Gestion du Gif loader et téléchargement du fichier zip pour analyse multi-file
+    // ---------------------------
+    // On récupère le formulaire avec l'ID 'bulk-form'
+    const form = document.getElementById('bulk-form');
+    // On écoute l'événement 'submit' du formulaire
+    // L'utilisation de 'async' permet d'utiliser 'await' pour les appels asynchrones
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Empêche le comportement par défaut (reload de page)
+        // On récupère le GIF de chargement et on l'affiche
+        const gif = document.getElementById('loading-gif-zip');
+        gif.style.display = 'block';
+        // Scroll automatique vers le GIF
+        gif.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Création d'un objet FormData qui contient toutes les données du formulaire
+        // FormData gère automatiquement les fichiers et autres champs
+        const formData = new FormData(form);
+        try {
+            // Envoi de la requête POST vers l'URL du formulaire
+            // body contient le FormData, method est POST
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            });
+            // Vérifie si la réponse HTTP est correcte (200-299)
+            // Sinon, on déclenche une erreur pour passer dans le catch
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            // Récupère le corps de la réponse sous forme de blob (données binaires)
+            // C'est nécessaire pour traiter un fichier ZIP
+            const blob = await response.blob();
+            // Tente de récupérer le nom du fichier depuis l'en-tête Content-Disposition
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = 'results.zip'; // Nom par défaut si aucun header n'est trouvé
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?([^"]+)"?/);
+                if (match) filename = match[1]; // On utilise le nom fourni par le serveur
+            }
+            // Création d'une URL temporaire pour le blob afin de pouvoir le télécharger
+            const url = window.URL.createObjectURL(blob);
+            // Création d'un élément <a> temporaire pour simuler un clic sur un lien de téléchargement
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename; // Définit le nom du fichier à télécharger
+            document.body.appendChild(a); // Nécessaire pour Firefox
+            a.click(); // Simule le clic, déclenchant le téléchargement
+            a.remove(); // Supprime l'élément <a> du DOM
+            window.URL.revokeObjectURL(url); // Libère la mémoire utilisée par l'URL temporaire
+        } catch (error) {
+            // En cas d'erreur, on affiche une alerte et on log l'erreur dans la console
+            alert('Error processing ZIP file: ' + error.message);
+            console.error(error);
+        } finally {
+            // Que la requête réussisse ou échoue, on masque le GIF de chargement
+            gif.style.display = 'none';
+        }
+    });
 </script>
 
 

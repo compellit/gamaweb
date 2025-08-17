@@ -295,7 +295,7 @@ def error(request, errtype):
 
     # Contexte pour renvoi vers page d'accueil (index)
     # avec message d'erreur + rechargement des poèmes exemples
-    example_poems = load_example_poems()    # Nécessaire, sinon sélecteur vide sur page erreur
+    example_poems = _load_example_poems()    # Nécessaire, sinon sélecteur vide sur page erreur
     context = {
         "error_message": err_message,
         "example_poems": example_poems,
@@ -325,6 +325,7 @@ def export_results(request):
     # Gestion de la langue
     _handle_language(request)
 
+    # Récupération des données depuis la session
     analysis_data = request.session.get("analysis_data")
     results_data = request.session.get("results_data")
     text = analysis_data.get("text", "") if analysis_data else ""
@@ -419,6 +420,7 @@ def analysis_bulk(request):
     - ZIP contenant les résultats TSV de tous les poèmes valides,
       ou HTTP 400 si aucun fichier ou aucun poème valide n'est fourni.
     """
+    # Gestion de la langue
     _handle_language(request)
 
     # Vérification POST + fichier zip

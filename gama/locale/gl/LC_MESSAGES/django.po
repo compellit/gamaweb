@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 16:51+0000\n"
+"POT-Creation-Date: 2025-08-17 01:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,11 +159,11 @@ msgstr "Enviar"
 msgid "Clear"
 msgstr "Limpar"
 
-#: gama/templates/gama/index.html:80
+#: gama/templates/gama/index.html:81
 msgid "Multi-file analysis"
 msgstr "Análise multi-arquivo"
 
-#: gama/templates/gama/index.html:80
+#: gama/templates/gama/index.html:81
 msgid "(ZIP upload)"
 msgstr "(Subir ZIP)"
 
@@ -171,7 +171,15 @@ msgstr "(Subir ZIP)"
 msgid "Upload a .zip containing .txt files"
 msgstr "Sube un .zip con arquivos .txt"
 
-#: gama/templates/gama/index.html:87
+#: gama/templates/gama/index.html:86
+msgid "Browse..."
+msgstr "Explorar..."
+
+#: gama/templates/gama/index.html:88 gama/templates/gama/index.html:231
+msgid "No file selected"
+msgstr "Ningún arquivo seleccionado"
+
+#: gama/templates/gama/index.html:90
 msgid "Analyze ZIP"
 msgstr "Analizar ZIP"
 
@@ -194,54 +202,53 @@ msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
-#: gama/views.py:359
+#: gama/views.py:360
 msgid "corpus_name"
 msgstr "nome_do_corpus"
 
-#: gama/views.py:359
+#: gama/views.py:360
 msgid "title"
 msgstr "sen_titulo"
 
-#: gama/views.py:359
+#: gama/views.py:360
 msgid "subtitle"
 msgstr "subtitulo"
 
-#: gama/views.py:359
+#: gama/views.py:360
 msgid "author"
 msgstr "autor"
 
-#: gama/views.py:359
+#: gama/views.py:360
 msgid "date"
 msgstr "data"
 
-#: gama/views.py:365 gama/views.py:372 gama/views.py:484 gama/views.py:491
+#: gama/views.py:366 gama/views.py:373 gama/views.py:486 gama/views.py:493
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: gama/views.py:365 gama/views.py:373 gama/views.py:484 gama/views.py:492
+#: gama/views.py:366 gama/views.py:374 gama/views.py:486 gama/views.py:494
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: gama/views.py:366 gama/views.py:374 gama/views.py:485 gama/views.py:493
+#: gama/views.py:367 gama/views.py:375 gama/views.py:487 gama/views.py:495
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: gama/views.py:366 gama/views.py:375 gama/views.py:485 gama/views.py:494
+#: gama/views.py:367 gama/views.py:376 gama/views.py:487 gama/views.py:496
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: gama/views.py:366 gama/views.py:376 gama/views.py:485 gama/views.py:495
+#: gama/views.py:367 gama/views.py:377 gama/views.py:487 gama/views.py:497
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
-#: gama/views.py:505
+#: gama/views.py:507
 msgid "No valid poems found in ZIP."
 msgstr "O arquivo ZIP non contén ningún poema válido."
 
-#: gama/views.py:523
+#: gama/views.py:525
 msgid "No ZIP file uploaded or method not allowed."
 msgstr "Non se recibiu ningún arquivo ZIP"
-
 
 #~ msgid "Choose an example"
 #~ msgstr "Escolle un texto"
