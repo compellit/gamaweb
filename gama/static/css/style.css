@@ -234,6 +234,34 @@ h3::after {
     cursor: pointer;
 }
 
+/* Icône */
+.lang-icon {
+    color: var(--color-green-dark);
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+/* fond */
+#langDropdown {
+    background-color: #ffffff; /* blanc pur */
+    border: none;
+}
+
+/* flèche descendante */
+#langDropdown::after {
+    color: var(--color-green-dark);
+}
+
+/* Retire la shadow (focus + hover) du bouton langue */
+#langDropdown:focus,
+#langDropdown:hover,
+#langDropdown:active,
+#langDropdown.show {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
 /* liens navigation header (About) */
 .navig-link {
     color: rgba(23, 140, 25, 1);
