@@ -455,6 +455,22 @@ def bulk_analysis(request):
             if len(txt_files) > 10:
                 return JsonResponse({"error": _("Too many files in ZIP. Maximum allowed is 10.")}, status=400)
 
+            # Vérification de la taille des fichiers
+            oversized_files = []
+            for fname in txt_files:
+                input_path = os.path.join(extract_dir, fname)
+                with open(input_path, "r", encoding="utf-8") as f:
+                    text = f.read()
+                if len(text) > 4500:
+                    oversized_files.append(fname)
+
+            # Erreur si fichier(s) trop longs
+            if oversized_files:
+                file_list = ", ".join(oversized_files)
+                return JsonResponse({
+                    "error": _("The following file(s) are too long (max. 4500 characters): {files}").format(files=file_list)
+                }, status=400)
+
             result_paths = []
             errors = []
 
@@ -517,10 +533,19 @@ def bulk_analysis(request):
                 except Exception as e:
                     print(f"Error with {fname}: {e}")
                     errors.append(f"{fname}: {str(e)}")
+                    continue
 
             # Vérifie si des erreurs sont survenues lors de l'analyse
+            if not result_paths:
+                return JsonResponse({"error": _("No valid files found in ZIP.")}, status=400)
+
+            # Si des erreurs existent, on crée errors.txt
             if errors:
-                return JsonResponse({"error": _("Some files failed."), "details": errors}, status=400)
+                error_path = os.path.join(tmpdir, "errors.txt")
+                with open(error_path, "w", encoding="utf-8") as f:
+                    for line in errors:
+                        f.write(line + "\n")
+                result_paths.append(("errors.txt", error_path))
 
             # Création du zip de sortie avec ID unique
             curid = str(uuid.uuid4())[:6]
@@ -536,6 +561,8 @@ def bulk_analysis(request):
             with open(output_zip_name, 'rb') as f:
                 response = HttpResponse(f.read(), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
+                if errors:
+                    response['X-Analysis-Status'] = _("Some files failed (see errors.txt for details).")
                 return response
 
     except zipfile.BadZipFile:
