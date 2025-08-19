@@ -455,24 +455,9 @@ def bulk_analysis(request):
             if len(txt_files) > 10:
                 return JsonResponse({"error": _("Too many files in ZIP. Maximum allowed is 10.")}, status=400)
 
-            # Vérification de la taille des fichiers
-            oversized_files = []
-            for fname in txt_files:
-                input_path = os.path.join(extract_dir, fname)
-                with open(input_path, "r", encoding="utf-8") as f:
-                    text = f.read()
-                if len(text) > 4500:
-                    oversized_files.append(fname)
-
-            # Erreur si fichier(s) trop longs
-            if oversized_files:
-                file_list = ", ".join(oversized_files)
-                return JsonResponse({
-                    "error": _("The following file(s) are too long (max. 4500 characters): {files}").format(files=file_list)
-                }, status=400)
-
             result_paths = []
             errors = []
+            too_long_files = []
 
             # Parcours des fichiers extraits
             for fname in os.listdir(extract_dir):
@@ -485,6 +470,12 @@ def bulk_analysis(request):
                     # Ignore les fichiers vides
                     if not text.strip():
                         continue
+
+                    # Vérifie la taille du texte
+                    if len(text) > 4500:
+                        errors.append(f"File '{fname}' is too long. Maximum allowed is 4,500 characters.")
+                        too_long_files.append(fname)
+                        continue  # passe au fichier suivant
 
                     # ID et dossier de sortie
                     curid = str(uuid.uuid4())[:6]
@@ -557,8 +548,24 @@ def bulk_analysis(request):
             with open(output_zip_name, 'rb') as f:
                 response = HttpResponse(f.read(), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
+                # Si erreurs lors de l'analyse
                 if errors:
-                    response['X-Analysis-Status'] = _("Some files failed (see errors.txt for details).")
+                    if too_long_files and len(errors) == len(too_long_files):
+                        # Cas 1 : uniquement des fichiers trop longs
+                        response_msg = (
+                            _("Files above max allowed characters (4,500) were not analyzed. See error log in zip.")
+                        )
+                    elif too_long_files:
+                        # Cas 2 : mélange erreurs d'analyse ET fichiers trop longs
+                        response_msg = (
+                            _("Some files failed and files above max allowed characters (4,500) were not analyzed. "
+                              "See error log in zip.")
+                        )
+                    else:
+                        # Cas 3 : uniquement erreurs d'analyse
+                        response_msg = _("Some files failed. See error log in zip.")
+
+                    response['X-Analysis-Status'] = response_msg
                 return response
 
     except zipfile.BadZipFile:
