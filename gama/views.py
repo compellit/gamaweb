@@ -535,10 +535,6 @@ def bulk_analysis(request):
                     errors.append(f"{fname}: {str(e)}")
                     continue
 
-            # Vérifie si des erreurs sont survenues lors de l'analyse
-            if not result_paths:
-                return JsonResponse({"error": _("No valid files found in ZIP.")}, status=400)
-
             # Si des erreurs existent, on crée errors.txt
             if errors:
                 error_path = os.path.join(tmpdir, "errors.txt")
