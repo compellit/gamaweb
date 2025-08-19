@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-17 01:11+0000\n"
+"POT-Creation-Date: 2025-08-19 02:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,12 +94,12 @@ msgstr "Descargar resultados (ZIP)"
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: gama/templates/gama/base.html:31 gama/templates/gama/base.html:54
-#: gama/templates/gama/base.html:80
+#: gama/templates/gama/base.html:31 gama/templates/gama/base.html:64
+#: gama/templates/gama/base.html:90
 msgid "About"
 msgstr "O proxecto"
 
-#: gama/templates/gama/base.html:52 gama/templates/gama/base.html:77
+#: gama/templates/gama/base.html:62 gama/templates/gama/base.html:87
 msgid "Home"
 msgstr "Inicio"
 
@@ -167,88 +167,101 @@ msgstr "Análise multi-arquivo"
 msgid "(ZIP upload)"
 msgstr "(Subir ZIP)"
 
-#: gama/templates/gama/index.html:84
+#: gama/templates/gama/index.html:85
 msgid "Upload a .zip containing .txt files"
 msgstr "Sube un .zip con arquivos .txt"
 
-#: gama/templates/gama/index.html:86
+#: gama/templates/gama/index.html:87
 msgid "Browse..."
 msgstr "Explorar..."
 
-#: gama/templates/gama/index.html:88 gama/templates/gama/index.html:231
+#: gama/templates/gama/index.html:89 gama/templates/gama/index.html:232
 msgid "No file selected"
 msgstr "Ningún arquivo seleccionado"
 
-#: gama/templates/gama/index.html:90
+#: gama/templates/gama/index.html:91
 msgid "Analyze ZIP"
 msgstr "Analizar ZIP"
 
-#: gama/views.py:286
+#: gama/views.py:291
 msgid "The input text cannot be empty."
 msgstr "O texto de entrada non pode estar baleiro."
 
-#: gama/views.py:288
+#: gama/views.py:293
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
 msgstr ""
 "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
-#: gama/views.py:290
+#: gama/views.py:295
 #, fuzzy
 #| msgid "The input text does not look like poetry in verse (lines too long?)."
 msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: gama/views.py:293
+#: gama/views.py:298 gama/views.py:540
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
-#: gama/views.py:360
+#: gama/views.py:365
 msgid "corpus_name"
 msgstr "nome_do_corpus"
 
-#: gama/views.py:360
+#: gama/views.py:365
 msgid "title"
 msgstr "sen_titulo"
 
-#: gama/views.py:360
+#: gama/views.py:365
 msgid "subtitle"
 msgstr "subtitulo"
 
-#: gama/views.py:360
+#: gama/views.py:365
 msgid "author"
 msgstr "autor"
 
-#: gama/views.py:360
+#: gama/views.py:365
 msgid "date"
 msgstr "data"
 
-#: gama/views.py:366 gama/views.py:373 gama/views.py:486 gama/views.py:493
+#: gama/views.py:371 gama/views.py:378 gama/views.py:497 gama/views.py:504
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: gama/views.py:366 gama/views.py:374 gama/views.py:486 gama/views.py:494
+#: gama/views.py:371 gama/views.py:379 gama/views.py:497 gama/views.py:505
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: gama/views.py:367 gama/views.py:375 gama/views.py:487 gama/views.py:495
+#: gama/views.py:372 gama/views.py:380 gama/views.py:498 gama/views.py:506
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: gama/views.py:367 gama/views.py:376 gama/views.py:487 gama/views.py:496
+#: gama/views.py:372 gama/views.py:381 gama/views.py:498 gama/views.py:507
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: gama/views.py:367 gama/views.py:377 gama/views.py:487 gama/views.py:497
+#: gama/views.py:372 gama/views.py:382 gama/views.py:498 gama/views.py:508
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
-#: gama/views.py:507
-msgid "No valid poems found in ZIP."
+#: gama/views.py:451
+#, fuzzy
+#| msgid "No valid poems found in ZIP."
+msgid "No TXT files found in the ZIP."
 msgstr "O arquivo ZIP non contén ningún poema válido."
 
-#: gama/views.py:525
-msgid "No ZIP file uploaded or method not allowed."
-msgstr "Non se recibiu ningún arquivo ZIP"
+#: gama/views.py:453
+msgid "Too many files in ZIP. Maximum allowed is 10."
+msgstr ""
+
+#: gama/views.py:519
+msgid "Some files failed."
+msgstr ""
+
+#: gama/views.py:537
+msgid "Invalid ZIP file."
+msgstr ""
+
+#~ msgid "No ZIP file uploaded or method not allowed."
+#~ msgstr "Non se recibiu ningún arquivo ZIP"
 
 #~ msgid "Choose an example"
 #~ msgstr "Escolle un texto"

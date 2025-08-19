@@ -79,6 +79,7 @@
     </form>
     <!-- Section Multi-file -->
     <h3 class="mb-3 mt-4">{% trans "Multi-file analysis" %} <small class="text-muted">{% trans "(ZIP upload)" %}</small></h3>
+    <div id="bulk-error" class="alert alert-danger" style="display: none;"></div>
     <form id="bulk-form" action="{% url 'gama:analysis_bulk' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p class="form-label">{% trans "Upload a .zip containing .txt files" %}</p>
@@ -236,12 +237,18 @@
     // ---------------------------
     // On récupère le formulaire avec l'ID 'bulk-form'
     const form = document.getElementById('bulk-form');
+    // On récupère le GIF de chargement
+    const gif = document.getElementById('loading-gif-zip');
+    // <div> pour afficher les erreurs
+    const errorContainer = document.getElementById('bulk-error');
     // On écoute l'événement 'submit' du formulaire
     // L'utilisation de 'async' permet d'utiliser 'await' pour les appels asynchrones
     form.addEventListener('submit', async function(e) {
         e.preventDefault(); // Empêche le comportement par défaut (reload de page)
-        // On récupère le GIF de chargement et on l'affiche
-        const gif = document.getElementById('loading-gif-zip');
+        // Masque l'erreur précédente
+        errorContainer.style.display = 'none';
+        errorContainer.innerText = '';
+        // Affiche le GIF
         gif.style.display = 'block';
         // Scroll automatique vers le GIF
         gif.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -258,7 +265,18 @@
             // Vérifie si la réponse HTTP est correcte (200-299)
             // Sinon, on déclenche une erreur pour passer dans le catch
             if (!response.ok) {
+                // On essaie de récupérer le JSON avec le message d'erreur
+                let data;
+                try {
+                    data = await response.json();
+                } catch (_) {
                 throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                if (data && data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
             }
             // Récupère le corps de la réponse sous forme de blob (données binaires)
             // C'est nécessaire pour traiter un fichier ZIP
@@ -281,8 +299,10 @@
             a.remove(); // Supprime l'élément <a> du DOM
             window.URL.revokeObjectURL(url); // Libère la mémoire utilisée par l'URL temporaire
         } catch (error) {
-            // En cas d'erreur, on affiche une alerte et on log l'erreur dans la console
-            alert('Error processing ZIP file: ' + error.message);
+            // Affiche l'erreur dans la bulle Bootstrap
+            errorContainer.innerText = error.message;
+            errorContainer.classList.add('alert', 'alert-danger');
+            errorContainer.style.display = 'block';
             console.error(error);
         } finally {
             // Que la requête réussisse ou échoue, on masque le GIF de chargement

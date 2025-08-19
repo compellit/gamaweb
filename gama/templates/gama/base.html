@@ -32,11 +32,21 @@
                 <!-- Séparateur -->
                 <span class="vertical-separator d-none d-sm-inline"></span>
                 <!-- Menu langues -->
-                <div class="d-flex flex-column gap-1 mb-2" style="line-height: 1.2;">
-                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}" data-lang="en">en</a>
-                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}" data-lang="fr">fr</a>
-                    <a href="#" class="lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}" data-lang="gl">gl</a>
-
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-globe fs-5 me-1 lang-icon"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="langDropdown">
+                            <li>
+                                <a href="#" class="dropdown-item lang-link {% if LANGUAGE_CODE == 'en' %}fw-bold{% endif %}" data-lang="en">en</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item lang-link {% if LANGUAGE_CODE == 'fr' %}fw-bold{% endif %}" data-lang="fr">fr</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item lang-link {% if LANGUAGE_CODE == 'gl' %}fw-bold{% endif %}" data-lang="gl">gl</a>
+                            </li>
+                        </ul>
                     <!-- Formulaire pour soumettre langue via JS -->
                     <form id="lang-form" action="{% url 'set_language' %}" method="post" style="display: none;">
                         {% csrf_token %}
@@ -159,6 +169,22 @@
                 window.location.replace(newUrl);
             }
         }
+    });
+    // ---------------------------
+    // Menu déroulant langues
+    // ---------------------------
+    // Sélectionne l'élément du menu déroulant
+    const dropdown = document.querySelector('.dropdown');
+    // Affiche le menu Bootstrap au hover
+    dropdown.addEventListener('mouseenter', () => {
+        // Récupère ou crée l'instance Bootstrap Dropdown associée au bouton
+        const toggle = bootstrap.Dropdown.getOrCreateInstance(dropdown.querySelector('.dropdown-toggle'));
+        toggle.show(); // Ouvre le menu
+    });
+    // Masque le menu quand on quitte le hover
+    dropdown.addEventListener('mouseleave', () => {
+        const toggle = bootstrap.Dropdown.getOrCreateInstance(dropdown.querySelector('.dropdown-toggle'));
+        toggle.hide(); // Ferme le menu
     });
 </script>
 

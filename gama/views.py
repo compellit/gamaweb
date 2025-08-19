@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.utils import translation
@@ -93,9 +93,13 @@ def index(request):
        (si l'utilisateur revient sur la page les champs restent pré-remplis).
     4. Passe les données au template index.html pour affichage.
     """
+    # Gestion de la langue
     _handle_language(request)
+    # Chargement des poèmes exemples
     example_poems = _load_example_poems()
+    # Récupération des metadata depuis la session
     initial_data = request.session.get('analysis_data', {})
+    # Rendu template html avec le context
     return render(request, "gama/index.html", {
             "example_poems": example_poems,
             "initial_data": initial_data,
@@ -133,6 +137,7 @@ def analysis_run(request):
     # Gestion de la langue via handle_language
     _handle_language(request)
 
+    # Récupère et vérifie que le texte n'est pas vide, trop long, ou contient des vers trop longs
     if request.method == "POST":
         text = request.POST.get("text", "")
         text = ut._preprocess_poem_text(text)
@@ -178,35 +183,34 @@ def analysis_run(request):
                 check=True,
                 cwd=settings.PREPRO_DIR,
             )
-        except subprocess.CalledProcessError as e:
-            context = {
-                "error": f"Analysis failed: {e}",
-                "text": text,
-            }
-            return render(request, "gama/analysis.html", context)
 
-        # Analyse métrique
-        orig_poem_path = out_dir / "input.txt"
-        prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+            # Analyse métrique
+            orig_poem_path = out_dir / "input.txt"
+            prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
 
-        # `scansion` is a list of HTML table rows, `results_data` is a list of dict for exporting
-		# both are added to session
-        scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+            # `scansion` is a list of HTML table rows, `results_data` is a list of dict for exporting
+            # both are added to session
+            scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
 
-        # old
-        #request.session['analysis_result'] = "".join(scansion)
+            # old
+            #request.session['analysis_result'] = "".join(scansion)
 
-        # Stockage résultats de l'analyse en session
-        # Pour pouvoir changer lg depuis la page de résultats (sans relancer l'analyse)
+            # Stockage résultats de l'analyse en session
+            # Pour pouvoir changer lg depuis la page de résultats (sans relancer l'analyse)
 
-        request.session['analysis_result_desktop'] = "".join(scansion["desktop"])
-        request.session['analysis_result_mobile'] = "".join(scansion["mobile"])
-        # Stockage des résultats pour l'export au format tsv
-        request.session['results_data'] = results_data
+            request.session['analysis_result_desktop'] = "".join(scansion["desktop"])
+            request.session['analysis_result_mobile'] = "".join(scansion["mobile"])
+            # Stockage des résultats pour l'export au format tsv
+            request.session['results_data'] = results_data
 
-        #Redirection nouvelle view pour PRG
-        return redirect("gama:analysis_show")
+            #Redirection nouvelle view pour PRG
+            return redirect("gama:analysis_show")
 
+        # Si erreur lors de l'analyse
+        except Exception as e:
+            print(f"Unexpected error during analysis: {e}")
+            # Redirection vers page error.html
+            return redirect("gama:error", errtype="unexpected")
     return redirect("gama:index")
 
 def analysis_show(request):
@@ -228,6 +232,7 @@ def analysis_show(request):
       les métadonnées.
     - Compatible avec le principe PRG : l'analyse est séparée de l'affichage.
     """
+    # Gestion de la langue
     _handle_language(request)
     # Récupération des données stockées en session
     # Permet d'afficher sans relancer l'analyse
@@ -427,6 +432,7 @@ def analysis_bulk(request):
     if request.method == 'POST' and request.FILES.get('zip_file'):
         uploaded_zip = request.FILES['zip_file']
 
+    try:
         with tempfile.TemporaryDirectory() as tmpdir:
             # Sauvegarde temporaire du zip uploadé
             zip_path = os.path.join(tmpdir, 'uploaded.zip')
@@ -440,71 +446,78 @@ def analysis_bulk(request):
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall(extract_dir)
 
+            txt_files = [f for f in os.listdir(extract_dir) if f.lower().endswith('.txt')]
+            # Vérification du nombre de fichiers
+            if not txt_files:
+                return JsonResponse({"error": _("No TXT files found in the ZIP.")}, status=400)
+            if len(txt_files) > 10:
+                return JsonResponse({"error": _("Too many files in ZIP. Maximum allowed is 10.")}, status=400)
             result_paths = []
+            errors = []
 
             # Parcours des fichiers extraits
             for fname in os.listdir(extract_dir):
-                if fname.endswith('.txt'):
-                    input_path = os.path.join(extract_dir, fname)
-                    try:
-                        # Lecture du texte
-                        with open(input_path, "r", encoding="utf-8") as f:
-                            text = f.read()
+                input_path = os.path.join(extract_dir, fname)
+                try:
+                    # Lecture du texte
+                    with open(input_path, "r", encoding="utf-8") as f:
+                        text = f.read()
 
-                        # Ignore les fichiers vides
-                        if not text.strip():
-                            continue
-
-                        # ID et dossier de sortie
-                        curid = str(uuid.uuid4())[:6]
-                        out_dir = settings.IO_DIR / f"bulk_{curid}"
-                        Path(out_dir).mkdir(parents=True, exist_ok=True)
-
-                        # Sauvegarde texte brut
-                        input_txt = out_dir / "input.txt"
-                        with open(input_txt, "w", encoding="utf-8") as f:
-                            f.write(text)
-
-                        # Prétraitement
-                        subprocess.run(
-                            ["python", "../preprocessing/g2s_client_running_text.py",
-                             str(input_txt), "-p", "-d", "-n", "-s", "-b", "001"],
-                            check=True,
-                            cwd=settings.PREPRO_DIR,
-                        )
-
-                        # Analyse
-                        orig_poem_path = input_txt
-                        prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
-                        scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
-
-                        # Création du fichier TSV
-                        result_name = f"{Path(fname).stem}_results.tsv"
-                        result_path = os.path.join(tmpdir, result_name)
-                        with open(result_path, "w", encoding="utf-8", newline="") as f:
-                            writer = csv.DictWriter(f, fieldnames=[
-                                "#", _("original_text"), _("preprocessing"),
-                                _("metrical_syllables"), _("stressed_syllables"), _("no_extra_rhythmic")
-                            ], delimiter="\t")
-                            writer.writeheader()
-                            for row in results_data:
-                                writer.writerow({
-                                    "#": row["line"],
-                                    _("original_text"): row["original_text"],
-                                    _("preprocessing"): row["preprocessing"],
-                                    _("metrical_syllables"): row["metrical_syllables"],
-                                    _("stressed_syllables"): row["stressed_syllables"],
-                                    _("no_extra_rhythmic"): row["no_extra_rhythmic"]
-                                })
-
-                        result_paths.append((result_name, result_path))
-
-                    except Exception as e:
-                        print(f"Error with {fname}: {e}")
+                    # Ignore les fichiers vides
+                    if not text.strip():
                         continue
 
-            if not result_paths:
-                return HttpResponse(_("No valid poems found in ZIP."), status=400)
+                    # ID et dossier de sortie
+                    curid = str(uuid.uuid4())[:6]
+                    out_dir = settings.IO_DIR / f"bulk_{curid}"
+                    Path(out_dir).mkdir(parents=True, exist_ok=True)
+
+                    # Sauvegarde texte brut
+                    input_txt = out_dir / "input.txt"
+                    with open(input_txt, "w", encoding="utf-8") as f:
+                        f.write(text)
+
+                    # Prétraitement
+                    subprocess.run(
+                        ["python", "../preprocessing/g2s_client_running_text.py",
+                        str(input_txt), "-p", "-d", "-n", "-s", "-b", "001"],
+                        check=True,
+                        cwd=settings.PREPRO_DIR,
+                    )
+
+                    # Analyse
+                    orig_poem_path = input_txt
+                    prepro_poem_path = out_dir / "out_001" / "input_pp_out_norm_spa_001.txt"
+                    scansion, results_data = gumper_main(gcf, orig_poem_path, prepro_poem_path)
+
+                    # Création du fichier TSV
+                    result_name = f"{Path(fname).stem}_results.tsv"
+                    result_path = os.path.join(tmpdir, result_name)
+                    with open(result_path, "w", encoding="utf-8", newline="") as f:
+                        writer = csv.DictWriter(f, fieldnames=[
+                            "#", _("original_text"), _("preprocessing"),
+                            _("metrical_syllables"), _("stressed_syllables"), _("no_extra_rhythmic")
+                        ], delimiter="\t")
+                        writer.writeheader()
+                        for row in results_data:
+                            writer.writerow({
+                                "#": row["line"],
+                                _("original_text"): row["original_text"],
+                                _("preprocessing"): row["preprocessing"],
+                                _("metrical_syllables"): row["metrical_syllables"],
+                                _("stressed_syllables"): row["stressed_syllables"],
+                                _("no_extra_rhythmic"): row["no_extra_rhythmic"]
+                            })
+
+                    result_paths.append((result_name, result_path))
+
+                except Exception as e:
+                    print(f"Error with {fname}: {e}")
+                    errors.append(f"{fname}: {str(e)}")
+
+            # Vérifie si des erreurs sont survenues lors de l'analyse
+            if errors:
+                return JsonResponse({"error": _("Some files failed."), "details": errors}, status=400)
 
             # Création du zip de sortie avec ID unique
             curid = str(uuid.uuid4())[:6]
@@ -521,6 +534,8 @@ def analysis_bulk(request):
                 response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
                 return response
 
-    # Méthode non POST ou aucun fichier zip uploadé
-    return HttpResponse(_("No ZIP file uploaded or method not allowed."), status=400)
-
+    except zipfile.BadZipFile:
+        return JsonResponse({"error": _("Invalid ZIP file.")}, status=400)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"error": _("An unexpected error occurred.")}, status=400)
