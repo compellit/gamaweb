@@ -18,6 +18,7 @@ import csv
 import tempfile
 import json
 import os
+import base64
 
 from gumper import config as gcf
 from gumper.gumper_client_web import main as gumper_main
@@ -552,20 +553,22 @@ def bulk_analysis(request):
                 if errors:
                     if too_long_files and len(errors) == len(too_long_files):
                         # Cas 1 : uniquement des fichiers trop longs
-                        response_msg = (
-                            _("Files above max allowed characters (4,500) were not analyzed. See error log in zip.")
+                        msg_utf8 = (
+                            _("Files above max allowed characters (4,500) were not analyzed. See error log in ZIP.")
                         )
                     elif too_long_files:
                         # Cas 2 : mélange erreurs d'analyse ET fichiers trop longs
-                        response_msg = (
+                        msg_utf8 = (
                             _("Some files failed and files above max allowed characters (4,500) were not analyzed. "
-                              "See error log in zip.")
+                              "See error log in ZIP.")
                         )
                     else:
                         # Cas 3 : uniquement erreurs d'analyse
-                        response_msg = _("Some files failed. See error log in zip.")
+                        msg_utf8 = _("Some files failed. See error log in ZIP.")
 
-                    response['X-Analysis-Status'] = response_msg
+                    # Encodage Base64 pour passer les accents dans le header
+                    msg_b64 = base64.b64encode(msg_utf8.encode('utf-8')).decode('ascii')
+                    response['X-Analysis-Status'] = msg_b64
                 return response
 
     except zipfile.BadZipFile:

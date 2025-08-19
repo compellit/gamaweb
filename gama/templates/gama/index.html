@@ -83,7 +83,7 @@
     <div id="bulk-error" class="alert alert-danger" style="display: none;"></div>
     <form id="bulk-form" action="{% url 'gama:bulk_analysis' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p class="form-label">{% trans "Upload a .zip containing .txt files. (max. 10 files of 4,500 characters each)" %}</p>
+        <p class="form-label">{% trans "Upload a .zip containing .txt files (max. 10 files of 4,500 characters each)." %}</p>
         <label for="zip_file" class="mb-3 custom-file-upload">
             <span class="custom-file-label">{% trans "Browse..." %}</span>
             <input type="file" id="zip_file" name="zip_file" accept=".zip" required>
@@ -288,10 +288,11 @@
                 }
             }
 
-            // Vérifie si l'en-tête X-Analysis-Status est présent
-            const analysisStatus = response.headers.get('X-Analysis-Status');
-            if (analysisStatus) {
-                errorContainer.innerText = analysisStatus;  // "Some files failed"
+            // Vérifie si l'en-tête X-Analysis-Status est présent + décodage pour message erreur
+            let msg = response.headers.get("X-Analysis-Status");
+            if (msg) {
+                msg = decodeURIComponent(escape(atob(msg)));
+                errorContainer.innerText = msg;
                 errorContainer.classList.add('alert', 'alert-warning');
                 errorContainer.style.display = 'block';
             }
