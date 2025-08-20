@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 03:19+0000\n"
+"POT-Creation-Date: 2025-08-20 03:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,10 +168,9 @@ msgid "(ZIP upload)"
 msgstr "(Import ZIP)"
 
 #: gama/templates/gama/index.html:85
-#, fuzzy
-#| msgid "Upload a .zip containing .txt files"
-msgid "Upload a .zip with .txt files"
-msgstr "Importer un .zip de fichiers .txt"
+msgid ""
+"Upload a .zip containing .txt files. (max. 10 files of 4,500 characters each)"
+msgstr ""
 
 #: gama/templates/gama/index.html:87
 msgid "Browse..."
@@ -276,6 +275,11 @@ msgstr ""
 #: gama/views.py:567
 msgid "Invalid ZIP file."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Upload a .zip containing .txt files"
+#~ msgid "Upload a .zip with .txt files"
+#~ msgstr "Importer un .zip de fichiers .txt"
 
 #~ msgid "Choose an example"
 #~ msgstr "Choisissez un exemple"
