@@ -448,7 +448,7 @@ def bulk_analysis(request):
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall(extract_dir)
 
-            txt_files = [f for f in os.listdir(extract_dir) if f.endswith('.txt')]
+            txt_files = [f for f in os.listdir(extract_dir) if f.lower().endswith('.txt')]
 
             # Vérification du nombre de fichiers
             if not txt_files:
