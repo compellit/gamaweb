@@ -234,6 +234,9 @@ h3::after {
     cursor: pointer;
 }
 
+.lang-link:active {
+    color : rgba(23, 140, 25, 0.7); /* reste vert quand actif et non blanc */
+}
 /* Icône */
 .lang-icon {
     color: var(--color-green-dark);
@@ -244,6 +247,10 @@ h3::after {
 #langDropdown {
     background-color: #ffffff; /* blanc pur */
     border: none;
+}
+.dropdown-item:active,
+.dropdown-item:focus {
+    background-color: var(--color-green-light); /* fond vert pâle au clic */
 }
 /* flèche descendante */
 #langDropdown::after {
@@ -256,6 +263,11 @@ h3::after {
 #langDropdown.show {
     box-shadow: none !important;
     outline: none !important;
+}
+/* largeur menu déroulant */
+.dropdown-lang {
+    min-width: auto;
+    width: auto;
 }
 /* liens navigation header (About) */
 .navig-link {

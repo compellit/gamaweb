@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-19 02:33+0000\n"
+"POT-Creation-Date: 2025-08-20 03:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,12 +94,12 @@ msgstr "Descargar resultados (ZIP)"
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: gama/templates/gama/base.html:31 gama/templates/gama/base.html:64
-#: gama/templates/gama/base.html:90
+#: gama/templates/gama/base.html:31 gama/templates/gama/base.html:58
+#: gama/templates/gama/base.html:84
 msgid "About"
 msgstr "O proxecto"
 
-#: gama/templates/gama/base.html:62 gama/templates/gama/base.html:87
+#: gama/templates/gama/base.html:56 gama/templates/gama/base.html:81
 msgid "Home"
 msgstr "Inicio"
 
@@ -168,8 +168,9 @@ msgid "(ZIP upload)"
 msgstr "(Subir ZIP)"
 
 #: gama/templates/gama/index.html:85
-msgid "Upload a .zip containing .txt files"
-msgstr "Sube un .zip con arquivos .txt"
+msgid "Upload a .zip with .txt files"
+msgstr ""
+"Sube un .zip con arquivos .txt (máx. 10 arquivos de 4.500 caracteres cada un)"
 
 #: gama/templates/gama/index.html:87
 msgid "Browse..."
@@ -193,12 +194,10 @@ msgstr ""
 "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
 #: gama/views.py:295
-#, fuzzy
-#| msgid "The input text does not look like poetry in verse (lines too long?)."
 msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: gama/views.py:298 gama/views.py:540
+#: gama/views.py:298 gama/views.py:570
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
@@ -222,46 +221,64 @@ msgstr "autor"
 msgid "date"
 msgstr "data"
 
-#: gama/views.py:371 gama/views.py:378 gama/views.py:497 gama/views.py:504
+#: gama/views.py:371 gama/views.py:378 gama/views.py:505 gama/views.py:512
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: gama/views.py:371 gama/views.py:379 gama/views.py:497 gama/views.py:505
+#: gama/views.py:371 gama/views.py:379 gama/views.py:505 gama/views.py:513
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: gama/views.py:372 gama/views.py:380 gama/views.py:498 gama/views.py:506
+#: gama/views.py:372 gama/views.py:380 gama/views.py:506 gama/views.py:514
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: gama/views.py:372 gama/views.py:381 gama/views.py:498 gama/views.py:507
+#: gama/views.py:372 gama/views.py:381 gama/views.py:506 gama/views.py:515
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: gama/views.py:372 gama/views.py:382 gama/views.py:498 gama/views.py:508
+#: gama/views.py:372 gama/views.py:382 gama/views.py:506 gama/views.py:516
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
-#: gama/views.py:451
-#, fuzzy
-#| msgid "No valid poems found in ZIP."
+#: gama/views.py:433
+msgid "No ZIP file uploaded or method not allowed."
+msgstr "Non se recibiu ningún arquivo ZIP"
+
+#: gama/views.py:453
 msgid "No TXT files found in the ZIP."
 msgstr "O arquivo ZIP non contén ningún poema válido."
 
-#: gama/views.py:453
+#: gama/views.py:455
 msgid "Too many files in ZIP. Maximum allowed is 10."
 msgstr ""
 
-#: gama/views.py:519
-msgid "Some files failed."
+#: gama/views.py:552
+msgid ""
+"Files above max allowed characters (4,500) were not analyzed. See error log "
+"in zip."
 msgstr ""
 
-#: gama/views.py:537
+#: gama/views.py:557
+msgid ""
+"Some files failed and files above max allowed characters (4,500) were not "
+"analyzed. See error log in zip."
+msgstr ""
+
+#: gama/views.py:562
+msgid "Some files failed. See error log in zip."
+msgstr "Algunos archivos fallaron (ver errors.txt para máis detalles)"
+
+#: gama/views.py:567
 msgid "Invalid ZIP file."
 msgstr ""
 
-#~ msgid "No ZIP file uploaded or method not allowed."
-#~ msgstr "Non se recibiu ningún arquivo ZIP"
+#~ msgid ""
+#~ "Upload a .zip containing .txt files. (max. 10 files of 4,500 characters "
+#~ "each)"
+#~ msgstr ""
+#~ "Sube un .zip con arquivos .txt. (máx. 10 arquivos de 4.500 caracteres "
+#~ "cada un)"
 
 #~ msgid "Choose an example"
 #~ msgstr "Escolle un texto"

@@ -429,8 +429,9 @@ def analysis_bulk(request):
     _handle_language(request)
 
     # Vérification POST + fichier zip
-    if request.method == 'POST' and request.FILES.get('zip_file'):
-        uploaded_zip = request.FILES['zip_file']
+    if request.method != 'POST' or 'zip_file' not in request.FILES:
+        return JsonResponse({"error": _("No ZIP file uploaded or method not allowed.")}, status=400)
+    uploaded_zip = request.FILES['zip_file']
 
     try:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -454,6 +455,7 @@ def analysis_bulk(request):
                 return JsonResponse({"error": _("Too many files in ZIP. Maximum allowed is 10.")}, status=400)
             result_paths = []
             errors = []
+            too_long_files = []
 
             # Parcours des fichiers extraits
             for fname in os.listdir(extract_dir):
@@ -466,6 +468,11 @@ def analysis_bulk(request):
                     # Ignore les fichiers vides
                     if not text.strip():
                         continue
+                    # Vérifie la taille du texte
+                    if len(text) > 4500:
+                        errors.append(f"File '{fname}' is too long. Maximum allowed is 4,500 characters.")
+                        too_long_files.append(fname)
+                        continue  # passe au fichier suivant
 
                     # ID et dossier de sortie
                     curid = str(uuid.uuid4())[:6]
@@ -514,10 +521,15 @@ def analysis_bulk(request):
                 except Exception as e:
                     print(f"Error with {fname}: {e}")
                     errors.append(f"{fname}: {str(e)}")
+                    continue
 
-            # Vérifie si des erreurs sont survenues lors de l'analyse
+            # Si des erreurs existent, on crée errors.txt
             if errors:
-                return JsonResponse({"error": _("Some files failed."), "details": errors}, status=400)
+                error_path = os.path.join(tmpdir, "errors.txt")
+                with open(error_path, "w", encoding="utf-8") as f:
+                    for line in errors:
+                        f.write(line + "\n")
+                result_paths.append(("errors.txt", error_path))
 
             # Création du zip de sortie avec ID unique
             curid = str(uuid.uuid4())[:6]
@@ -532,6 +544,23 @@ def analysis_bulk(request):
             with open(output_zip_name, 'rb') as f:
                 response = HttpResponse(f.read(), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename="{output_zip_name}"'
+                # Si erreurs lors de l'analyse
+                if errors:
+                    if too_long_files and len(errors) == len(too_long_files):
+                        # Cas 1 : uniquement des fichiers trop longs
+                        response_msg = (
+                            _("Files above max allowed characters (4,500) were not analyzed. See error log in zip.")
+                        )
+                    elif too_long_files:
+                        # Cas 2 : mélange erreurs d'analyse ET fichiers trop longs
+                        response_msg = (
+                            _("Some files failed and files above max allowed characters (4,500) were not analyzed. "
+                              "See error log in zip.")
+                        )
+                    else:
+                        # Cas 3 : uniquement erreurs d'analyse
+                        response_msg = _("Some files failed. See error log in zip.")
+                    response['X-Analysis-Status'] = response_msg
                 return response
 
     except zipfile.BadZipFile:
