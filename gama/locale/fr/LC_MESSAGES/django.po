@@ -170,6 +170,8 @@ msgstr "(Import ZIP)"
 #: gama/templates/gama/index.html:85
 msgid "Upload a .zip with .txt files. (max. 10 files of 4,500 characters each)"
 msgstr ""
+"Importer un .zip de fichiers .txt (max. 10 fichiers de 4 500 caractères "
+"chacun)."
 
 #: gama/templates/gama/index.html:87
 msgid "Browse..."

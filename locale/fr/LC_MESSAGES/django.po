@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-11 21:05+0000\n"
+"POT-Creation-Date: 2025-08-21 13:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: gamaweb/io/c57624/input.txt:3 io/c57624/input.txt:3
+msgid "New analysis"
+msgstr "Nouvelle analyse"
+
+#: gamaweb/io/c57624/input.txt:7 io/c57624/input.txt:7
+msgid "Download results (ZIP)"
+msgstr "Télécharger résultats (ZIP)"
 
 #: gamaweb/settings.py:137
 msgid "English"
@@ -29,11 +37,3 @@ msgstr "Français"
 #: gamaweb/settings.py:139
 msgid "Galician"
 msgstr "Galicien"
-
-#: io/c57624/input.txt:3
-msgid "New analysis"
-msgstr "Nouvelle analyse"
-
-#: io/c57624/input.txt:7
-msgid "Download results (ZIP)"
-msgstr "Télécharger résultats (ZIP)"
