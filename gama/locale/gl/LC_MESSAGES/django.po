@@ -168,10 +168,6 @@ msgid "(ZIP upload)"
 msgstr "(Subir ZIP)"
 
 #: gama/templates/gama/index.html:85
-#, fuzzy
-#| msgid ""
-#| "Upload a .zip containing .txt files. (max. 10 files of 4,500 characters "
-#| "each)"
 msgid "Upload a .zip with .txt files. (max. 10 files of 4,500 characters each)"
 msgstr ""
 "Sube un .zip con arquivos .txt. (máx. 10 arquivos de 4.500 caracteres cada "
