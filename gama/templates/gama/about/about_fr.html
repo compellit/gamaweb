@@ -24,10 +24,11 @@
             <li>La liste des diphtongues et des mots lexicalement non accentués a été adaptée au galicien. Pour cela, nous avons consulté des travaux tels que Carballo Calero (1966) et Freixeiro Mato (2006).</li>
             <li>Un module de prétraitement a été développé, qui s'applique au texte original du poème avant son analyse métrique. Le prétraitement se charge de deux opérations :
                 <ul>
-                    <li>Premièrement, il rapproche l'orthographe des textes de l'orthographe actuelle du galicien (selon la norme ILG/RAG)&nbsp; le prétraitement a été testé sur des textes du XIXᵉ siècle. Ce traitement est utile pour toute analyse ultérieure, comme l'étiquetage grammatical ou en dépendances utilisant un modèle entraîné pour le galicien contemporain.</li>
+                    <li>Premièrement, il rapproche l'orthographe des textes de l'orthographe actuelle du galicien (selon la norme ILG/RAG)&nbsp;; le prétraitement a été testé sur des textes du XIXᵉ siècle. Ce pré-traitement n'est pas requis pour l'analyse métrique mais pourrait être utile pour toute analyse ultérieure, comme l'étiquetage grammatical ou en dépendances utilisant un modèle entraîné pour le galicien contemporain.</li>
                     <li>Deuxièmement, exclusivement pour l'analyse métrique avec JUMPER, une version du texte est créée dans laquelle les accents graphiques sont rapprochés des conventions orthographiques de l'espagnol. Cela aide JUMPER dans la scansion dans les cas où les conventions d'accentuation graphique en galicien ne correspondent pas à celles de l'espagnol. L'espagnol contemporain dispose de règles orthographiques très explicites pour l'accentuation graphique, permettant d'identifier sans ambiguïté les syllabes lexicales avec accent prosodique, tandis que les conventions galiciennes présentent un peu plus d'ambiguïté.</li>
                 </ul>
         </ul>
+        <p>Il est à noter que la librairie JUMPER est très rapide, ne demandant pas un étiquetage grammatical ni un pré-traitement lourd du texte. La plupart du temps de traitement demandé par GAMA se soit à notre propre pré-traitement avant d'envoyer le texte à l'analyse métrique. </p>
     </div>
     <div>
         <h3>Crédits</h3>
