@@ -1,5 +1,5 @@
-tuas	túas
-suas	súas
+#tuas	túas
+#suas	súas
 âs	ás
 ôs	os
 â	á
@@ -13,9 +13,9 @@ sô	so
 'ó	o
 ós	os
 'ós	'os
-quixais	quixáis
-quizais	quizáis
-quezais	quizáis
-rio	río
-rios	ríos
-fixolle	fíxolle
+#quixais	quixáis
+#quizais	quizáis
+#quezais	quizáis
+#rio	río
+#rios	ríos
+#fixolle	fíxolle
