@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 15:25+0200\n"
+"POT-Creation-Date: 2025-08-19 17:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,7 @@ msgstr ""
 msgid "Results"
 msgstr "Resultados"
 
-#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\error.html:22
-#: .\gama\templates\gama\index.html:22
+#: .\gama\templates\gama\analysis.html:14 .\gama\templates\gama\index.html:29
 msgid "Metadata"
 msgstr "Metadatos"
 
@@ -51,183 +50,258 @@ msgstr "Subtítulo:"
 msgid "Scansion"
 msgstr "Escansión"
 
-#: .\gama\templates\gama\analysis.html:52
+#: .\gama\templates\gama\analysis.html:53
 msgid "Show Preprocessing"
 msgstr "Amosar preprocesamento"
 
-#: .\gama\templates\gama\analysis.html:63
+#: .\gama\templates\gama\analysis.html:64
 msgid "Original text"
 msgstr "Texto orixinal"
 
-#: .\gama\templates\gama\analysis.html:66
+#: .\gama\templates\gama\analysis.html:67
 msgid "Preprocessing"
 msgstr "Preprocesamento"
 
-#: .\gama\templates\gama\analysis.html:69
+#: .\gama\templates\gama\analysis.html:70
 msgid "Metrical syllables"
 msgstr "Silabas métricas"
 
-#: .\gama\templates\gama\analysis.html:73
+#: .\gama\templates\gama\analysis.html:74
 msgid "Stressed syllables"
 msgstr "Silabas acentuadas"
 
-#: .\gama\templates\gama\analysis.html:76
+#: .\gama\templates\gama\analysis.html:77
 msgid "Extra rhythmic stresses removed"
 msgstr "Eliminación de acentos rítmicos extra"
 
-#: .\gama\templates\gama\analysis.html:77
+#: .\gama\templates\gama\analysis.html:78
 msgid "No extra-rhythmic"
 msgstr "Sen extra-ritmicas"
 
-#: .\gama\templates\gama\analysis.html:88
+#: .\gama\templates\gama\analysis.html:89
 msgid "New analysis"
 msgstr "Nova análise"
 
-#: .\gama\templates\gama\analysis.html:90
+#: .\gama\templates\gama\analysis.html:91
 msgid "Download results (ZIP)"
 msgstr "Descargar resultados (ZIP)"
 
-#: .\gama\templates\gama\base.html:25
+#: .\gama\templates\gama\base.html:28
 msgid "GAMA: Galician Metrical Analyzer"
 msgstr "GAMA: Galician Metrical Analyzer"
 
-#: .\gama\templates\gama\base.html:29 .\gama\templates\gama\base.html:60
-#: .\gama\templates\gama\base.html:84
+#: .\gama\templates\gama\base.html:32 .\gama\templates\gama\base.html:59
+#: .\gama\templates\gama\base.html:85
 msgid "About"
 msgstr "O proxecto"
 
-#: .\gama\templates\gama\base.html:58 .\gama\templates\gama\base.html:81
+#: .\gama\templates\gama\base.html:57 .\gama\templates\gama\base.html:82
 msgid "Home"
 msgstr "Inicio"
 
-#: .\gama\templates\gama\error.html:12 .\gama\templates\gama\index.html:12
+#: .\gama\templates\gama\error.html:9
+msgid "Error!"
+msgstr "Erro!"
+
+#: .\gama\templates\gama\error.html:12
+msgid "Back"
+msgstr "Volver"
+
+#: .\gama\templates\gama\index.html:15
 msgid "Input text for analysis"
 msgstr "Texto para análise"
 
-#: .\gama\templates\gama\error.html:18 .\gama\templates\gama\index.html:18
+#: .\gama\templates\gama\index.html:23
 msgid "Enter your text here..."
 msgstr "Introduce o texto aquí..."
 
-#: .\gama\templates\gama\error.html:23 .\gama\templates\gama\index.html:23
+#: .\gama\templates\gama\index.html:29
 msgid "(Optional)"
 msgstr "(Opcionais)"
 
-#: .\gama\templates\gama\error.html:29 .\gama\templates\gama\index.html:29
+#: .\gama\templates\gama\index.html:33
 msgid "Corpus name"
 msgstr "Nome do corpus"
 
-#: .\gama\templates\gama\error.html:34 .\gama\templates\gama\index.html:34
+#: .\gama\templates\gama\index.html:38
 msgid "Author"
 msgstr "Autor·a"
 
-#: .\gama\templates\gama\error.html:39 .\gama\templates\gama\index.html:39
+#: .\gama\templates\gama\index.html:43
 msgid "Date"
 msgstr "Data"
 
-#: .\gama\templates\gama\error.html:44 .\gama\templates\gama\index.html:44
+#: .\gama\templates\gama\index.html:48
 msgid "Text title"
 msgstr "Título"
 
-#: .\gama\templates\gama\error.html:49 .\gama\templates\gama\index.html:49
+#: .\gama\templates\gama\index.html:53
 msgid "Subtitle"
 msgstr "Subtítulo"
 
-#: .\gama\templates\gama\error.html:57 .\gama\templates\gama\index.html:57
+#: .\gama\templates\gama\index.html:61
 msgid "Or use an example"
 msgstr "Ou escolle un exemplo"
 
-#: .\gama\templates\gama\error.html:62 .\gama\templates\gama\index.html:62
+#: .\gama\templates\gama\index.html:63
 msgid "Select a text"
 msgstr "Escolle un texto"
 
-#: .\gama\templates\gama\error.html:71 .\gama\templates\gama\index.html:71
-msgid "Clear"
-msgstr "Limpar"
-
-#: .\gama\templates\gama\error.html:72 .\gama\templates\gama\index.html:72
+#: .\gama\templates\gama\index.html:71
 msgid "Submit"
 msgstr "Enviar"
 
-#: .\gama\templates\gama\index.html:60
-msgid "Choose an example"
-msgstr "Escolle un texto"
+#: .\gama\templates\gama\index.html:72
+msgid "Clear"
+msgstr "Limpar"
 
-#: .\gama\views.py:145
+#: .\gama\templates\gama\index.html:82
+msgid "Multi-file analysis"
+msgstr "Análise multi-arquivo"
+
+#: .\gama\templates\gama\index.html:82
+msgid "(ZIP upload)"
+msgstr "(Subir ZIP)"
+
+#: .\gama\templates\gama\index.html:86
+msgid ""
+"Upload a .zip containing .txt files (max. 10 files of 4,500 characters each)."
+msgstr ""
+"Sube un .zip que conteña ficheiros .txt (máx. 10 ficheiros de 4.500 "
+"caracteres cada un)."
+
+#: .\gama\templates\gama\index.html:88
+msgid "Browse..."
+msgstr "Explorar..."
+
+#: .\gama\templates\gama\index.html:90 .\gama\templates\gama\index.html:233
+msgid "No file selected"
+msgstr "Ningún ficheiro seleccionado"
+
+#: .\gama\templates\gama\index.html:92
+msgid "Analyze ZIP"
+msgstr "Analizar ZIP"
+
+#: .\gama\views.py:287
 msgid "The input text cannot be empty."
 msgstr "O texto de entrada non pode estar baleiro."
 
-#: .\gama\views.py:147
+#: .\gama\views.py:289
 msgid "The input text is too long. Maximum length allowed: 4500 characters."
 msgstr ""
 "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
-#: .\gama\views.py:149
-#, fuzzy
-#| msgid "The input text does not look like poetry in verse (lines too long?)."
+#: .\gama\views.py:291
 msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: .\gama\views.py:152
+#: .\gama\views.py:295 .\gama\views.py:575
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
-#: .\gama\views.py:194
+#: .\gama\views.py:364
 msgid "corpus_name"
 msgstr "nome_do_corpus"
 
-#: .\gama\views.py:194
+#: .\gama\views.py:364
 msgid "title"
 msgstr "sen_titulo"
 
-#: .\gama\views.py:194
+#: .\gama\views.py:364
 msgid "subtitle"
 msgstr "subtitulo"
 
-#: .\gama\views.py:194
+#: .\gama\views.py:364
 msgid "author"
 msgstr "autor"
 
-#: .\gama\views.py:194
+#: .\gama\views.py:364
 msgid "date"
-msgstr ""
+msgstr "data"
 
-#: .\gama\views.py:200 .\gama\views.py:207
+#: .\gama\views.py:370 .\gama\views.py:377 .\gama\views.py:508
+#: .\gama\views.py:515
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: .\gama\views.py:200 .\gama\views.py:208
+#: .\gama\views.py:370 .\gama\views.py:378 .\gama\views.py:508
+#: .\gama\views.py:516
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: .\gama\views.py:201 .\gama\views.py:209
+#: .\gama\views.py:371 .\gama\views.py:379 .\gama\views.py:509
+#: .\gama\views.py:517
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: .\gama\views.py:201 .\gama\views.py:210
+#: .\gama\views.py:371 .\gama\views.py:380 .\gama\views.py:509
+#: .\gama\views.py:518
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: .\gama\views.py:201 .\gama\views.py:211
+#: .\gama\views.py:371 .\gama\views.py:381 .\gama\views.py:509
+#: .\gama\views.py:519
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
-#: .\gamaweb\settings.py:111
+#: .\gama\views.py:432
+msgid "No ZIP file uploaded or method not allowed."
+msgstr "Non se recibiu ningún ficheiro ZIP"
+
+#: .\gama\views.py:454
+msgid "No TXT files found in the ZIP."
+msgstr "Non se atoparon ficheiros TXT no ZIP."
+
+#: .\gama\views.py:456
+msgid "Too many files in ZIP. Maximum allowed is 10."
+msgstr "Demasiados ficheiros no ZIP. Máximo permitido: 10."
+
+#: .\gama\views.py:556
+msgid ""
+"Files above max allowed characters (4,500) were not analyzed. See error log "
+"in ZIP."
+msgstr ""
+"Os ficheiros que superan o número máximo de caracteres (4.500) non foron "
+"analizados. Vexa o rexistro de erros no ZIP."
+
+#: .\gama\views.py:561
+msgid ""
+"Some files failed and files above max allowed characters (4,500) were not "
+"analyzed. See error log in ZIP."
+msgstr ""
+"Algúns ficheiros fallaron e os ficheiros que superan o número máximo de "
+"caracteres (4.500) non foron analizados. Vexa o rexistro de erros no ZIP."
+
+#: .\gama\views.py:566
+msgid "Some files failed. See error log in ZIP."
+msgstr "Algúns ficheiros fallaron. Vexa o rexistro de erros no ZIP."
+
+#: .\gama\views.py:572
+msgid "Invalid ZIP file."
+msgstr "Arquivo ZIP inválido."
+
+#: .\gamaweb\settings.py:137
 msgid "English"
 msgstr "Inglés"
 
-#: .\gamaweb\settings.py:112
+#: .\gamaweb\settings.py:138
 msgid "French"
 msgstr "Francés"
 
-#: .\gamaweb\settings.py:113
+#: .\gamaweb\settings.py:139
 msgid "Galician"
 msgstr "Galego"
 
-#~ msgid "Error!"
-#~ msgstr "Erro!"
+#~ msgid "The following file(s) are too long (max. 4500 characters): {files}"
+#~ msgstr ""
+#~ "Os ficheiros seguintes son demasiado longos (máx. 4500 caracteres) : "
+#~ "{files}"
 
-#~ msgid "Back"
-#~ msgstr "Volver"
+#~ msgid "No valid files found in ZIP."
+#~ msgstr "Non se atoparon ficheiros válidos no ZIP."
+
+#~ msgid "Choose an example"
+#~ msgstr "Escolle un texto"
 
 #~ msgid "Title"
 #~ msgstr "Título"

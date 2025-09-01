@@ -20,14 +20,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+# prev is for local with WSGI server, dev is with Django dev server
+ENV = 'dev'
+assert ENV in ('prod', 'prev', 'dev')
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-k!c6yrqhj9nm1y%t_$apzh*p9y1$fge#ut4u)%$#hsvx29712$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if ENV in ('prod', 'prev') else True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'prf2.org', ]
+if ENV != 'prod':
+    ALLOWED_HOSTS.extend(['192.168.1.14', '192.168.0.109'])
 
 # Application definition
 
@@ -70,6 +76,26 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gamaweb.wsgi.application'
+LOGGING = {
+'version': 1,
+'disable_existing_loggers': False,
+'handlers': {
+    'file': {
+        'level': 'DEBUG',
+        'class': 'logging.FileHandler',
+        'filename': BASE_DIR / 'gamaweb_django.log',
+    },
+},
+'loggers': {
+    'django': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+        'propagate': True,
+    },
+},
+}
+#TODO: needed?
+CSRF_TRUSTED_ORIGINS = ["https://prf2.org"]
 
 
 # Database
@@ -127,7 +153,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static_gm/' if ENV in ('prod', 'prev') else 'static/'
+STATIC_ROOT = '/var/www/static_gm/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
