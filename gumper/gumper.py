@@ -65,6 +65,7 @@ vocales_y = vocales + ['y']
 # it may, given that seems to do dempóis as dem-pó-is not dem-póis
 diptongos = ['ai', 'au', 'ei', 'eu', 'oi', 'ou', 'ui', 'iu', 'ia', 'ua', 'ie', 'ue', 'io', 'uo', 'ió', 'ey', 'oy', 'ié',
              'éi', 'ué', 'ái', 'iá', 'uá', 'oa', 'éu']
+# adding 'óu' as diphthong gave actually worse results, so didn't add for now
 
 # TODO maybe add cando donde here
 atonas_a_veces_acentuadas = {'oh': 'ó', 'quien': 'quién', 'do': 'dó'}
