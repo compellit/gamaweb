@@ -26,6 +26,8 @@ def load_w_replacements(config):
     replacements = OrderedDict()
     with open(config.word_bound_replacements, "r", encoding="utf-8") as f:
         for line in f:
+            if line.startswith("#"):
+                continue
             key, value = line.strip().split("\t")
             replacements[re.compile(fr"\b{key}\b", re.I)] = value
     return replacements
@@ -38,6 +40,8 @@ def load_t_replacements(config):
     replacements = OrderedDict()
     with open(config.text_level_replacements, "r", encoding="utf-8") as f:
         for line in f:
+            if line.startswith("#"):
+                continue
             key, value = line.strip().split("\t")
             replacements[re.compile(fr"{key}", re.I)] = value
     return replacements

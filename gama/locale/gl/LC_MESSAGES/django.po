@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-19 13:46+0200\n"
+"POT-Creation-Date: 2025-08-19 17:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,10 +165,10 @@ msgstr "(Subir ZIP)"
 
 #: .\gama\templates\gama\index.html:86
 msgid ""
-"Upload a .zip containing .txt files. (max. 10 files of 4,500 characters each)"
+"Upload a .zip containing .txt files (max. 10 files of 4,500 characters each)."
 msgstr ""
-"Sube un .zip que conteña ficheiros .txt. (máx. 10 ficheiros de 4.500 "
-"caracteres cada un)"
+"Sube un .zip que conteña ficheiros .txt (máx. 10 ficheiros de 4.500 "
+"caracteres cada un)."
 
 #: .\gama\templates\gama\index.html:88
 msgid "Browse..."
@@ -192,11 +192,10 @@ msgstr ""
 "O texto de entrada é demasiado longo. Máximo permitido: 4500 caracteres."
 
 #: .\gama\views.py:291
-#| msgid "The input text does not look like poetry in verse (lines too long?)."
 msgid "The input text does not seem to be in verse (lines too long?)."
 msgstr "O texto non parece estar en verso (liñas demasiado longas?)."
 
-#: .\gama\views.py:295 .\gama\views.py:572
+#: .\gama\views.py:295 .\gama\views.py:575
 msgid "An unexpected error occurred."
 msgstr "Ocorreu un erro inesperado."
 
@@ -220,28 +219,28 @@ msgstr "autor"
 msgid "date"
 msgstr "data"
 
-#: .\gama\views.py:370 .\gama\views.py:377 .\gama\views.py:517
-#: .\gama\views.py:524
+#: .\gama\views.py:370 .\gama\views.py:377 .\gama\views.py:508
+#: .\gama\views.py:515
 msgid "original_text"
 msgstr "texto_orixinal"
 
-#: .\gama\views.py:370 .\gama\views.py:378 .\gama\views.py:517
-#: .\gama\views.py:525
+#: .\gama\views.py:370 .\gama\views.py:378 .\gama\views.py:508
+#: .\gama\views.py:516
 msgid "preprocessing"
 msgstr "preprocesamento"
 
-#: .\gama\views.py:371 .\gama\views.py:379 .\gama\views.py:518
-#: .\gama\views.py:526
+#: .\gama\views.py:371 .\gama\views.py:379 .\gama\views.py:509
+#: .\gama\views.py:517
 msgid "metrical_syllables"
 msgstr "silabas_metricas"
 
-#: .\gama\views.py:371 .\gama\views.py:380 .\gama\views.py:518
-#: .\gama\views.py:527
+#: .\gama\views.py:371 .\gama\views.py:380 .\gama\views.py:509
+#: .\gama\views.py:518
 msgid "stressed_syllables"
 msgstr "silabas_acentuadas"
 
-#: .\gama\views.py:371 .\gama\views.py:381 .\gama\views.py:518
-#: .\gama\views.py:528
+#: .\gama\views.py:371 .\gama\views.py:381 .\gama\views.py:509
+#: .\gama\views.py:519
 msgid "no_extra_rhythmic"
 msgstr "sen_extra_ritmicas"
 
@@ -257,20 +256,27 @@ msgstr "Non se atoparon ficheiros TXT no ZIP."
 msgid "Too many files in ZIP. Maximum allowed is 10."
 msgstr "Demasiados ficheiros no ZIP. Máximo permitido: 10."
 
-#: .\gama\views.py:471
-msgid "The following file(s) are too long (max. 4500 characters): {files}"
+#: .\gama\views.py:556
+msgid ""
+"Files above max allowed characters (4,500) were not analyzed. See error log "
+"in ZIP."
 msgstr ""
-"Os ficheiros seguintes son demasiado longos (máx. 4500 caracteres) : {files}"
+"Os ficheiros que superan o número máximo de caracteres (4.500) non foron "
+"analizados. Vexa o rexistro de erros no ZIP."
 
-#: .\gama\views.py:540
-msgid "No valid files found in ZIP."
-msgstr "Non se atoparon ficheiros válidos no ZIP."
+#: .\gama\views.py:561
+msgid ""
+"Some files failed and files above max allowed characters (4,500) were not "
+"analyzed. See error log in ZIP."
+msgstr ""
+"Algúns ficheiros fallaron e os ficheiros que superan o número máximo de "
+"caracteres (4.500) non foron analizados. Vexa o rexistro de erros no ZIP."
 
-#: .\gama\views.py:565
-msgid "Some files failed (see errors.txt for details)."
-msgstr "Algunos archivos fallaron (ver errors.txt para más detalles)"
+#: .\gama\views.py:566
+msgid "Some files failed. See error log in ZIP."
+msgstr "Algúns ficheiros fallaron. Vexa o rexistro de erros no ZIP."
 
-#: .\gama\views.py:569
+#: .\gama\views.py:572
 msgid "Invalid ZIP file."
 msgstr "Arquivo ZIP inválido."
 
@@ -285,6 +291,14 @@ msgstr "Francés"
 #: .\gamaweb\settings.py:139
 msgid "Galician"
 msgstr "Galego"
+
+#~ msgid "The following file(s) are too long (max. 4500 characters): {files}"
+#~ msgstr ""
+#~ "Os ficheiros seguintes son demasiado longos (máx. 4500 caracteres) : "
+#~ "{files}"
+
+#~ msgid "No valid files found in ZIP."
+#~ msgstr "Non se atoparon ficheiros válidos no ZIP."
 
 #~ msgid "Choose an example"
 #~ msgstr "Escolle un texto"

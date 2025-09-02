@@ -14,4 +14,4 @@ uns\b	úns
 d['‘] (\w)	d\1
 ([sq])' ([aeiou])	\1\2
 qu' ([aeiou])	q\1
-có	co
+có(\s)	co\1
