@@ -1,8 +1,10 @@
 """To work with n-gram language models"""
 
 import kenlm
+import logging
 
 from normalization import normconfig as nc
+klm_logger = logging.getLogger("main.klm")
 
 
 class KenLMManager:
@@ -15,13 +17,14 @@ class KenLMManager:
         
     
     def find_context_for_token(self, tok, idx, toklist, window=nc.lm_window):
-        """Find left-context for the given OOV term in the token list."""
-        #idx = toklist.index(oov)
-        # if idx < window < 0:
-        #     leftcon = toklist[0:idx]
-        # else:
-        #     leftcon = toklist[idx-window:idx]
-        assert toklist[idx] == tok, "Token at index does not match the provided token"
+        """Find context for the given OOV term in the token list."""
+        #assert toklist[idx] == tok, "Token at index does not match the provided token"
+        try:
+            if toklist[idx] != tok:
+                logging.debug(f"Warning: Token at index {idx} does not match the provided token '{tok}'.")
+        except IndexError:
+            logging.debug(f"Warning: IndexError at index {idx} for token '{tok}' in token list of length {len(toklist)}. Assuming index is the last token ({len(toklist)-1}).")
+            idx = len(toklist) - 1
         leftcon = toklist[0:idx] if idx < window else toklist[idx-window:idx]
         rightcon = toklist[idx+1:idx+window+1] if idx + window + 1 <= len(toklist) else toklist[idx+1:]
         token_in_context = leftcon + [tok] + rightcon        

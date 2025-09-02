@@ -52,9 +52,9 @@ class EdManager:
         """
         #TODO most of this seems not useful for Galician case (not Twitter)
         oov_before_rgdist = oov
-        if len(oov) > 3 and oov.isupper():
+        if False and len(oov) > 3 and oov.isupper():
             oov = oov.lower()
-            print("ED LC O: [{0}], O_LC: [{1}]".format(repr(oov_before_rgdist), repr(oov)))
+            ed_logger.debug("Lowercasing for regex candidates [{0}] to [{1}]".format(oov_before_rgdist, oov))
 
         # Ordered regexes. Format: (incorrect, correct)
         subs_tups = [('ceon$', 'ción'), ('ion$', 'ión')]
@@ -107,7 +107,7 @@ class EdManager:
         orig_word = word
         if len(word) > 3 and word.isupper():
             word = word.lower()
-            print("ED LC O: [{0}], O_LC: [{1}]".format(repr(orig_word), repr(word)))
+            ed_logger.debug("Lowercasing for dist cands [{0}] to [{1}]".format(orig_word, word))
         splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
         deletes = [a + b[1:] for a, b in splits if b]
         replaces = [a + c + b[1:] for a, b in splits for c in self.alphabet if b]

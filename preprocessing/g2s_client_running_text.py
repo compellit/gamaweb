@@ -230,11 +230,14 @@ def apply_syllabification(line_list: list[str]) -> tuple[list[tuple], list[str]]
                         else:
                             logger.debug(f"No Norm: [{word}]")
                         word = best_cand.form if best_cand is not None else word
-                        # TODO : postprocess to respect case in orig text, use a case mask
+                        # respect case in orig text, using a case mask
+                        case_mask_norm = nmlzr.create_case_mask(word)
+                        word_cased = "".join([cha.upper() if cm == 1 else cha for (cha, cm) in zip(list(word), case_mask_norm)])
+                        word = word_cased
             words_before_pos = copy.deepcopy(updated_words)
 
             # sylllabification only after preprocessing each line as above
-            syllables = g2s.silabeo(re.sub(PUNCT_TO_SPACE_RE, " ", word), spanishfy=args.spanishfy)
+            syllables = g2s.syllabify_full(re.sub(PUNCT_TO_SPACE_RE, " ", word), spanishfy=args.spanishfy)
             syllables_orig = syllables
             # several representations of the syllabified word are stored,
             # along with the stressed syllable position

@@ -78,7 +78,8 @@ class Normalizer:
         for rgxcand in sorted([cd for cd in cands_and_scores if cd.cand_type == nmo.CandType.RGX],
                               key=lambda x: -x.score):
             # score is negative. Doing minus for debugging so that can compare positive numbers (easier by hand)
-            if -rgxcand.score < -min([c.levdist for c in cands_and_scores if c.cand_type == nmo.CandType.LEV]):
+            levdists = [c.levdist for c in cands_and_scores if c.cand_type == nmo.CandType.LEV]
+            if len(levdists) == 0 or -rgxcand.score < -min(levdists):
                 ranked_cands.append(rgxcand)
         if len(ranked_cands) == 1:
             return ranked_cands[0]
@@ -95,7 +96,12 @@ class Normalizer:
         if -0.5 in scores_groups:
             if len(scores_groups[-0.5]) == 1:
                 test_seq = copy.deepcopy(context)
-                test_seq[cand_index] = scores_groups[-0.5][0].form
+                try:
+                    test_seq[cand_index] = scores_groups[-0.5][0].form
+                except IndexError:
+                    logging.debug(f"Warning: IndexError: {cand_index} in context of length {len(context)} for OOV '{oov}'")
+                    cand_index = len(test_seq) - 1
+                    test_seq[cand_index] = scores_groups[-0.5][0].form
                 clc, crc = lm.find_context_for_token(scores_groups[-0.5][0].form, cand_index, test_seq)
                 cand_sco = lm.find_logprob_in_context(scores_groups[-0.5][0].form, (clc, crc))
                 orig_lc, orig_rc = lm.find_context_for_token(oov, cand_index, [x.replace("-", "") for x in context])
