@@ -1,5 +1,14 @@
 # Created by .ignore support plugin (hsz.mobi)
 
+io/
+log_001.txt
+staticfiles/
+.bkp.gitignore
+gamaweb/settings.py.bkp
+gamaweb/settings_bkp.py
+prep_pm_branch.sh
+
+
 db.sqlite3
 *~
 ~*
