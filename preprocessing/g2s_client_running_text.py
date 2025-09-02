@@ -116,37 +116,8 @@ def apply_syllabification(line_list: list[str]) -> tuple[list[tuple], list[str]]
         words = [tok for tok in re.split(r"\s+", text) if tok.strip() != ""]
         out_line = []
         out_line_running_text = []
-        # handle apostrophes
-        updated_words = copy.deepcopy(words)
-        if False:
-            for widx, word in enumerate(words):
-                has_apos = re.search(r"(\w+)['‘’](\w*)", word)
-                if has_apos:
-                    word_orig = word
-                    word = has_apos.group(1)
-                    if has_apos.group(2) == "":
-                        updated_words = words[0:widx] + [word] + words[widx + 1:]
-                    else:
-                        updated_words = words[0:widx] + [word] + [has_apos.group(2).strip()] + words[widx + 1:]
-                    # for apostrophes, we only edit by adding a, e, o
-                    edits_noapos = []
-                    for vowel in ['a', 'e', 'o']:
-                        edits_noapos.append(word + vowel)
-                    ed_scos = []
-                    # get the best of the three edits based on the language model probability
-                    for ed in edits_noapos:
-                        wlc, wrc = nglm.find_context_for_token(word, widx, updated_words)
-                        ed_sco = nglm.find_logprob_in_context(ed, (wlc, wrc))
-                        ed_scos.append((ed, ed_sco))
-                    best_ed_cand = sorted(ed_scos, key=lambda x: -x[1])
-                    # if edits are still OOV, choose the original word
-                    if len(best_ed_cand) == 0:
-                        updated_words[widx] = word_orig
-                    else:
-                        word = best_ed_cand[0][0]
-                        updated_words[widx] = word
-                        logger.debug(f"Replace Apostrophe: [{word_orig}] to [{word}]+[{updated_words[updated_words.index(word)+1]}] context [{' '.join(updated_words)}]")
 
+        # handle apostrophes
         updated_words = []
 
         for widx, word in enumerate(words):
