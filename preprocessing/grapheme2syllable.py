@@ -1,19 +1,19 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+"""
+Simple hyphenation of Galician words.
+It does not handle foreign prefixes, e.g. pa-ra-psi-co-lo-xía is 
+hyphenated as in cáp-su-la.
+"""
 
-#Copyright (C) 2007  Rafael C. Carrasco
-#This program is free software; you can redistribute it and/or
-#modify it under the terms of   the GNU General Public License
-#as published by the Free Software Foundation; either version 2
-#of the License, or (at your option) any later version.
-#Adapted from José A. Mañas in Communications of the ACM 30(7), 1987.
+# Copyright (C) 2007  Rafael C. Carrasco for the initial Java implementation,
+# see https://www.dlsi.ua.es/%7Ecarrasco/progs/Hyphenator.java
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of   the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# Adapted from José A. Mañas in Communications of the ACM 30(7), 1987.
 
-
-# A class that performs simple hypenation of Spanish words.
-# It does not work with foreign words as pa-ra-psi-co-lo-gía:
-# hyphenated as in cáp-su-la.
-
-#Implementado en Pytho por Javier Sober
+# Initial Python by Javier Sober
+# Current modifications by Pablo Ruiz
 
 from copy import copy
 import logging
@@ -24,89 +24,116 @@ import utils as ut
 g2s_logger = logging.getLogger("main.g2s")
 #g2s_logger.setLevel(logging.DEBUG)
 
-v = "[aáeéiíoóuúü]"            # vowels
-a = "[aáeéíoóú]"               # open vowels
-i = "[iuü]"                    # closed vowels
-c = "[bcdfghjklmnñpqrstvxyz]"  # consonants
-r = "[hlr]"                    # liquid and mute consonants
-b = "[bcdfgjkmnñpqstvxyz]"     # non-liquid consonants
+V = "[aáeéiíoóuúü]"            # vowels
+A = "[aáeéíoóú]"               # open vowels
+I = "[iuü]"                    # closed vowels
+C = "[bcdfghjklmnñpqrstvxyz]"  # consonants
+R = "[hlr]"                    # liquid and mute consonants
+B = "[bcdfgjkmnñpqstvxyz]"     # non-liquid consonants
 
-P = []
-P.append("(" + i + "h" + i + ")")
-P.append("(" + a + "h" + i + ")")
-P.append("(" + i + "h" + a + ")")
-P.append("(" + "." + c + r + v + ")")
-P.append("(" + c + r + v + ")")
-P.append("(" + "." + c + v + ")")
-P.append("(" + a + a + ")")
-P.append("(" + "." + ")")
+# patterns for syllabification
+PATS = []
+PATS.append("(" + I + "h" + I + ")")
+PATS.append("(" + A + "h" + I + ")")
+PATS.append("(" + I + "h" + A + ")")
+PATS.append("(" + "." + C + R + V + ")")
+PATS.append("(" + C + R + V + ")")
+PATS.append("(" + "." + C + V + ")")
+PATS.append("(" + A + A + ")")
+PATS.append("(" + "." + ")")
 
-
-allpats =  P[0] + "|"  + P[1] + "|" + P[2] + "|" + P[3] +  "|"+ P[4] + "|" + P[5] + "|"  + P[6] + "|" + P[7]
-prog = re.compile(allpats, re.I|re.U)
-
+# main regex combining all patterns
+ALLPATS = PATS[0] + "|" + PATS[1] + "|" + PATS[2] + "|" + PATS[3] + "|" + PATS[4] + "|" + PATS[5] + "|" + PATS[6] + "|" + PATS[7]
+PROG = re.compile(ALLPATS, re.I | re.U)
 
 # In Galician, falling diphthongs do not get a stress mark in a stressed final syllable, list them here
 UNACCENTED_DIPHTHONGS_GL = {"ai", "au", "ei", "ey", "eu", "oi", "ou"}
 
-# Return separator if matching pattern is 4,6 or 7
-def getGroup( x ):
+
+def get_matching_pat(pat_nbr: int) -> str:
+    """
+    Returns the separator (dash) if the matching pattern in `ALLPATS` above
+    is 4, 6 or 7, otherwise returns an empty string.
+    """
     switcher = {
         4: '-',
         6: '-',
         7: '-',
     }
-    return switcher.get(x, "")
+    return switcher.get(pat_nbr, "")
 
 
-## Hyphenates a word.
-## @param The word to be hyphenated.
-## @return hyphenation.
-def parse ( input ):
+def syllabify_core(input: str)-> str:
+    """
+    Syllabifies a word based on regex patterns.
+    
+    Args:
+        input (str): The word to be syllabified.
+    
+    Returns:
+        str: The syllabified word with dashes between syllables.
+    """
     output = ""
-    while (len(input)>0):
+    while len(input) > 0:
         output += input[0]
-        ## Return first matching pattern.
-        m = prog.search(input)
-        output += getGroup(m.lastindex)
+        # Return first matching pattern.
+        m = PROG.search(input)
+        output += get_matching_pat(m.lastindex)
         input = input[1:]
     return output
 
 
-def buscarTilde( silabas ):
+def search_stress_mark(silabas: list) -> int:
     """
-    Given a list of str or unicodes representing a syllable,
-    return position in the list of a syllable bearing
-    orthographic stress (with the acute accent mark in Spanish)
-    @param silabas: list of syllables as str or unicode each
-    @return: position or -1 if no orthographic stress
-    @rtype int
-    """
-    tildes = "[áéíóú]"
-    reg = re.compile(tildes, re.I|re.U)
-    pos = 0
-    for sil in silabas:
-        if (reg.search(sil)):
-            return pos
-        pos += 1
+    Given a list of strings where each string represents a syllable,
+    return position in the list of a syllable bearing orthographic stress
+    (the one with the acute accent mark in Galician or Spanish)
 
+    Args:
+        silabas (list): list of syllables as str
+    Returns:
+        int: position of the syllable with orthographic stress or -1 if none found
+    """
+    vowels_with_stress_mark = "[áéíóú]"
+    reg = re.compile(vowels_with_stress_mark, re.I|re.U)
+    for idx, syl in enumerate(silabas):
+        if reg.search(syl):
+            return idx
     return -1
 
 
-def buscarTonica( silabas ):
-    # if find that in last syllable, penult is stressed
-    # (since buscarTilde takes care of antepenult)
-    tonica = r"(([aeiou])|(n)|([aeiou]s))\Z"
-    reg = re.compile(tonica, re.I|re.U)
-    if (reg.search(silabas[len(silabas)-1])):
+def search_stressed_syll(silabas: list) -> bool:
+    """
+    The patterns in `unstressed_re` are searched in the last member of a list
+    of strings each of which represents a syllable. If it matches, it means that
+    the word has antepenult stress, because words whose final syllable matches
+    the pattern do not have final stress, and antepenult or earlier stress are
+    already detected by :func:`search_stress_mark`.
+    
+    Args:
+        silabas (list): list of syllables as str
+
+    Returns:
+        bool: True if the last syllable matches the unstressed pattern (i.e.
+              word has penult stress), False otherwise
+    """
+    unstressed_re = r"(([aeiou])|(n)|([aeiou]s))\Z"
+    reg = re.compile(unstressed_re, re.I|re.U)
+    if reg.search(silabas[-1]):
         return True
     else:
         return False
 
 
-def _has_unaccented_diphthong(syll):
+def _has_unaccented_diphthong(syll: str) -> bool:
     """
-    Check whether a rising (unaccented) diphthong is in the final syllable.
+    Check whether a falling diphthong (without a stress mark) is in the final syllable.
+
+    Args:
+        syll (str): The syllable to check.
+
+    Returns:
+        bool: True if the syllable contains an unaccented diphthong, False otherwise.
     """
     for di in UNACCENTED_DIPHTHONGS_GL:
         if di in syll.lower():
@@ -114,74 +141,99 @@ def _has_unaccented_diphthong(syll):
     return False
 
 
-def acentuacion ( silabas, diacritic="´" , spanishfy=False ):
-    #TODO here can see the index in silabas and return it
-    #TODO so that don't have to rely on uppercase ...
-    orig_syll = copy(silabas)
-    # here the stressed syllable will be marked with the value of the diacritic keyword a
-    silabas_diac = copy(silabas) 
+def mark_stress(sylls: list[str], diacritic: str = "´", spanishfy: bool = False) -> tuple[str, str, str, int]:
+    """
+    Given a list of syllables for a word, marks the stressed syllable position
+    in several ways.
+    
+    Args:
+        sylls (list[str]): List of syllables as strings.
+        diacritic (str): Diacritic to prefix the stressed syllable in the output.
+            Default is "´" (acute accent).
+        spanishfy (bool): If True, adds a stress mark to final syllables with a falling
+            diphthong. These bear no stress mark in Galician, but in Spanish they do. Since
+            some of our tools are meant for Spanish, this option is useful
+    
+    Returns:
+        tuple: The first member contains the stressed syllable in allcaps,
+               the second has the stressed syllable prefixed with a diacritic,
+               the third one is the original syllabification without extra stress marks,
+               the last one is the position of the stressed syllable, indexed from the end of the word
+    """
+    orig_syll = copy(sylls)
+    # in `sylls_diac` the stressed syllable will be marked with the value of `diacritic`
+    sylls_diac = copy(sylls)
     stressposi = None
-    if (len(silabas) == 1):
-        silabas[0] = silabas[0].upper()
-        silabas_diac[0] = diacritic + silabas_diac[0]
+    if len(sylls) == 1:
+        sylls[0] = sylls[0].upper()
+        sylls_diac[0] = diacritic + sylls_diac[0]
         stressposi = 0
     else:
-        tilde = buscarTilde(silabas)
-        stressposi = tilde
-        if (tilde != -1):
-            silabas[tilde] = silabas[tilde].upper()
-            silabas_diac[tilde] = diacritic + silabas_diac[tilde]
-        # exception for Galician's falling diphthongs (get no stress mark in final stressed syllable)
-        elif _has_unaccented_diphthong(silabas[-1]):
-            #TODO why is this indexed c/o len(x)? (and not just use the index)?
-            #breakpoint()
-            if spanishfy and len(silabas) > 1:
-                silabas[len(silabas) - 1] = ut._spanishfy(silabas[len(silabas) - 1], silabas)
-                silabas_diac = copy(silabas) # to update after spanishfy
-                #g2s_logger.debug(f"Spanishfied: original [{"-".join(orig_syll)}] postprocessed [{"-".join(silabas)}]")
-            silabas[len(silabas) - 1] = silabas[len(silabas) - 1].upper()
-            silabas_diac[len(silabas) - 1] = diacritic + silabas_diac[len(silabas) - 1]
-            stressposi = len(silabas) - 1
-        elif (buscarTonica(silabas)):
-            #TODO why is this indexed c/o len(x)? (and not just use the index)?
-            silabas[len(silabas)-2] = silabas[len(silabas)-2].upper()
-            silabas_diac[len(silabas)-2] = diacritic + silabas_diac[len(silabas)-2]
-            stressposi = len(silabas) - 2
+        last = len(sylls) - 1
+        penult = len(sylls) - 2
+        stress_mark = search_stress_mark(sylls)
+        stressposi = stress_mark
+        if stress_mark != -1:
+            sylls[stress_mark] = sylls[stress_mark].upper()
+            sylls_diac[stress_mark] = diacritic + sylls_diac[stress_mark]
+        # exception for Galician's falling diphthongs
+        # (get no stress mark in final stressed syllable)
+        elif _has_unaccented_diphthong(sylls[-1]):
+            if spanishfy and len(sylls) > 1:
+                sylls[last] = ut._spanishfy(sylls[last], sylls)
+                sylls_diac = copy(sylls) # to update after spanishfy
+            sylls[last] = sylls[last].upper()
+            sylls_diac[last] = diacritic + sylls_diac[last]
+            stressposi = len(sylls) - 1
+        elif search_stressed_syll(sylls):
+            sylls[penult] = sylls[penult].upper()
+            sylls_diac[penult] = diacritic + sylls_diac[penult]
+            stressposi = len(sylls) - 2
         else:
-            silabas[len(silabas)-1] = silabas[len(silabas)-1].upper()
-            silabas_diac[len(silabas)-1] = diacritic + silabas_diac[len(silabas)-1]
-            stressposi = len(silabas) -1
+            sylls[last] = sylls[last].upper()
+            sylls_diac[last] = diacritic + sylls_diac[last]
+            stressposi = len(sylls) - 1
 
     # normalize stressed position to a negative index
     # (since we speak of final, penult, or antepenult etc. stress)
-    stressposi = 0 - (len(silabas) - stressposi)
+    stressposi = 0 - (len(sylls) - stressposi)
 
-    palabra = "-".join(x for x in silabas)
-    palabra_diac = "-".join(x for x in silabas_diac)
-    orig_word = "-".join(x for x in silabas_diac).replace(diacritic, "")
-    return palabra, palabra_diac, orig_word, stressposi
+    word = "-".join(x for x in sylls)
+    word_diac = "-".join(x for x in sylls_diac)
+    orig_word = "-".join(x for x in sylls_diac).replace(diacritic, "")
+    return word, word_diac, orig_word, stressposi
 
 
-def _resyllabify_close_sequence(sl):
+def _resyllabify_close_sequence(sl: list) -> list:
     """
-    Sequences like uu, ii, UU, II must be syllabified
+    Makes sure that sequences like uu, ii, UU, II are be syllabified
     in two different syllables.
-    @param sl: syllable list
+    
+    Args:
+        sl (list): list of syllables as strings
+    
+    Returns:
+        list: a copy of the syllable list with close vowerl sequences
+              resyllabified correctly
     """
     for idx, sy in enumerate(sl):
         symatch = re.match(r"^(.*?([iu]))(\2.*?)$", sy)
         if symatch:
-            # print sl, sy
             sl[idx] = symatch.group(1)
             sl.insert(idx+1, symatch.group(3))
     return sl
 
 
-def _resyllabify_homogeneous_diphthong_(sl):
+def _resyllabify_homogeneous_diphthong_(sl: list)-> list:
     """
-    Resyllabify closed vowels the second of which bears a stress mark
+    Resyllabifies  closed vowels the second of which bears a stress mark
     (e.g. Galician "muíño" goes to "mu-í-ño")
-    @param sl: syllable list
+    
+    Args:
+        sl (list): list of syllables as strings
+    Returns:
+        list: a copy of the syllable list with homogeneous diphthongs
+              resyllabified correctly
     """
     for idx, sy in enumerate(sl):
         symatch = re.match(r"^(.*?[^gq])([iu])([íú])(.*?)$", sy)
@@ -194,11 +246,15 @@ def _resyllabify_homogeneous_diphthong_(sl):
     return sl
 
 
-def _resyllabify_osbstruent_liquid(sl):
+def _resyllabify_osbstruent_liquid(sl: list) -> list:
     """
     Obstruent-liquid onsets were sometimes syllabified wrongly when applied
-    this to a large corpus. Fix here.
-    @param sl: list of syllables
+    `syllabify_core` to a large corpus. This is fixed here.
+    
+    Args:
+        sl (list): list of syllables as strings
+    Returns:
+        list: a copy of the syllable list with obstruent-liquid onsets
     """
     sl_copy = copy(sl)
     for idx, sy in enumerate(sl):
@@ -212,16 +268,25 @@ def _resyllabify_osbstruent_liquid(sl):
     return sl_copy
 
 
-def _resyllabify_double_l(sl):
+def _resyllabify_double_l(sl: list) -> list:
     """
     The "ll" digraph for the lateral palatal were sometimes syllabified
-    into two syllables when ran this with a full corpus.
-    Fix here, adding it as onset to the second one.
-    @param sl: list of syllables
+    into two syllables when applied `syllabify_core` to a large corpus.
+    This is fixed here, adding it as onset to the second one.
+
+    Args:
+        sl (list): list of syllables as strings
+    Returns:
+        list: a copy of the syllable list with obstruent-liquid onsets
     """
     sl_copy = copy(sl)
     for idx, sy in enumerate(sl):
         try:
+            # I'm not sure why did it this way (back in 2017). 
+            # From the rgx, what seems to be happening is that 
+            # the first "syllable" is just a single "l", perhaps
+            # there were missyllabifications with such (incorrect) "syllables"
+            # and this function was meant to fix them.
             if (re.match(r"^l$", sy.lower())
                 and sl[idx+1][0].lower() == "l"):
                 sl_copy[idx+1] = "".join((sl[idx][-1], sl[idx+1]))
@@ -231,11 +296,40 @@ def _resyllabify_double_l(sl):
     return sl_copy
 
 
-def _resyllabify_ch(sl):
+def _resyllabify_liquids(sl: list) -> list:
+    """
+    This fixes cases where words like "burla" or "bulra" are 
+    syllabified as "bu-rla" and "bu-lra" instead of "bur-la" and "bul-ra".
+
+    Args:
+        sl (list): list of syllables as strings
+
+    Returns:
+        list: a copy of the syllable list with the liquids
+              resyllabified correctly
+    """
+    sl_copy = copy(sl)
+    for idx, sy in enumerate(sl):
+        try:
+            liquid_seq_in_same_syllable = r"^(?:lr|rl|nr)"
+            if re.search(liquid_seq_in_same_syllable, sy.lower()):
+                sl_copy[idx] = sy[1:]
+                sl_copy[idx-1] = sl_copy[idx-1] + sy[0]
+        except IndexError:
+            pass
+    return sl_copy
+
+
+def _resyllabify_ch(sl: list) -> list:
     """
     The "ch" digraph for the postalveolar affricate was sometimes syllabified
-    into two syllables when applied this to a large corpus.
-    Fix here, adding it as onset to the second one.
+    into two syllables when applied `syllabify_core` to a large corpus.
+    This is fixed here, adding it as onset to the second one.
+
+    Args:
+        sl (list): list of syllables as strings
+    Returns:
+        list: a copy of the syllable list with obstruent-liquid onsets
     """
     sl_copy = copy(sl)
     for idx, sy in enumerate(sl):
@@ -250,39 +344,36 @@ def _resyllabify_ch(sl):
 
 
 def _apply_fixes(sl):
-    sl = _resyllabify_close_sequence(sl)
-    sl = _resyllabify_homogeneous_diphthong_(sl)
-    #TODO are fixes below here relevant or not?
-    # these errors occcurred when applying to DISCO, not when
-    # testing with the test items in tests ...
-    # the 'close_sequence' one must be kept, occurs even in tests
+    sl = _resyllabify_close_sequence(sl) # this applies
+    sl = _resyllabify_homogeneous_diphthong_(sl) # this applies
     sl = _resyllabify_osbstruent_liquid(sl)
-    sl = _resyllabify_double_l(sl)
-    sl = _resyllabify_ch(sl)
+    sl = _resyllabify_double_l(sl) # this works
+    sl = _resyllabify_liquids(sl) # this one is relevant
+    sl = _resyllabify_ch(sl) # this applies
     return sl
 
 
-def silabeo(word, diacritic="´", spanishfy=False):
+def syllabify_full(word, diacritic="´", spanishfy=False):
+    """
+    Syllabification with the main algorithm plus stress marking and some
+    postprocessing fixes. 
+    """
+    # in case more than one word, out will have them all, with the stressed syllable
+    # in upper case
     out = ''
     # avoid variables to be not assigned if wordre is empty
-    diac = orig = stressposi = None
-    
+    wdiac = worig = stressposi = None    
     wordre = word.split(" ")
-
     for m in wordre:
-        l = parse(m).split("-")
-        l = _apply_fixes(l)
-        t, diac, orig, stressposi = acentuacion(l, diacritic=diacritic, spanishfy=spanishfy)
-        out += (t)+" "
-    out = out[:len(out)-1]
-    return out, diac, orig, stressposi
+        sylls_pre = syllabify_core(m).split("-")
+        sylls_post = _apply_fixes(sylls_pre)
+        wupper, wdiac, worig, stressposi = mark_stress(sylls_post, diacritic=diacritic, spanishfy=spanishfy)
+        out += wupper + " "
+    # TODO: only the 'wupper' version makes it to `out`, should add a check that no spaces
+    # in input string actually, to parse only one word at a time and have all output variants
+    out = out[:-1]
+    return out, wdiac, worig, stressposi
 
 
 if __name__ == "__main__":
-    # print(silabeo("aéreo"))
-    # print(silabeo("casa"))
-    # print(silabeo("subrayar"))
-    for x in silabeo("Ángel"): print(x,"|",)
-    # print(silabeo("aéreo"))
-    # print(silabeo("casa"))
-    # print(silabeo("subrayar"))
+    for x in syllabify_full("Ángel"): print(x, "|", )

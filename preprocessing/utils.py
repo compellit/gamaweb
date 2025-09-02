@@ -13,10 +13,17 @@ utils_logger = logging.getLogger("main.utils")
 import grapheme2syllable as g2s
 
 
-def load_text_replacements(config: types.ModuleType) -> OrderedDict[re.Pattern, str]:
+def load_text_replacements(config: types.ModuleType, ignore_flagged=False) -> OrderedDict[re.Pattern, str]:
     """
-    Loads contexts and replacements from a file whose path is given at :obj:`config`.
+    Loads regex contexts and replacements from a file whose path is given at :obj:`config`.
     The replacements may affect multiple words.
+    
+    Args:
+        config (types.ModuleType): The configuration to load.
+        ignore_flagged (bool, optional): Whether to ignore expressions tagged with 'skip'
+           in the data.
+    Returns:
+        OrderedDict[re.Pattern, str]: OrderedDict with expressions and their replacements 
     """
     replacements: OrderedDict[re.Pattern, str] = OrderedDict()
     with open(config.text_level_replacements, "r", encoding="utf-8") as f:
@@ -26,12 +33,14 @@ def load_text_replacements(config: types.ModuleType) -> OrderedDict[re.Pattern, 
             line = re.sub(" #.+", "", line)  # Remove comments
             # replacements may finish with a space, we strip all left, but right only newline
             if line.count("\t") == 2:
-                key, value, case_info = line.lstrip().rstrip("\n\r").split("\t")
+                key, value, action = line.lstrip().rstrip("\n\r").split("\t")
             else:
                 assert line.count("\t") == 1, "Line should contain one or two tab-delimited columns."
-                case_info = None
+                action = None
                 key, value = line.lstrip().rstrip("\n\r").split("\t")
-            if case_info == "cs":
+            if ignore_flagged and action == "skip":
+                continue
+            elif action == "cs":
                 replacements[re.compile(fr"{key}", re.U)] = value
             else:
                 replacements[re.compile(fr"{key}", re.I | re.U)] = value
@@ -153,12 +162,12 @@ def _spanishfy(tok: str, syl_list:list) -> str:
                     newdiph = re.sub(key, value, newdiph)
                 newtok = tok.replace(diph, newdiph)
     if newtok is not None and newtok != tok:
-        utils_logger.debug(f"Spanishfied: [{tok}] to [{newtok}] context [{''.join(syl_list)}]")
+        utils_logger.debug(f"Spanishfied: [{tok}] to [{newtok}] context [{"".join(syl_list)}]")
         return newtok
     return tok
 
 
-def detokenize(tokens):
+def detokenize(tokens: list, sep=' ') -> str:
     opening_punct = {'¡', '¿', '(', '[', '{', '«', '„'}
     closing_punct = {'!', '?', '.', ')', ']', '}', '»', '...'}
 
@@ -180,4 +189,4 @@ def detokenize(tokens):
                 result[-1] = result[-1] + token
             else:
                 result.append(token)
-    return ' '.join(result)
+    return sep.join(result)
