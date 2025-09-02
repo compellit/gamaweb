@@ -1,5 +1,6 @@
-"""Jumper by Guillermo Marco, trying our modifications for Galician"""
-
+"""
+This is Jumper by Guillermo Marco Remón (https://github.com/grmarco/jumper), with our modifications to the data to adapt to Galician.
+"""
 
 import math
 
