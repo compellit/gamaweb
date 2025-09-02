@@ -47,4 +47,22 @@ if [ "$run_collectstatic" = true ]; then
     echo "Collectstatic completed."
 fi
 
+# -n 1 means read will stop after 1 character
+read -n 1 -p "Run migrations? [y/n] " answer
+echo
+
+case $answer in
+    [yY])
+        echo "Doing migrations"
+        python manage.py makemigrations
+	python manage.py migrate
+        ;;
+    [nN])
+        echo "No migrations asked for."
+        ;;
+    *)
+        echo "Invalid option for migrations."
+        ;;
+esac
+
 echo "Script execution finished."
