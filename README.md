@@ -11,3 +11,7 @@ More details in the app's *About* page: in [English](https://prf2.org/en/gama/ab
 ## Citation
 
 Moreau, Pauline & Ruiz Fabo, Pablo. (2025). GAMA web: Interface for the metrical analysis of Galician poetry. CiTIUS - Universidade de Santiago de Compostela.
+
+To cite the Jumper library:
+
+Marco Remón, G., & Gonzalo, J. (2021). Escansión automática de poesía española sin silabación. *Procesamiento del Lenguaje Natural*, 66, pp. 77-87. Available at [SEPLN](http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6615)
