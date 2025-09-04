@@ -2,7 +2,7 @@
 
 This Django app is the web version of GAMA, the Galician Metrical Analyzer. It provides a metrical analysis of poetry in Galician.
 
-The scansion algorithm is [Jumper](https://github.com/grmarco/jumper/blob/master/jumper.py) ([Marco Remón & Gonzalo, 2021](http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6324)). This is included in module `gumper/gumper.py` (Gumper = Galician Jumper). Jumper was created for Spanish, but we adapted its data to work with Galician.
+The scansion algorithm is [Jumper](https://github.com/grmarco/jumper/blob/master/jumper.py) (Marco Remón`` & Gonzalo, 2021). This is included in module `gumper/gumper.py` (Gumper = Galician Jumper). Jumper was created for Spanish, but we adapted its data to work with Galician.
 
 We also added a preprocessing to handle non-normative spelling in Galician, this is useful for historical texts predating an orthographic norm. Most processing time is due to this preprocessing; scansion with Jumper is very fast.
 
@@ -12,6 +12,6 @@ More details in the app's *About* page: in [English](https://prf2.org/en/gama/ab
 
 Moreau, Pauline & Ruiz Fabo, Pablo. (2025). GAMA web: Interface for the metrical analysis of Galician poetry. CiTIUS - Universidade de Santiago de Compostela.
 
-To cite the Jumper library:
+To cite the Jumper library (unrelated to our project, but that we used in our implementation):
 
 Marco Remón, G., & Gonzalo, J. (2021). Escansión automática de poesía española sin silabación. *Procesamiento del Lenguaje Natural*, 66, pp. 77-87. Available at [SEPLN](http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6615)
