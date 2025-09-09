@@ -12,6 +12,7 @@ prep_pm_branch.sh
 db.sqlite3
 *~
 ~*
+.~*
 #*
 *#
 .idea/
@@ -19,6 +20,7 @@ db.sqlite3
 djangotut/
 
 texts/*old.txt
+*_bkp
 
 preprocessing/data/apertium-glg-expanded-uniq.txt
 preprocessing/data/apertium-glg-expanded-uniq.txt.zst
